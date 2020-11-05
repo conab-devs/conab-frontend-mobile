@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 
-const SignIn = () => (
+const SignIn = ({navigation}) => (
   <View>
     <Text>Sign In</Text>
+    <Button title="sign out" onPress={() => navigation.navigate('signout')} />
   </View>
 );
 
