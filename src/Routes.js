@@ -3,8 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text} from 'react-native';
 
-import SignIn from './Components/SignIn';
-import SignOut from './Components/SignUp';
+import SignIn from './screens/SignIn';
+import SignOut from './screens/SignUp';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
