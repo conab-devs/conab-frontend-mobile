@@ -35,26 +35,34 @@ const SignOut = () => {
 
         <Input
           label="CPF"
+          type="mask"
           value={cpf}
-          onChangeText={setCpf}
           placeholder="Ex. 999.999.999-99"
           keyboardType="numeric"
           autoCompleteType="off"
           autoCapitalize="none"
           returnKeyType="next"
           onSubmitEditing={() => phoneRef.current.focus()}
+          onChangeText={(formatted) => {
+            setCpf(formatted);
+          }}
+          mask={'[000].[000].[000]-[00]'}
         />
 
         <Input
           label="Telefone"
+          type="mask"
           value={phone}
-          onChangeText={setPhone}
           placeholder="Ex. (99) 99999-9999"
           keyboardType="phone-pad"
           autoCompleteType="tel"
           autoCapitalize="none"
           returnKeyType="next"
           onSubmitEditing={() => emailRef.current.focus()}
+          onChangeText={(formatted) => {
+            setPhone(formatted);
+          }}
+          mask={'([00]) [00000]-[0000]'}
         />
 
         <Input
