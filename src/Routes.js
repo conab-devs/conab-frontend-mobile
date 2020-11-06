@@ -1,10 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity, ShadowPropTypesIOS} from 'react-native';
 
 import SignIn from './screens/SignIn';
 import SignOut from './screens/SignUp';
+import {darkblue} from './styles/colors';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -24,9 +26,33 @@ const Routes = () => {
       />
     </BottomTab.Navigator>
   ) : (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="signin" component={SignIn} />
-      <Stack.Screen name="signout" component={SignOut} />
+    <Stack.Navigator
+      screenOptions={{
+        headerTransparent: true,
+        headerTintColor: darkblue,
+        headerTitleAlign: 'center',
+      }}>
+      <Stack.Screen
+        name="signin"
+        component={SignIn}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="signup"
+        component={SignOut}
+        options={{
+          title: 'Criar conta',
+          headerTitleStyle: {fontSize: 24},
+          headerLeft: ({color, onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <Icon name="chevron-left" size={40} color={color} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 };

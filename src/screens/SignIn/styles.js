@@ -1,13 +1,5 @@
 import styled from 'styled-components/native';
-import {darkblue, green} from '../../styles/colors';
-
-export const Container = styled.View`
-  background-color: ${green};
-  flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 30px 20px;
-`;
+import {darkblue} from '../../styles/colors';
 
 export const Title = styled.Text`
   width: 100%;

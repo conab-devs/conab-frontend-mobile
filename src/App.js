@@ -3,12 +3,12 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import Routes from './Routes';
 import {StatusBar} from 'react-native';
-import {green} from './styles/colors';
+import {darkblue} from './styles/colors';
 
 const App = () => {
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={green} />
+      <StatusBar barStyle="light-content" backgroundColor={darkblue} />
       <Routes />
     </NavigationContainer>
   );

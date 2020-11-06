@@ -4,7 +4,6 @@ import {darkblue, lightgray} from '../../styles/colors';
 export const Label = styled.Text`
   color: ${darkblue};
   font-size: 18px;
-  text-transform: capitalize;
   margin-bottom: 5px;
 `;
 

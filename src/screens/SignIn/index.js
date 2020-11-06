@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
-import {Container, Title, Bold, Form, Inputs, ForgotPassword} from './styles';
+import {Container} from '../../styles/utils';
+import {Title, Bold, Form, Inputs, ForgotPassword} from './styles';
 
 const SignIn = ({navigation}) => {
-  const [email, setEmail] = useState('email@email.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const passwordRef = useRef(null);
+
+  const submitHandler = () => {};
 
   return (
     <Container>
@@ -16,13 +20,37 @@ const SignIn = ({navigation}) => {
       </Title>
       <Form>
         <Inputs>
-          <Input label="e-mail" onChangeText={setEmail} value={email} />
-          <Input label="password" onChangeText={setPassword} value={password} />
-          <ForgotPassword>Esqueci a senha</ForgotPassword>
+          <Input
+            label="E-mail"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Digite seu e-mail"
+            keyboardType="email-address"
+            autoCompleteType="email"
+            autoCapitalize="none"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current.focus()}
+          />
+
+          <Input
+            label="Senha"
+            ref={passwordRef}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Digite sua senha"
+            autoCapitalize="none"
+            secureTextEntry
+            onSubmitEditing={submitHandler}
+          />
+          <ForgotPassword onPress={() => {}}>Esqueci a senha</ForgotPassword>
         </Inputs>
 
-        <Button title="Entrar" type="primary" onPress={() => {}} />
-        <Button title="Cadastrar-se" type="outline" onPress={() => {}} />
+        <Button title="Entrar" type="primary" onPress={submitHandler} />
+        <Button
+          title="Cadastrar-se"
+          type="outline"
+          onPress={() => navigation.navigate('signup')}
+        />
       </Form>
     </Container>
   );
