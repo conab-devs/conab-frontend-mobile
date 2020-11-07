@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -9,7 +9,6 @@ import {Title, Bold, Form, Inputs, ForgotPassword} from './styles';
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const passwordRef = useRef(null);
 
   const submitHandler = () => {};
 
@@ -28,20 +27,16 @@ const SignIn = ({navigation}) => {
             keyboardType="email-address"
             autoCompleteType="email"
             autoCapitalize="none"
-            returnKeyType="next"
-            onSubmitEditing={() => passwordRef.current.focus()}
           />
 
           <Input
             label="Senha"
-            ref={passwordRef}
             value={password}
             onChangeText={setPassword}
             placeholder="Digite sua senha"
             autoCapitalize="none"
-            secureTextEntry
-            onSubmitEditing={submitHandler}
           />
+
           <ForgotPassword onPress={() => {}}>Esqueci a senha</ForgotPassword>
         </Inputs>
 

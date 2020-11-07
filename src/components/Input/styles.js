@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components/native';
-import TextInputMask from 'react-native-text-input-mask';
+import {TextInputMask} from 'react-native-masked-text';
 
 import {darkblue, lightgray} from '../../styles/colors';
 
@@ -23,9 +23,6 @@ export const NormalInput = styled.TextInput`
   ${inputCss}
 `;
 
-/* Esse TextInputMask está com um warning que já foi corrigido, mas o autor
-ainda não criou uma nova versão. Então o jeito é esperar e quando ele fazer
-release da versão a gente atualiza. */
 export const MaskInput = styled(TextInputMask)`
   ${inputCss}
 `;

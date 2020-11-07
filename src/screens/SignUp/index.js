@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -12,11 +12,6 @@ const SignOut = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const cpfRef = useRef(null);
-  const phoneRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
   const submitHandler = () => {};
 
   return (
@@ -29,40 +24,35 @@ const SignOut = () => {
           placeholder="Digite seu nome"
           autoCompleteType="name"
           autoCapitalize="words"
-          returnKeyType="next"
-          onSubmitEditing={() => cpfRef.current.focus()}
         />
 
         <Input
           label="CPF"
-          type="mask"
+          typeInput="mask"
+          type={'cpf'}
           value={cpf}
+          onChangeText={setCpf}
           placeholder="Ex. 999.999.999-99"
           keyboardType="numeric"
           autoCompleteType="off"
           autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() => phoneRef.current.focus()}
-          onChangeText={(formatted) => {
-            setCpf(formatted);
-          }}
-          mask={'[000].[000].[000]-[00]'}
         />
 
         <Input
           label="Telefone"
-          type="mask"
+          typeInput="mask"
+          type={'cel-phone'}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) ',
+          }}
           value={phone}
+          onChangeText={setPhone}
           placeholder="Ex. (99) 99999-9999"
           keyboardType="phone-pad"
-          autoCompleteType="tel"
+          autoCompleteType="off"
           autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() => emailRef.current.focus()}
-          onChangeText={(formatted) => {
-            setPhone(formatted);
-          }}
-          mask={'([00]) [00000]-[0000]'}
         />
 
         <Input
@@ -73,21 +63,16 @@ const SignOut = () => {
           keyboardType="email-address"
           autoCompleteType="email"
           autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() => {}}
         />
 
         <Input
           label="Senha"
-          ref={passwordRef}
           value={password}
           onChangeText={setPassword}
           placeholder="Digite sua senha"
           autoCompleteType="off"
           autoCapitalize="none"
           secureTextEntry
-          returnKeyType="send"
-          onSubmitEditing={submitHandler}
         />
 
         <Button title="Criar" type="primary" onPress={submitHandler} />
