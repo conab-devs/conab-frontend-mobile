@@ -1,6 +1,6 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
 
-import {api} from '../../services';
+import {api} from '../../services/api';
 
 import {login} from './actions';
 import {loginSuccess} from '.';
@@ -17,7 +17,7 @@ function* loginUser({payload}) {
 }
 
 function setToken({payload}) {
-  if (payload.auth && payload.auth.token) {
+  if (payload && payload.auth && payload.auth.token) {
     api.defaults.headers.Authorization = `Bearer ${payload.auth.token}`;
   }
 }
