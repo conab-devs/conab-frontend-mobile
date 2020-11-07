@@ -40,6 +40,7 @@ const SignIn = ({navigation}) => {
             onChangeText={setPassword}
             placeholder="Digite sua senha"
             autoCapitalize="none"
+            secureTextEntry
           />
 
           <ForgotPassword onPress={() => {}}>Esqueci a senha</ForgotPassword>

@@ -1,29 +1,24 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Text, TouchableOpacity, ShadowPropTypesIOS} from 'react-native';
+import {useSelector} from 'react-redux';
+import {TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SignIn from './screens/SignIn';
 import SignOut from './screens/SignUp';
 import {darkblue} from './styles/colors';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Test from './screens/Test';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 const Routes = () => {
-  const signIn = false;
+  const signed = useSelector((state) => state.auth.signed);
 
-  return signIn ? (
+  return signed ? (
     <BottomTab.Navigator>
-      <BottomTab.Screen
-        name="test"
-        component={
-          <View>
-            <Text>Teste</Text>
-          </View>
-        }
-      />
+      <BottomTab.Screen name="test" component={Test} />
     </BottomTab.Navigator>
   ) : (
     <Stack.Navigator
