@@ -42,7 +42,7 @@ const SignIn = ({navigation}) => {
 
         <Button title="Entrar" type="primary" onPress={submitHandler} />
         <Button
-          title="Cadastrar-se"
+          title="Criar conta"
           type="outline"
           onPress={() => navigation.navigate('signup')}
         />

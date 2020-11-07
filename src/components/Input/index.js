@@ -1,13 +1,13 @@
 import React, {forwardRef} from 'react';
-import {Label, NormalInput, MaskInput} from './styles';
+import {Label, InputNormal, InputMask} from './styles';
 
 const Input = ({label, typeInput = 'normal', ...inputProps}, ref) => (
   <>
     <Label>{label}</Label>
     {typeInput === 'mask' ? (
-      <MaskInput ref={ref} {...inputProps} />
+      <InputMask ref={ref} {...inputProps} />
     ) : (
-      <NormalInput ref={ref} {...inputProps} />
+      <InputNormal ref={ref} {...inputProps} />
     )}
   </>
 );

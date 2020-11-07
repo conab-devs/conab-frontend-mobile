@@ -19,10 +19,10 @@ const inputCss = css`
   margin-bottom: 10px;
 `;
 
-export const NormalInput = styled.TextInput`
+export const InputNormal = styled.TextInput`
   ${inputCss}
 `;
 
-export const MaskInput = styled(TextInputMask)`
+export const InputMask = styled(TextInputMask)`
   ${inputCss}
 `;
