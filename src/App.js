@@ -6,6 +6,8 @@ import {StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 
+import './reactotron';
+
 import {darkblue} from './styles/colors';
 import {store, persistor} from './redux';
 
