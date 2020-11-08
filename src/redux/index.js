@@ -13,14 +13,14 @@ const persistedReducers = persistReducer(
   combineReducers({auth}),
 );
 
-const middleware = createSagaMiddleware({sagaMonitor});
+const sagaMiddleware = createSagaMiddleware({sagaMonitor});
 
 const store = configureStore({
   reducer: persistedReducers,
-  middleware: [middleware],
+  middleware: [sagaMiddleware],
 });
 
 const persistor = persistStore(store);
-middleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export {store, persistor};

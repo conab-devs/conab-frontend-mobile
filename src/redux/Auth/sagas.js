@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import {all, call, put, takeLatest} from 'redux-saga/effects';
 
 import api from '../../services/api';
@@ -12,6 +13,7 @@ function* loginUser({payload}) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield put(loginSuccess({token, user}));
   } catch (error) {
+    Alert.alert('Falha na autenticação', 'E-mail ou senha inválidos');
     console.log(error);
   }
 }
