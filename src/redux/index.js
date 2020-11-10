@@ -15,9 +15,12 @@ const persistedReducers = persistReducer(
 
 const sagaMiddleware = createSagaMiddleware({sagaMonitor});
 
+const reactotronEnhancer = __DEV__ ? console.tron.createEnhancer() : null;
+
 const store = configureStore({
   reducer: persistedReducers,
   middleware: [sagaMiddleware],
+  enhancers: [reactotronEnhancer],
 });
 
 const persistor = persistStore(store);
