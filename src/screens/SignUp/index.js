@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 
 import {Container, Form} from './styles';
 
-const SignOut = () => {
+const SignUp = () => {
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [phone, setPhone] = useState('');
@@ -81,4 +81,4 @@ const SignOut = () => {
   );
 };
 
-export default SignOut;
+export default SignUp;
