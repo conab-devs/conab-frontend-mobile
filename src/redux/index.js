@@ -6,13 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import rootSaga from './rootSaga';
 import auth from './Auth';
 
-const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null;
-
 const persistedReducers = persistReducer(
   {key: 'conarket', storage: AsyncStorage, whitelist: ['auth']},
   combineReducers({auth}),
 );
 
+const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null;
 const sagaMiddleware = createSagaMiddleware({sagaMonitor});
 
 const reactotronEnhancer = __DEV__ ? console.tron.createEnhancer() : null;
