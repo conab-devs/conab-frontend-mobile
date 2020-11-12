@@ -22,6 +22,7 @@ const AddToken = () => {
           placeholder="Digite o código de 6 digitos"
           keyboardType="numeric"
           autoCapitalize="none"
+          maxLength={6}
         />
 
         <Button title="Confirmar" type="primary" onPress={submitHandler} />
