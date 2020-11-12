@@ -43,7 +43,10 @@ const SignIn = ({navigation}) => {
             secureTextEntry
           />
 
-          <ForgotPassword onPress={() => {}}>Esqueci a senha</ForgotPassword>
+          <ForgotPassword
+            onPress={() => navigation.navigate('forgotpassword-request')}>
+            Esqueci a senha
+          </ForgotPassword>
         </Inputs>
 
         <Button title="Entrar" type="primary" onPress={submitHandler} />

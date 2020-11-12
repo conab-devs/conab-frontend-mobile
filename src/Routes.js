@@ -13,6 +13,8 @@ import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';
 import Notification from './screens/Notification';
+import Request from './screens/ForgotPassword/Request';
+import AddToken from './screens/ForgotPassword/AddToken';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -91,6 +93,36 @@ const Routes = () => {
         component={SignOut}
         options={{
           title: 'Criar conta',
+          headerTitleStyle: {fontSize: 24},
+          headerLeft: ({color, onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <Icon name="chevron-left" size={40} color={color} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      {/* ForgotPassowrd */}
+
+      <Stack.Screen
+        name="forgotpassword-request"
+        component={Request}
+        options={{
+          title: 'Recuperar senha',
+          headerTitleStyle: {fontSize: 24},
+          headerLeft: ({color, onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <Icon name="chevron-left" size={40} color={color} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="forgotpassword-addtoken"
+        component={AddToken}
+        options={{
+          title: 'Recuperar senha',
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
