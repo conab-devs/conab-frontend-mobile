@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {darkblue, green} from './styles/colors';
 
 import SignIn from './screens/SignIn';
-import SignOut from './screens/SignUp';
+import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';
@@ -90,7 +90,7 @@ const Routes = () => {
 
       <Stack.Screen
         name="signup"
-        component={SignOut}
+        component={SignUp}
         options={{
           title: 'Criar conta',
           headerTitleStyle: {fontSize: 24},
