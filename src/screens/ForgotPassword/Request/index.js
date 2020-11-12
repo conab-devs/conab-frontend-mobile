@@ -5,7 +5,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import {Alert} from 'react-native';
 
-const Request = ({navigation}) => {
+const ForgotPasswordRequest = ({navigation}) => {
   const [email, setEmail] = useState('');
 
   const submitHandler = () => {
@@ -16,7 +16,7 @@ const Request = ({navigation}) => {
       'O código de 6 digitos foi enviado para seu endereço de email.',
     );
 
-    navigation.navigate('forgotpassword-addtoken');
+    navigation.navigate('forgotpassword-code');
   };
 
   return (
@@ -38,4 +38,4 @@ const Request = ({navigation}) => {
   );
 };
 
-export default Request;
+export default ForgotPasswordRequest;

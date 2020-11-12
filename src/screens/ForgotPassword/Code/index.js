@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
 import {Container, Form} from '../styles';
 
-const AddToken = () => {
+const ForgotPasswordCode = () => {
   const [code, setCode] = useState('');
 
   const submitHandler = () => {
@@ -31,4 +31,4 @@ const AddToken = () => {
   );
 };
 
-export default AddToken;
+export default ForgotPasswordCode;

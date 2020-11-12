@@ -13,8 +13,8 @@ import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';
 import Notification from './screens/Notification';
-import Request from './screens/ForgotPassword/Request';
-import AddToken from './screens/ForgotPassword/AddToken';
+import ForgotPasswordRequest from './screens/ForgotPassword/Request';
+import ForgotPasswordCode from './screens/ForgotPassword/AddToken';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -106,7 +106,7 @@ const Routes = () => {
 
       <Stack.Screen
         name="forgotpassword-request"
-        component={Request}
+        component={ForgotPasswordRequest}
         options={{
           title: 'Recuperar senha',
           headerTitleStyle: {fontSize: 24},
@@ -119,8 +119,8 @@ const Routes = () => {
       />
 
       <Stack.Screen
-        name="forgotpassword-addtoken"
-        component={AddToken}
+        name="forgotpassword-code"
+        component={ForgotPasswordCode}
         options={{
           title: 'Recuperar senha',
           headerTitleStyle: {fontSize: 24},
