@@ -14,7 +14,8 @@ import Profile from './screens/Profile';
 import Chat from './screens/Chat';
 import Notification from './screens/Notification';
 import ForgotPasswordRequest from './screens/ForgotPassword/Request';
-import ForgotPasswordCode from './screens/ForgotPassword/AddToken';
+import ForgotPasswordCode from './screens/ForgotPassword/Code';
+import TabBar from './components/TabBar';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -24,6 +25,7 @@ const Routes = () => {
 
   return signed ? (
     <BottomTab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
       tabBarOptions={{
         keyboardHidesTabBar: true,
         activeTintColor: green,
