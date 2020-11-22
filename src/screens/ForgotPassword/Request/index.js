@@ -1,22 +1,28 @@
 import React, {useState} from 'react';
+import {Alert} from 'react-native';
 
+import api from '../../../services/api';
 import {Container, Form} from '../styles';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
-import {Alert} from 'react-native';
 
-const ForgotPasswordRequest = ({navigation}) => {
+const Request = ({navigation}) => {
   const [email, setEmail] = useState('');
 
-  const submitHandler = () => {
-    // TODO: Efetuar a requsição de "recuperar senha".
+  const submitHandler = async () => {
+    // TODO: Requisita o endpoint de requisição de resetar senha.
 
-    Alert.alert(
-      'Código enviado!',
-      'O código de 6 digitos foi enviado para seu endereço de email.',
-    );
-
-    navigation.navigate('forgotpassword-code');
+    try {
+      //await api.post('/password/reset/request', {email});
+      Alert.alert(
+        'Código enviado!',
+        'O código de 6 digitos foi enviado para seu endereço de email.',
+      );
+      navigation.navigate('forgotpassword-code', {email});
+    } catch (err) {
+      // TODO: mostrar os erros corretos.
+      Alert.alert('Erro', 'Email inválido');
+    }
   };
 
   return (
@@ -38,4 +44,4 @@ const ForgotPasswordRequest = ({navigation}) => {
   );
 };
 
-export default ForgotPasswordRequest;
+export default Request;

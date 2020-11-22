@@ -15,6 +15,7 @@ import Chat from './screens/Chat';
 import Notification from './screens/Notification';
 import ForgotPasswordRequest from './screens/ForgotPassword/Request';
 import ForgotPasswordCode from './screens/ForgotPassword/Code';
+import ForgotPasswordResetPassword from './screens/ForgotPassword/ResetPassword';
 import TabBar from './components/TabBar';
 
 const Stack = createStackNavigator();
@@ -110,7 +111,7 @@ const Routes = () => {
         name="forgotpassword-request"
         component={ForgotPasswordRequest}
         options={{
-          title: 'Recuperar senha',
+          title: 'Redefinir senha',
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
@@ -124,7 +125,21 @@ const Routes = () => {
         name="forgotpassword-code"
         component={ForgotPasswordCode}
         options={{
-          title: 'Recuperar senha',
+          title: 'Redefinir senha',
+          headerTitleStyle: {fontSize: 24},
+          headerLeft: ({color, onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <Icon name="chevron-left" size={40} color={color} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="forgotpassword-resetpassword"
+        component={ForgotPasswordResetPassword}
+        options={{
+          title: 'Redefinir senha',
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>

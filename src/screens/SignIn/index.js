@@ -40,6 +40,7 @@ const SignIn = ({navigation}) => {
             onChangeText={setPassword}
             placeholder="Digite sua senha"
             autoCapitalize="none"
+            minLength={6}
             secureTextEntry
           />
 

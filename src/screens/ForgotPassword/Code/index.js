@@ -5,11 +5,12 @@ import Button from '../../../components/Button';
 
 import {Container, Form} from '../styles';
 
-const ForgotPasswordCode = () => {
+const Code = ({route, navigation}) => {
+  const {email} = route.params;
   const [code, setCode] = useState('');
 
   const submitHandler = () => {
-    // TODO: implementar a confirmação de "recuperar senha"
+    navigation.navigate('forgotpassword-resetpassword', {email, code});
   };
 
   return (
@@ -31,4 +32,4 @@ const ForgotPasswordCode = () => {
   );
 };
 
-export default ForgotPasswordCode;
+export default Code;
