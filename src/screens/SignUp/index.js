@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-picker';
 
@@ -21,47 +22,65 @@ const SignUp = () => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [uri, setUri] = useState(null);
-  const [canUploadOnAndroid, setCanUploadOnAndroid] = useState(false);
+  const [avatar, setAvatar] = useState({file: null, uri: ''});
+  const [canUpload, setCanUpload] = useState(false);
 
-  useEffect(() => {
-    (async function requestAndroidPermission() {
-      const permission = PermissionsAndroid.PERMISSIONS.CAMERA;
+  const requestUploadPermission = async () => {
+    if (Platform.OS === 'android') {
+      const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
       const hasPermission = await PermissionsAndroid.check(permission);
 
       if (!hasPermission) {
         const status = await PermissionsAndroid.request(permission);
-        setCanUploadOnAndroid(
-          Platform.OS === 'android' && status === 'granted',
-        );
+        setCanUpload(status === 'granted');
+        return;
       }
 
-      setCanUploadOnAndroid(hasPermission);
-    })();
-  }, []);
+      setCanUpload(hasPermission);
+    }
 
-  const submitHandler = () => {};
+    // TODO: verificar permissão para o IOS
+  };
+
+  const submitHandler = () => {
+    // TODO: verificar se os dados foram preenchido e depois utilizar o FormData para enviar os dados para o servidor
+  };
 
   const uplaodImage = async () => {
-    try {
-      const result = await launchImageLibraryAsync();
-      console.log(result.uri);
-      setUri(result.uri);
-    } catch (err) {
-      console.error(err);
+    if (!canUpload) {
+      await requestUploadPermission();
+      return;
     }
+
+    const result = await launchImageLibraryAsync({saveToPhotos: false});
+
+    if (result.errorMessage) {
+      return;
+    }
+
+    if (result.didCancel) {
+      Alert.alert('Upload de Imagem', 'Envio de imagem cancelado');
+      return;
+    }
+
+    /* eslint-disable no-undef */
+    const file = new File([result.data], result.fileName, {
+      type: result.type,
+    });
+    setAvatar({file, uri: result.uri});
   };
 
   return (
     <Container>
       <Form>
         <Upload onPress={uplaodImage}>
-          {uri ? (
-            <UploadImage source={{uri}} />
+          {avatar.uri ? (
+            <UploadImage source={{uri: avatar.uri}} />
           ) : (
             <Icon name="camera" size={40} color={darkblue} />
           )}
         </Upload>
+
         <Input
           label="Nome Completo"
           value={name}
