@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Alert} from 'react-native';
 
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
@@ -10,6 +11,11 @@ const Code = ({route, navigation}) => {
   const [code, setCode] = useState('');
 
   const submitHandler = () => {
+    if (!code) {
+      Alert.alert('Código inválido', 'O campo de código é obrigatório.');
+      return;
+    }
+
     navigation.navigate('forgotpassword-resetpassword', {email, code});
   };
 
@@ -23,7 +29,7 @@ const Code = ({route, navigation}) => {
           placeholder="Digite o código de 6 digitos"
           keyboardType="numeric"
           autoCapitalize="none"
-          maxLength={6}
+          minLength={6}
         />
 
         <Button title="Confirmar" type="primary" onPress={submitHandler} />

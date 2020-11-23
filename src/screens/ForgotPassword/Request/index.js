@@ -10,7 +10,10 @@ const Request = ({navigation}) => {
   const [email, setEmail] = useState('');
 
   const submitHandler = async () => {
-    // TODO: Requisita o endpoint de requisição de resetar senha.
+    if (!email) {
+      Alert.alert('Email inválido', 'O campo de email é obrigatório.');
+      return;
+    }
 
     try {
       await api.post('/password/reset/request', {email});

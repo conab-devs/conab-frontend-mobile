@@ -7,22 +7,25 @@ import Button from '../../../components/Button';
 
 import {Container, Form} from '../styles';
 
-const ResetPassword = ({route}) => {
+const ResetPassword = ({route, navigation}) => {
   const {email, code} = route.params;
   const [password, setPassword] = useState('');
 
   const submitHandler = async () => {
-    // TODO: requisita a rota de resetar senha e fazer a alteração no estado global.
+    if (!password) {
+      Alert.alert('Senha inválida', 'O campo de senha é obrigatório.');
+      return;
+    }
+
     try {
-      // const response = await api.post('/password/reset', {
-      //   email,
-      //   password,
-      //   code,
-      // });
-      // console.log(response);
+      // TODO: Adicionar o campo de confirmação de password.
+      await api.post('/password/reset', {email, password, code});
+      Alert.alert('Sucesso', 'Senha redefinida.');
+      navigation.navigate('signin');
     } catch (err) {
-      // TODO: mostrar os erros corretos.
-      Alert.alert('Erro', 'Email inválido');
+      if (err.response.status === 422) {
+        Alert.alert('Dados inválidos', 'Preencha os dados corretamente');
+      }
     }
   };
 
@@ -35,8 +38,8 @@ const ResetPassword = ({route}) => {
           onChangeText={setPassword}
           placeholder="Digite a nova senha"
           autoCapitalize="none"
-          minLength={6}
           secureTextEntry
+          minLength={6}
         />
 
         <Button title="Redefinir" type="primary" onPress={submitHandler} />
