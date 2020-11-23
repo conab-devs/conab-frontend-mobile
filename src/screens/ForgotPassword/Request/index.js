@@ -13,15 +13,19 @@ const Request = ({navigation}) => {
     // TODO: Requisita o endpoint de requisição de resetar senha.
 
     try {
-      //await api.post('/password/reset/request', {email});
+      await api.post('/password/reset/request', {email});
       Alert.alert(
         'Código enviado!',
         'O código de 6 digitos foi enviado para seu endereço de email.',
       );
       navigation.navigate('forgotpassword-code', {email});
     } catch (err) {
-      // TODO: mostrar os erros corretos.
-      Alert.alert('Erro', 'Email inválido');
+      if (err.response.status === 404) {
+        Alert.alert(
+          'Email inválido',
+          'Nenhum usuário encontrado com esse endereço de email.',
+        );
+      }
     }
   };
 
