@@ -10,16 +10,21 @@ import {Container, Form} from '../styles';
 const ResetPassword = ({route, navigation}) => {
   const {email, code} = route.params;
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const submitHandler = async () => {
-    if (!password) {
-      Alert.alert('Senha inválida', 'O campo de senha é obrigatório.');
+  const resetPassword = async () => {
+    if (!password || !passwordConfirmation) {
+      Alert.alert('Senha inválida', 'Os campos de senha são obrigatórios.');
       return;
     }
 
     try {
-      // TODO: Adicionar o campo de confirmação de password.
-      await api.post('/password/reset', {email, password, code});
+      await api.post('/password/reset', {
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        code,
+      });
       Alert.alert('Sucesso', 'Senha redefinida.');
       navigation.navigate('signin');
     } catch (err) {
@@ -42,7 +47,17 @@ const ResetPassword = ({route, navigation}) => {
           minLength={6}
         />
 
-        <Button title="Redefinir" type="primary" onPress={submitHandler} />
+        <Input
+          label="Confirmar senha"
+          value={passwordConfirmation}
+          onChangeText={setPasswordConfirmation}
+          placeholder="Digite novamente a senha"
+          autoCapitalize="none"
+          secureTextEntry
+          minLength={6}
+        />
+
+        <Button title="Redefinir" type="primary" onPress={resetPassword} />
       </Form>
     </Container>
   );
