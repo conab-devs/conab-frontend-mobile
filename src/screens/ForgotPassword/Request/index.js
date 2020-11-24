@@ -9,7 +9,7 @@ import Button from '../../../components/Button';
 const Request = ({navigation}) => {
   const [email, setEmail] = useState('');
 
-  async function sendCode() {
+  const sendCode = async () => {
     if (!email) {
       Alert.alert('Email inválido', 'O campo de email é obrigatório.');
       return;
@@ -27,7 +27,7 @@ const Request = ({navigation}) => {
         );
       }
     }
-  }
+  };
 
   return (
     <Container>
