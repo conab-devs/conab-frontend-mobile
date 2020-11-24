@@ -9,18 +9,15 @@ import Button from '../../../components/Button';
 const Request = ({navigation}) => {
   const [email, setEmail] = useState('');
 
-  const submitHandler = async () => {
+  async function sendCode() {
     if (!email) {
       Alert.alert('Email inválido', 'O campo de email é obrigatório.');
       return;
     }
 
     try {
-      await api.post('/password/reset/request', {email});
-      Alert.alert(
-        'Código enviado!',
-        'O código de 6 digitos foi enviado para seu endereço de email.',
-      );
+      const response = await api.post('/password/reset/request', {email});
+      Alert.alert('Código enviado!', response.data.message);
       navigation.navigate('forgotpassword-code', {email});
     } catch (err) {
       if (err.response.status === 404) {
@@ -30,7 +27,7 @@ const Request = ({navigation}) => {
         );
       }
     }
-  };
+  }
 
   return (
     <Container>
@@ -45,7 +42,7 @@ const Request = ({navigation}) => {
           autoCapitalize="none"
         />
 
-        <Button title="Enviar código" type="primary" onPress={submitHandler} />
+        <Button title="Enviar código" type="primary" onPress={sendCode} />
       </Form>
     </Container>
   );

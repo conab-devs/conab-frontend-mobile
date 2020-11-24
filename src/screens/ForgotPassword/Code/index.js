@@ -10,7 +10,7 @@ const Code = ({route, navigation}) => {
   const {email} = route.params;
   const [code, setCode] = useState('');
 
-  const submitHandler = () => {
+  const confirmCode = () => {
     if (!code) {
       Alert.alert('Código inválido', 'O campo de código é obrigatório.');
       return;
@@ -32,7 +32,7 @@ const Code = ({route, navigation}) => {
           minLength={6}
         />
 
-        <Button title="Confirmar" type="primary" onPress={submitHandler} />
+        <Button title="Confirmar" type="primary" onPress={confirmCode} />
       </Form>
     </Container>
   );
