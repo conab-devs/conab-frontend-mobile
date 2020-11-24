@@ -2,6 +2,8 @@
   package="com.conab_frontend_mobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- ImagePicker permissions -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
       android:name=".MainApplication"
