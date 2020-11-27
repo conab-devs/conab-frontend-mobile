@@ -9,7 +9,7 @@ import {darkblue, green} from './styles/colors';
 
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
-import Home from './screens/Home';
+import Categories from './screens/Home';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';
 import Notification from './screens/Notification';
@@ -17,9 +17,51 @@ import ForgotPasswordRequest from './screens/ForgotPassword/Request';
 import ForgotPasswordCode from './screens/ForgotPassword/Code';
 import ForgotPasswordResetPassword from './screens/ForgotPassword/ResetPassword';
 import TabBar from './components/TabBar';
+import Header from './components/Header';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
+
+const Home = () => {
+  const sidePadding = 15;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={{
+          title: 'Conarket',
+          headerTitleAlign: 'center',
+          headerLeft: () => <Icon name="menu" color={darkblue} size={30} />,
+          headerRight: () => <Icon name="cart" color={darkblue} size={30} />,
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 80},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+          header: ({scene, previous, navigation}) => {
+            const {options} = scene.descriptor;
+            const title =
+              options.headerTitle !== undefined
+                ? options.headerTitle
+                : options.title !== undefined
+                ? options.title
+                : scene.route.name;
+
+            return (
+              <Header
+                title={title}
+                headerTitleStyle={options.headerTitleStyle}
+                headerLeftContainerStyle={options.headerLeftContainerStyle}
+                headerRightContainerStyle={options.headerRightContainerStyle}
+                headerStyle={options.headerStyle}
+              />
+            );
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const Routes = () => {
   const signed = useSelector((state) => state.auth.signed);
