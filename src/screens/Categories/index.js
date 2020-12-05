@@ -7,23 +7,21 @@ import axios from '../../services/api';
 
 const Categories = () => {
   const navigation = useNavigation();
-  const token = useSelector(state => state.auth.token);
+  const token = useSelector((state) => state.auth.token);
   const [categories, setCategories] = useState([]);
 
-  axios.defaults.headers.common['Authorization'] = token;
+  axios.defaults.headers.common.Authorization = token;
   const fetchCategories = useCallback(async () => {
     const {data, status} = await axios.get('/categories');
 
     if (status === 200) {
       setCategories(data);
     }
-
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     fetchCategories();
-  }, []);
-
+  }, [fetchCategories]);
 
   return (
     <Container>
@@ -39,10 +37,12 @@ const Categories = () => {
         numColumns={2}
         data={categories}
         renderItem={({item}) => (
-          <Category onPress={() => navigation.navigate('Products', {
-              category: item.id,
-            })
-          }>
+          <Category
+            onPress={() => {
+              navigation.navigate('Products', {
+                category: item.id,
+              });
+            }}>
             <Text>{item.name}</Text>
           </Category>
         )}

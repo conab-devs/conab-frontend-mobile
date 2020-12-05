@@ -20,6 +20,7 @@ import TabBar from './components/TabBar';
 import Header from './components/Header';
 import Products from './screens/Products';
 import Search from './components/Search';
+import Filter from './screens/Filter';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -116,61 +117,68 @@ const Home = () => {
   );
 };
 
+const TabNavigation = () => (
+  <BottomTab.Navigator
+    tabBar={(props) => <TabBar {...props} />}
+    tabBarOptions={{
+      keyboardHidesTabBar: true,
+      activeTintColor: green,
+      inactiveTintColor: '#fff',
+      style: {
+        backgroundColor: darkblue,
+      },
+    }}>
+    <BottomTab.Screen
+      name="home"
+      component={Home}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="home-circle" color={color} size={size} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="profile"
+      component={Profile}
+      options={{
+        tabBarLabel: 'Perfil',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="account-circle" color={color} size={size} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="chat"
+      component={Chat}
+      options={{
+        tabBarLabel: 'Chat',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="chat-processing" color={color} size={size} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="notification"
+      component={Notification}
+      options={{
+        tabBarLabel: 'Notificações',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="bell-circle" color={color} size={size} />
+        ),
+      }}
+    />
+  </BottomTab.Navigator>
+);
+
 const Routes = () => {
   const signed = useSelector((state) => state.auth.signed);
 
   return signed ? (
-    <BottomTab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
-      tabBarOptions={{
-        keyboardHidesTabBar: true,
-        activeTintColor: green,
-        inactiveTintColor: '#fff',
-        style: {
-          backgroundColor: darkblue,
-        },
-      }}>
-      <BottomTab.Screen
-        name="home"
-        component={Home}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="home-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Perfil',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="account-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="chat"
-        component={Chat}
-        options={{
-          tabBarLabel: 'Chat',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="chat-processing" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="notification"
-        component={Notification}
-        options={{
-          tabBarLabel: 'Notificações',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="bell-circle" color={color} size={size} />
-          ),
-        }}
-      />
-    </BottomTab.Navigator>
+    <Stack.Navigator headerMode="none" mode="modal">
+      <Stack.Screen name="Main" component={TabNavigation} />
+      <Stack.Screen name="Filter" component={Filter} />
+    </Stack.Navigator>
   ) : (
     <Stack.Navigator
       screenOptions={{
@@ -200,7 +208,7 @@ const Routes = () => {
         }}
       />
 
-      {/* ForgotPassowrd */}
+      {/* ForgotPassword */}
 
       <Stack.Screen
         name="forgotpassword-request"

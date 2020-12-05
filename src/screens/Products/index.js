@@ -1,34 +1,58 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {TouchableOpacity, ActivityIndicator} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
+import {TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TextInput, Search, Filter, FilterType, Container, Wrapper, FlatList} from './styles';
-import {useSelector} from 'react-redux';
+import {
+  TextInput,
+  Search,
+  Filter,
+  FilterType,
+  Container,
+  Wrapper,
+  FlatList,
+} from './styles';
 import Product from './../../components/Product';
 import axios from '../../services/api';
+import {FilterContext} from '../../contexts';
 
-const Products = () => {
-  const route = useRoute();
+const Products = ({navigation, route}) => {
+  const filter = useContext(FilterContext);
   const {category} = route.params;
-  const [products, setProducts] = useState([]);
-  const [nextPage, setNextPage] = useState(1);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [products, setProducts] = useState([]);
 
   const fetchProducts = useCallback(async () => {
-    setIsLoading(true);
-    const { data, status } = await axios.get(`/products?page=${nextPage}&category_id=${category}`);
-    
-    if (status === 200) {
-      setProducts([...products, ...data.data]);
-      setNextPage(current => current + 1);
-    }
+    try {
+      if (isLoading) {
+        return;
+      }
 
-    setIsLoading(false);
-  }, [nextPage]);
+      setIsLoading(true);
+
+      const {data, status} = await axios.get(
+        `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`,
+      );
+      if (status === 200) {
+        setProducts((current) => [...current, ...data.data]);
+        setPage((current) => current + 1);
+        setLastPage(data.last_page);
+      }
+
+      console.log(data);
+
+      setIsLoading(false);
+    } catch (error) {
+      Alert.alert('Opss, ocorreu um erro.');
+    }
+  }, [filter.settings, page]);
 
   useEffect(() => {
+    setProducts([]);
+    setPage(0);
     fetchProducts();
-  }, []);
+  }, [filter.settings]);
 
   return (
     <Container>
@@ -42,30 +66,46 @@ const Products = () => {
         </TouchableOpacity>
       </Search>
       <Filter>
-        <FilterType>Menor Preço</FilterType>
+        <FilterType>
+          {filter.settings.order === 'desc' ? 'Maior Preço' : 'Menor Preço'}
+        </FilterType>
         <TouchableOpacity>
-          <Icon name="filter-variant" color="#828282" size={20} />
+          <Icon
+            name="filter-variant"
+            color="#828282"
+            size={20}
+            onPress={() =>
+              navigation.navigate('Filter', {categoryId: category})
+            }
+          />
         </TouchableOpacity>
       </Filter>
       <Wrapper>
-        <FlatList
-          data={products}
-          showsVerticalScrollIndicator={false}
-          initialNumToRender={5}
-          onEndReached={() => fetchProducts()}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-          renderItem={({item}) => (
-            <Product
-              name={item.name}
-              cooperativeName={item.cooperative.name}
-              price={item.price}
-              unitMeasure={item.unit_of_measure}
-              imagePath={item.photo_path}
-            />
-          )}
-          keyExtractor={(item) => `${item.id}`}
-        />
+        {
+          <FlatList
+            data={products}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={5}
+            onEndReached={() => {
+              if (page <= lastPage) {
+                fetchProducts();
+              }
+              console.log('Fim', page);
+            }}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+            renderItem={({item}) => (
+              <Product
+                name={item.name}
+                cooperativeName={item.cooperative.name}
+                price={item.price}
+                unitMeasure={item.unit_of_measure}
+                imagePath={item.photo_path}
+              />
+            )}
+            keyExtractor={(item) => `${item.id}`}
+          />
+        }
       </Wrapper>
     </Container>
   );
