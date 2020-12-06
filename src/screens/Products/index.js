@@ -13,7 +13,6 @@ import {
 import Product from './../../components/Product';
 import axios from '../../services/api';
 import {FilterContext} from '../../contexts';
-import {useFocusEffect} from '@react-navigation/native';
 
 const Products = ({navigation, route}) => {
   const filter = useContext(FilterContext);
@@ -23,7 +22,6 @@ const Products = ({navigation, route}) => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [products, setProducts] = useState([]);
-  const [order, setOrder] = useState(filter.settings.order);
   const [searchString, setSearchString] = useState(
     filter.settings.searchString,
   );
