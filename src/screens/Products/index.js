@@ -30,7 +30,7 @@ const Products = ({navigation, route}) => {
       if (isLoading) {
         return;
       }
-      console.log('FetchingPage', page);
+
       const {data, status} = await axios.get(
         `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`,
       );
@@ -39,15 +39,12 @@ const Products = ({navigation, route}) => {
         setPage((current) => current + 1);
         setLastPage(data.last_page);
       }
-
-      console.log(data);
     } catch (error) {
       Alert.alert('Opss, ocorreu um erro.');
     }
   }, [filter.settings, page]);
 
   useEffect(() => {
-    console.log(filter.settings.order !== order);
     if (filter.settings.order !== order) {
       setIsLoading(true);
       fetchProducts();
@@ -61,7 +58,6 @@ const Products = ({navigation, route}) => {
   }, [filter.settings]);
 
   useEffect(() => {
-    console.log('entrou');
     setIsLoading(true);
     fetchProducts();
     setIsLoading(false);
@@ -102,11 +98,9 @@ const Products = ({navigation, route}) => {
             initialNumToRender={5}
             onEndReached={() => {
               if (page <= lastPage) {
-                console.log(page);
                 setIsLoading(true);
                 fetchProducts();
                 setIsLoading(false);
-                console.log('Fim', page);
               }
             }}
             onEndReachedThreshold={0.1}
