@@ -24,6 +24,10 @@ const Products = ({navigation, route}) => {
   const [lastPage, setLastPage] = useState(1);
   const [products, setProducts] = useState([]);
   const [order, setOrder] = useState(filter.settings.order);
+  const [searchString, setSearchString] = useState(
+    filter.settings.searchString,
+  );
+  const [productName, setProductName] = useState('');
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -33,9 +37,13 @@ const Products = ({navigation, route}) => {
 
       setIsLoading(true);
 
-      const {data, status} = await axios.get(
-        `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`,
-      );
+      let query = `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`;
+      if (searchString) {
+        query += `&name=${searchString}`;
+      }
+
+      const {data, status} = await axios.get(query);
+
       if (status === 200) {
         setProducts((current) => [...current, ...data.data]);
         setPage((current) => current + 1);
@@ -46,7 +54,7 @@ const Products = ({navigation, route}) => {
     } catch (error) {
       Alert.alert('Opss, ocorreu um erro.');
     }
-  }, [filter.settings, page, isLoading]);
+  }, [filter.settings, page, isLoading, searchString]);
 
   useEffect(() => {
     fetchProducts();
@@ -55,16 +63,23 @@ const Products = ({navigation, route}) => {
       setProducts([]);
       setIsLoading(false);
     };
-  }, [filter.settings]);
+  }, [filter.settings, searchString]);
 
   return (
     <Container>
       <Search>
         <TextInput
+          onChangeText={setProductName}
           placeholder="Busque seu produto aqui..."
           placeholderTextColor="#828282"
         />
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (productName) {
+              setPage(1);
+              setSearchString(productName.replace(' ', '%20'));
+            }
+          }}>
           <Icon name="magnify" color="#828282" size={20} />
         </TouchableOpacity>
       </Search>

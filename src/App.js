@@ -19,6 +19,7 @@ const App = () => {
     lowestPrice: 0,
     greatestPrice: maxPrice,
     order: 'asc',
+    searchString: '',
   });
 
   return (
