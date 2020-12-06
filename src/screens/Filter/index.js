@@ -15,14 +15,14 @@ import {TextInputMask} from 'react-native-masked-text';
 import {FilterContext} from '../../contexts';
 import {getPrice} from '../../helpers';
 
-const Filter = ({navigation, route}) => {
+const Filter = ({navigation}) => {
   const filter = useContext(FilterContext);
-  const {categoryId} = route.params;
 
   const [lowestPrice, setLowestPrice] = useState(filter.settings.lowestPrice);
   const [greatestPrice, setGreatesPrice] = useState(
     filter.settings.greatestPrice,
   );
+  const [order, setOrder] = useState(filter.settings.order);
 
   return (
     <Container>
@@ -31,24 +31,18 @@ const Filter = ({navigation, route}) => {
           <Title>Ordenar</Title>
           <RadioGroup>
             <RadioButton
-              value={filter.settings.order === 'desc'}
-              status={
-                filter.settings.order === 'desc' ? 'checked' : 'unchecked'
-              }
-              onPress={() =>
-                filter.setSettings({...filter.settings, order: 'desc'})
-              }
+              value={order === 'desc'}
+              status={order === 'desc' ? 'checked' : 'unchecked'}
+              onPress={() => setOrder('desc')}
               color="black"
             />
             <Label>Maior Preço</Label>
           </RadioGroup>
           <RadioGroup>
             <RadioButton
-              value={filter.settings.order === 'asc'}
-              status={filter.settings.order === 'asc' ? 'checked' : 'unchecked'}
-              onPress={() =>
-                filter.setSettings({...filter.settings, order: 'asc'})
-              }
+              value={order === 'asc'}
+              status={order === 'asc' ? 'checked' : 'unchecked'}
+              onPress={() => setOrder('asc')}
               color="black"
             />
             <Label>Menor Preço</Label>
@@ -81,10 +75,9 @@ const Filter = ({navigation, route}) => {
             ...filter.settings,
             greatestPrice,
             lowestPrice,
+            order,
           });
-          navigation.navigate('Products', {
-            category: categoryId,
-          });
+          navigation.goBack();
         }}>
         <ButtonContent>FILTRAR</ButtonContent>
       </Button>

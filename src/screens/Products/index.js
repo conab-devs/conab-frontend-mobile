@@ -13,6 +13,7 @@ import {
 import Product from './../../components/Product';
 import axios from '../../services/api';
 import {FilterContext} from '../../contexts';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Products = ({navigation, route}) => {
   const filter = useContext(FilterContext);
@@ -22,15 +23,14 @@ const Products = ({navigation, route}) => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [products, setProducts] = useState([]);
+  const [order, setOrder] = useState(filter.settings.order);
 
   const fetchProducts = useCallback(async () => {
     try {
       if (isLoading) {
         return;
       }
-
-      setIsLoading(true);
-
+      console.log('FetchingPage', page);
       const {data, status} = await axios.get(
         `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`,
       );
@@ -41,18 +41,31 @@ const Products = ({navigation, route}) => {
       }
 
       console.log(data);
-
-      setIsLoading(false);
     } catch (error) {
       Alert.alert('Opss, ocorreu um erro.');
     }
   }, [filter.settings, page]);
 
   useEffect(() => {
-    setProducts([]);
-    setPage(0);
-    fetchProducts();
+    console.log(filter.settings.order !== order);
+    if (filter.settings.order !== order) {
+      setIsLoading(true);
+      fetchProducts();
+      setIsLoading(false);
+    }
+
+    return () => {
+      setProducts([]);
+      setIsLoading(false);
+    };
   }, [filter.settings]);
+
+  useEffect(() => {
+    console.log('entrou');
+    setIsLoading(true);
+    fetchProducts();
+    setIsLoading(false);
+  }, []);
 
   return (
     <Container>
@@ -74,9 +87,10 @@ const Products = ({navigation, route}) => {
             name="filter-variant"
             color="#828282"
             size={20}
-            onPress={() =>
-              navigation.navigate('Filter', {categoryId: category})
-            }
+            onPress={() => {
+              setPage(1);
+              navigation.navigate('Filter', {categoryId: category});
+            }}
           />
         </TouchableOpacity>
       </Filter>
@@ -88,9 +102,12 @@ const Products = ({navigation, route}) => {
             initialNumToRender={5}
             onEndReached={() => {
               if (page <= lastPage) {
+                console.log(page);
+                setIsLoading(true);
                 fetchProducts();
+                setIsLoading(false);
+                console.log('Fim', page);
               }
-              console.log('Fim', page);
             }}
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
