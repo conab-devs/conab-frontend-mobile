@@ -34,13 +34,10 @@ const Products = ({navigation, route}) => {
       }
 
       setIsLoading(true);
-
-      let query = `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}`;
-      if (searchString) {
-        query += `&name=${searchString}`;
-      }
-
-      const {data, status} = await axios.get(query);
+      // TODO: Use envonmental variable in uri from url.
+      const {data, status} = await axios.get(
+        `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}&name=${searchString}`
+      );
 
       if (status === 200) {
         setProducts((current) => [...current, ...data.data]);
@@ -73,10 +70,8 @@ const Products = ({navigation, route}) => {
         />
         <TouchableOpacity
           onPress={() => {
-            if (productName) {
-              setPage(1);
-              setSearchString(productName.replace(' ', '%20'));
-            }
+            setPage(1);
+            setSearchString(productName.replace(' ', '%20'));
           }}>
           <Icon name="magnify" color="#828282" size={20} />
         </TouchableOpacity>
