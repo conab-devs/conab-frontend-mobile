@@ -34,9 +34,9 @@ const Products = ({navigation, route}) => {
       }
 
       setIsLoading(true);
-      // TODO: Use envonmental variable in uri from url.
+
       const {data, status} = await axios.get(
-        `http://localhost:8000/api/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}&name=${searchString}`
+        `/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}&name=${searchString}`,
       );
 
       if (status === 200) {

@@ -1,14 +1,16 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useContext} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
-import {Container, Category, Text, ButtonText, Button} from './styles';
+import {Container, Category, Text} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import axios from '../../services/api';
+import {FilterContext} from '../../contexts';
 
 const Categories = () => {
   const navigation = useNavigation();
   const token = useSelector((state) => state.auth.token);
   const [categories, setCategories] = useState([]);
+  const filter = useContext(FilterContext);
 
   axios.defaults.headers.common.Authorization = token;
   const fetchCategories = useCallback(async () => {
@@ -26,11 +28,11 @@ const Categories = () => {
   return (
     <Container>
       <FlatList
-        ListFooterComponent={
+        /*ListFooterComponent={
           <Button>
             <ButtonText>Outras Categorias</ButtonText>
           </Button>
-        }
+        }*/
         showsVerticalScrollIndicator={false}
         style={styles.list}
         columnWrapperStyle={styles.justify}
@@ -39,6 +41,7 @@ const Categories = () => {
         renderItem={({item}) => (
           <Category
             onPress={() => {
+              filter.setSettings({...filter.settings, searchString: ''});
               navigation.navigate('Products', {
                 category: item.id,
               });
