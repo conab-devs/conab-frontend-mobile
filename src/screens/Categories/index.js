@@ -2,28 +2,20 @@ import React, {useState, useCallback, useEffect, useContext} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {Container, Category, Text} from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from '../../services/api';
 import {FilterContext} from '../../contexts';
+import {allActions} from '../../redux/Product';
 
 const Categories = () => {
   const navigation = useNavigation();
   const token = useSelector((state) => state.auth.token);
-  const [categories, setCategories] = useState([]);
-  const filter = useContext(FilterContext);
-
-  axios.defaults.headers.common.Authorization = token;
-  const fetchCategories = useCallback(async () => {
-    const {data, status} = await axios.get('/categories');
-
-    if (status === 200) {
-      setCategories(data);
-    }
-  }, []);
-
+  const categories = useSelector((state) => state.product.categories);
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    dispatch(allActions.fetchCategories());
+  }, [dispatch]);
 
   return (
     <Container>
@@ -41,10 +33,7 @@ const Categories = () => {
         renderItem={({item}) => (
           <Category
             onPress={() => {
-              filter.setSettings({...filter.settings, searchString: ''});
-              navigation.navigate('Products', {
-                category: item.id,
-              });
+              navigation.navigate('Products', {category: item.id});
             }}>
             <Text>{item.name}</Text>
           </Category>
