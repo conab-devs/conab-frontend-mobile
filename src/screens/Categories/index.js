@@ -15,7 +15,7 @@ const Categories = () => {
   
   useEffect(() => {
     dispatch(allActions.fetchCategories());
-  }, [dispatch]);
+  }, []);
 
   return (
     <Container>

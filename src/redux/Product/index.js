@@ -8,7 +8,7 @@ const {reducer, actions} = createSlice({
     filters: {
       lowestPrice: '',
       greatestPrice: '',
-      order: '',
+      order: 'asc',
     },
     categories: [],
     token: '',
@@ -34,14 +34,12 @@ const {reducer, actions} = createSlice({
   },
 });
 
-const allActions = {
+export const allActions = {
 	...actions,
 	searchProduct: createAction('products/search'),
 	createProduct: createAction('products/create'),
 	fetchProducts: createAction('products/fetch'),
 	fetchCategories: createAction('categories/fetch'),
 };
-
-export { allActions };
 
 export default reducer;

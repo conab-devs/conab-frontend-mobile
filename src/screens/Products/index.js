@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -10,22 +10,23 @@ import {
   Wrapper,
   FlatList,
 } from './styles';
-import Product from './../../components/Product';
-import axios from '../../services/api';
-import {FilterContext} from '../../contexts';
+import Product from '../../components/Product';
+import {useSelector, useDispatch} from 'react-redux';
+import {allActions} from '../../redux/Product';
 
 const Products = ({navigation, route}) => {
-  const filter = useContext(FilterContext);
-  const {category} = route.params;
-
+  const {category, searchString: ss} = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
-  const [products, setProducts] = useState([]);
-  const [searchString, setSearchString] = useState(
-    filter.settings.searchString,
-  );
+  const [searchString, setSearchString] = useState(ss);
   const [productName, setProductName] = useState('');
+  const dispatch = useDispatch();
+  const {lowestPrice, greatestPrice, order} = useSelector(
+    (state) => state.product.filters,
+  );
+  const lastPage = useSelector((state) => state.product.lastPage);
+
+  const {products} = useSelector((state) => state.product);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -35,30 +36,39 @@ const Products = ({navigation, route}) => {
 
       setIsLoading(true);
 
-      const {data, status} = await axios.get(
-        `/products?page=${page}&category=${category}&min_price=${filter.settings.lowestPrice}&max_price=${filter.settings.greatestPrice}&order=${filter.settings.order}&name=${searchString}`,
+      dispatch(
+        allActions.fetchProducts({
+          categoryId: category,
+          page,
+          greatestPrice,
+          lowestPrice,
+          order,
+          searchString,
+          previous: products,
+        }),
       );
-
-      if (status === 200) {
-        setProducts((current) => [...current, ...data.data]);
-        setPage((current) => current + 1);
-        setLastPage(data.last_page);
-      }
 
       setIsLoading(false);
     } catch (error) {
-      Alert.alert('Opss, ocorreu um erro.');
+      Alert.alert(error);
     }
-  }, [filter.settings, page, isLoading, searchString]);
+  }, [
+    page,
+    greatestPrice,
+    lowestPrice,
+    order,
+    searchString,
+    isLoading,
+    products
+  ]);
 
   useEffect(() => {
     fetchProducts();
 
     return () => {
-      setProducts([]);
       setIsLoading(false);
     };
-  }, [filter.settings, searchString]);
+  }, [page, searchString]);
 
   return (
     <Container>
@@ -70,6 +80,7 @@ const Products = ({navigation, route}) => {
         />
         <TouchableOpacity
           onPress={() => {
+            dispatch(allActions.setProducts({products: [], lastPage}));
             setPage(1);
             setSearchString(productName.replace(' ', '%20'));
           }}>
@@ -78,7 +89,7 @@ const Products = ({navigation, route}) => {
       </Search>
       <Filter>
         <FilterType>
-          {filter.settings.order === 'desc' ? 'Maior Preço' : 'Menor Preço'}
+          {order === 'desc' ? 'Maior Preço' : 'Menor Preço'}
         </FilterType>
         <TouchableOpacity>
           <Icon
@@ -93,30 +104,35 @@ const Products = ({navigation, route}) => {
         </TouchableOpacity>
       </Filter>
       <Wrapper>
-        {
-          <FlatList
-            data={products}
-            showsVerticalScrollIndicator={false}
-            initialNumToRender={5}
-            onEndReached={() => {
-              if (page <= lastPage) {
-                fetchProducts();
-              }
-            }}
-            onEndReachedThreshold={0.1}
-            ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-            renderItem={({item}) => (
-              <Product
-                name={item.name}
-                cooperativeName={item.cooperative.name}
-                price={item.price}
-                unitMeasure={item.unit_of_measure}
-                imagePath={item.photo_path}
-              />
-            )}
-            keyExtractor={(item) => `${item.id}`}
-          />
-        }
+        {<FlatList
+          data={products}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={5}
+          onEndReached={() => {
+            if (page < lastPage) {
+              setPage((current) => current + 1);
+            }
+          }}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+          // ListHeaderComponent={
+          //   <AddProductButton
+          //     activeOpacity={0.75}
+          //     onPress={() => navigation.navigate('CadastrarProduto')}>
+          //     <AddProductContent>Adicionar Produto</AddProductContent>
+          //   </AddProductButton>
+          // }
+          renderItem={({item}) => (
+            <Product
+              name={item.name}
+              cooperativeName={item.cooperative.name}
+              price={item.price}
+              unitMeasure={item.unit_of_measure}
+              imagePath={item.photo_path}
+            />
+          )}
+          keyExtractor={(item) => `${item.id}`}
+        />}
       </Wrapper>
     </Container>
   );

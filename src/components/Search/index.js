@@ -1,34 +1,35 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {SearchContainer, Search as S} from './styles';
-import {FilterContext} from '../../contexts';
+import {useSelector, useDispatch} from 'react-redux';
 import {useDebounce} from '../../hooks';
 import {useNavigation} from '@react-navigation/native';
+import {allActions} from '../../redux/Product';
 
 const Search = ({bottom = 0}) => {
   const navigation = useNavigation();
-  const filter = useContext(FilterContext);
-  const [searchString, setSearchString] = useState(
-    filter.settings.searchString.replace('%20', ' '),
-  );
+  const [product, setProduct] = useState('');
+  const dispatch = useDispatch();
 
   const debouncedSearchString = useDebounce(
-    searchString.replace(' ', '%20'),
+    product.replace(' ', '%20'),
     500,
   );
 
   useEffect(() => {
     if (debouncedSearchString) {
-      filter.setSettings({...filter.settings, searchString});
-      navigation.navigate('Products', {category: ''});
+      dispatch(allActions.setProducts({products: [], lastPage: 1}));
+      navigation.navigate('Products', {
+        category: '', searchString: product
+      });
     }
   }, [debouncedSearchString]);
 
   return (
     <SearchContainer bottom={bottom}>
       <S
-        value={searchString}
+        value={product}
         placeholder="O que procura? Leite, biscoito, mel..."
-        onChangeText={setSearchString}
+        onChangeText={setProduct}
       />
     </SearchContainer>
   );
