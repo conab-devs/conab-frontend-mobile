@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {RadioButton} from 'react-native-paper';
 import {View, Text} from 'react-native';
 import {
@@ -12,17 +12,18 @@ import {
   ButtonContent,
 } from './styles';
 import {TextInputMask} from 'react-native-masked-text';
-import {FilterContext} from '../../contexts';
 import {getPrice} from '../../helpers';
+import {allActions} from '../../redux/Product';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Filter = ({navigation}) => {
-  const filter = useContext(FilterContext);
-
-  const [lowestPrice, setLowestPrice] = useState(filter.settings.lowestPrice);
-  const [greatestPrice, setGreatesPrice] = useState(
-    filter.settings.greatestPrice,
+  const dispatch = useDispatch();
+  const {lowestPrice: lp, greatestPrice: gp, order: ord} = useSelector(
+    (state) => state.product.filters,
   );
-  const [order, setOrder] = useState(filter.settings.order);
+  const [lowestPrice, setLowestPrice] = useState(lp);
+  const [greatestPrice, setGreatesPrice] = useState(gp);
+  const [order, setOrder] = useState(ord);
 
   return (
     <Container>
@@ -71,12 +72,8 @@ const Filter = ({navigation}) => {
 
       <Button
         onPress={() => {
-          filter.setSettings({
-            ...filter.settings,
-            greatestPrice,
-            lowestPrice,
-            order,
-          });
+          dispatch(allActions.setProducts({products: []}));
+          dispatch(allActions.setFilters({greatestPrice, lowestPrice, order}));
           navigation.goBack();
         }}>
         <ButtonContent>FILTRAR</ButtonContent>
