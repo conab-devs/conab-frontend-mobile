@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Container as C} from './../../styles/utils';
+import {darkblue} from '../../styles/colors';
 
 export const FlatList = styled.FlatList`
   width: 100%;
@@ -49,4 +50,20 @@ export const Wrapper = styled(C)`
   justify-content: flex-start;
   padding-top: 10px;
   padding-bottom: 10px;
+`;
+
+export const AddProductButton = styled.TouchableOpacity`
+  background-color: ${darkblue};
+  padding: 10px 20px;
+  max-width: 50%;
+  border-radius: 5px;
+  height: 30px;
+  align-content: center;
+  justify-content: center;
+  margin: 10px 0;
+  elevation: 3;
+`;
+
+export const AddProductContent = styled.Text`
+  color: white;
 `;

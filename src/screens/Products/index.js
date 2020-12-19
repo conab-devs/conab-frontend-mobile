@@ -9,6 +9,8 @@ import {
   Container,
   Wrapper,
   FlatList,
+  AddProductButton,
+  AddProductContent
 } from './styles';
 import Product from '../../components/Product';
 import {useSelector, useDispatch} from 'react-redux';
@@ -116,13 +118,13 @@ const Products = ({navigation, route}) => {
             }}
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-            // ListHeaderComponent={
-            //   <AddProductButton
-            //     activeOpacity={0.75}
-            //     onPress={() => navigation.navigate('CadastrarProduto')}>
-            //     <AddProductContent>Adicionar Produto</AddProductContent>
-            //   </AddProductButton>
-            // }
+            ListHeaderComponent={
+              <AddProductButton
+                activeOpacity={0.75}
+                onPress={() => navigation.navigate('CadastrarProduto')}>
+                <AddProductContent>Adicionar Produto</AddProductContent>
+              </AddProductButton>
+            }
             renderItem={({item}) => (
               <Product
                 name={item.name}

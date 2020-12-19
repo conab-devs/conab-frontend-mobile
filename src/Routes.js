@@ -21,6 +21,7 @@ import Header from './components/Header';
 import Products from './screens/Products';
 import Search from './components/Search';
 import Filter from './screens/Filter';
+import CreateProduct from './screens/CreateProduct';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -59,7 +60,7 @@ const homeOptions = {
 
 const Home = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Categories">
       <Stack.Screen
         name="Categories"
         component={Categories}
@@ -72,7 +73,7 @@ const Home = () => {
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={30} />,
+          headerRight: <Icon name="cart" color={darkblue} size={40} />,
           ...homeOptions,
         })}
       />
@@ -83,13 +84,13 @@ const Home = () => {
           ...homeOptions,
           headerLeft: (
             <Icon
-              name="arrow-left"
+              name="chevron-left"
               color={darkblue}
               size={30}
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={30} />,
+          headerRight: <Icon name="cart" color={darkblue} size={40} />,
           header: ({scene}) => {
             const {options} = scene.descriptor;
             const title =
@@ -111,8 +112,26 @@ const Home = () => {
               />
             );
           },
-        })}
-      />
+        })} />
+        <Stack.Screen
+          name="CadastrarProduto"
+          component={CreateProduct}
+          options={({navigation}) => ({
+            title: 'Conarket',
+            headerTitleAlign: 'center',
+            headerLeftContainerStyle: {paddingLeft: sidePadding},
+            headerRightContainerStyle: {paddingRight: sidePadding},
+            headerStyle: {backgroundColor: green, height: 70},
+            headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+            headerLeft: (props) => (
+              <Icon
+                name="chevron-left"
+                color={darkblue}
+                size={40}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+        })} />
     </Stack.Navigator>
   );
 };
