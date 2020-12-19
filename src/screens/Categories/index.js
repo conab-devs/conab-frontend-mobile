@@ -1,18 +1,15 @@
-import React, {useState, useCallback, useEffect, useContext} from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {Container, Category, Text} from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import axios from '../../services/api';
-import {FilterContext} from '../../contexts';
 import {allActions} from '../../redux/Product';
 
 const Categories = () => {
   const navigation = useNavigation();
-  const token = useSelector((state) => state.auth.token);
   const categories = useSelector((state) => state.product.categories);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(allActions.fetchCategories());
   }, []);
@@ -33,7 +30,11 @@ const Categories = () => {
         renderItem={({item}) => (
           <Category
             onPress={() => {
-              navigation.navigate('Products', {category: item.id});
+              dispatch(allActions.setProducts({products: []}));
+              navigation.navigate('Products', {
+                category: item.id,
+                searchString: '',
+              });
             }}>
             <Text>{item.name}</Text>
           </Category>

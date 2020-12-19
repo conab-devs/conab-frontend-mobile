@@ -59,7 +59,7 @@ const Products = ({navigation, route}) => {
     order,
     searchString,
     isLoading,
-    products
+    products,
   ]);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Products = ({navigation, route}) => {
     return () => {
       setIsLoading(false);
     };
-  }, [page, searchString]);
+  }, [page, searchString, greatestPrice, lowestPrice, order]);
 
   return (
     <Container>
@@ -80,7 +80,7 @@ const Products = ({navigation, route}) => {
         />
         <TouchableOpacity
           onPress={() => {
-            dispatch(allActions.setProducts({products: [], lastPage}));
+            dispatch(allActions.setProducts({products: []}));
             setPage(1);
             setSearchString(productName.replace(' ', '%20'));
           }}>
@@ -104,35 +104,37 @@ const Products = ({navigation, route}) => {
         </TouchableOpacity>
       </Filter>
       <Wrapper>
-        {<FlatList
-          data={products}
-          showsVerticalScrollIndicator={false}
-          initialNumToRender={5}
-          onEndReached={() => {
-            if (page < lastPage) {
-              setPage((current) => current + 1);
-            }
-          }}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-          // ListHeaderComponent={
-          //   <AddProductButton
-          //     activeOpacity={0.75}
-          //     onPress={() => navigation.navigate('CadastrarProduto')}>
-          //     <AddProductContent>Adicionar Produto</AddProductContent>
-          //   </AddProductButton>
-          // }
-          renderItem={({item}) => (
-            <Product
-              name={item.name}
-              cooperativeName={item.cooperative.name}
-              price={item.price}
-              unitMeasure={item.unit_of_measure}
-              imagePath={item.photo_path}
-            />
-          )}
-          keyExtractor={(item) => `${item.id}`}
-        />}
+        {
+          <FlatList
+            data={products}
+            showsVerticalScrollIndicator={false}
+            initialNumToRender={5}
+            onEndReached={() => {
+              if (page < lastPage) {
+                setPage((current) => current + 1);
+              }
+            }}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+            // ListHeaderComponent={
+            //   <AddProductButton
+            //     activeOpacity={0.75}
+            //     onPress={() => navigation.navigate('CadastrarProduto')}>
+            //     <AddProductContent>Adicionar Produto</AddProductContent>
+            //   </AddProductButton>
+            // }
+            renderItem={({item}) => (
+              <Product
+                name={item.name}
+                cooperativeName={item.cooperative.name}
+                price={item.price}
+                unitMeasure={item.unit_of_measure}
+                imagePath={item.photo_path}
+              />
+            )}
+            keyExtractor={(item) => `${item.id}`}
+          />
+        }
       </Wrapper>
     </Container>
   );

@@ -1,4 +1,5 @@
 import {createSlice, createAction} from '@reduxjs/toolkit';
+import {maxPrice} from '../../variables';
 
 const {reducer, actions} = createSlice({
   name: 'products',
@@ -6,8 +7,8 @@ const {reducer, actions} = createSlice({
     products: [],
     lastPage: 0,
     filters: {
-      lowestPrice: '',
-      greatestPrice: '',
+      lowestPrice: 0,
+      greatestPrice: 10000,
       order: 'asc',
     },
     categories: [],
@@ -29,6 +30,8 @@ const {reducer, actions} = createSlice({
     },
     setProducts: (state, {payload}) => {
       state.products = payload.products;
+    },
+    setLastPage: (state, {payload}) => {
       state.lastPage = payload.lastPage;
     },
   },

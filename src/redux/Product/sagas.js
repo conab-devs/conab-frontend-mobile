@@ -17,7 +17,8 @@ function* getCategories() {
 function* getProducts({payload}) {
   try {
     const {data} = yield call(api.get, `/products?page=${payload.page}&category=${payload.categoryId}&min_price=${payload.lowestPrice}&max_price=${payload.greatestPrice}&order=${payload.order}&name=${payload.searchString}`);
-    yield put(allActions.setProducts({lastPage: data.last_page, products:[...payload.previous, ...data.data]}));
+    yield put(allActions.setProducts({products:[...payload.previous, ...data.data]}));
+    yield put(allActions.setLastPage({lastPage: data.last_page}));
   } catch (err) {
     Alert.alert('Falha na listagem de produtos');
   }
