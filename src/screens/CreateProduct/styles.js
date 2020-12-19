@@ -86,7 +86,7 @@ export const ButtonContent = styled.Text`
 export const ImageHolder = styled.View`
   width: 150px;
   height: 150px;
-  background: #F5F5F5;
+  background: #f5f5f5;
   margin: 20px auto 10px;
   border-radius: 5px;
 `;

@@ -14,31 +14,33 @@ import {
   Button,
   ButtonContent,
   ImageHolder,
-  Image
+  Image,
 } from './styles';
 import Dropdown from 'react-native-picker-select';
-import {darkblue} from './../../styles/colors';
 import {TextInputMask} from 'react-native-masked-text';
-import {setProduct} from '../../redux/Product';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
+import {createFormData} from '../../helpers';
 
 const CreateProduct = () => {
   const [name, setName] = useState('');
-  const [category, setCategory] = useState({});
-  const [unitOfMeasure, setUnitOfMeasure] = useState({});
+  const [category, setCategory] = useState(0);
+  const [unitOfMeasure, setUnitOfMeasure] = useState('');
   const [price, setPrice] = useState(0);
-  const [availability, setAvailability] = useState(0);
-  const [deliveryTime, setDeliveryTime] = useState('0');
+  const [deliveryTime, setDeliveryTime] = useState('');
   const [productPicture, setProductPicture] = useState('');
+
+  const {categories} = useSelector((state) => state.product);
   const dispatch = useDispatch();
+
+  let money = null;
 
   const handleImagePicking = useCallback(async () => {
     const image = await ImagePicker.openPicker({
       width: 300,
       height: 300,
-      cropping: true
+      cropping: true,
     });
 
     if (image.path) {
@@ -46,18 +48,33 @@ const CreateProduct = () => {
     }
   }, []);
 
+  const getCategories = useCallback(() => {
+    return categories.map((category) => ({
+      label: category.name,
+      value: category.id,
+    }));
+  }, [categories]);
+
   return (
     <ScrollView>
       <Container>
         <Title>Adicionar Produto</Title>
-        
+
         <ImageHolder>
-          {productPicture ? <Image source={{uri: productPicture.path}} /> : null}
-          <Icon name="image-edit" size={20} color="#000000" style={{
-            position: 'absolute',
-            right: 15,
-            bottom: 15,
-          }} onPress={handleImagePicking} />
+          {productPicture ? (
+            <Image source={{uri: productPicture.path}} />
+          ) : null}
+          <Icon
+            name="image-edit"
+            size={20}
+            color="#000000"
+            style={{
+              position: 'absolute',
+              right: 15,
+              bottom: 15,
+            }}
+            onPress={handleImagePicking}
+          />
         </ImageHolder>
 
         <Group>
@@ -78,12 +95,9 @@ const CreateProduct = () => {
                 label: 'Escolha a categoria do produto',
                 value: null,
               }}
-              onValueChange={(value) => setCategory(value)}
+              onValueChange={setCategory}
               style={stylesDropdown}
-              items={[
-                {label: 'Processados', value: 1},
-                {label: 'Frutas', value: 2},
-              ]}
+              items={getCategories()}
             />
           </DropdownHolder>
         </Group>
@@ -97,11 +111,11 @@ const CreateProduct = () => {
                 label: 'Escolha uma unidade de medida',
                 value: null,
               }}
-              onValueChange={(value) => setCategory(value)}
+              onValueChange={setUnitOfMeasure}
               style={stylesDropdown}
               items={[
-                {label: 'Kg', value: 1},
-                {label: 'Unidade', value: 2},
+                {label: 'Kg', value: 'kg'},
+                {label: 'Unidade', value: 'unit'},
               ]}
             />
           </DropdownHolder>
@@ -115,6 +129,7 @@ const CreateProduct = () => {
             value={price}
             style={styles.masked}
             onChangeText={setPrice}
+            ref={(ref) => (money = ref)}
           />
         </Group>
 
@@ -126,7 +141,7 @@ const CreateProduct = () => {
               keyboardType="numeric"
               defaultValue="0"
               value={deliveryTime}
-              onChangeText={setDeliveryTime}
+              onChangeText={(value) => setDeliveryTime(value * 1)}
               placeholder="Insira o tempo de Entrega..."
             />
             <MeasureContainer>
@@ -138,12 +153,24 @@ const CreateProduct = () => {
         <Button>
           <ButtonContent
             onPress={() => {
-              dispatch(
-                createProduct({
+              const rawPrice = money.getRawValue();
+
+              if (
+                rawPrice > 0 &&
+                category > 0 &&
+                typeof deliveryTime === 'number' &&
+                name !== '' &&
+                (unitOfMeasure === 'kg' || unitOfMeasure === 'unit') &&
+                productPicture.path !== ''
+              ) {
+                const data = createFormData(productPicture, {
                   name,
-                  price,
-                }),
-              );
+                  price: rawPrice,
+                  category_id: category,
+                  estimated_delivery_time: deliveryTime,
+                  unit_of_measure: unitOfMeasure,
+                });
+              }
             }}>
             Adicionar
           </ButtonContent>
