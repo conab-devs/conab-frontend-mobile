@@ -22,12 +22,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import {createFormData} from '../../helpers';
+import {allActions} from '../../redux/Product';
 
-const CreateProduct = () => {
+const CreateProduct = ({navigation}) => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState(0);
   const [unitOfMeasure, setUnitOfMeasure] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('0');
   const [deliveryTime, setDeliveryTime] = useState('');
   const [productPicture, setProductPicture] = useState('');
 
@@ -36,16 +37,20 @@ const CreateProduct = () => {
 
   let money = null;
 
-  const handleImagePicking = useCallback(async () => {
-    const image = await ImagePicker.openPicker({
+  const handleImagePicking = useCallback(() => {
+    const image = ImagePicker.openPicker({
       width: 300,
       height: 300,
       cropping: true,
-    });
-
-    if (image.path) {
-      setProductPicture(image);
-    }
+    })
+      .then((image) => {
+        if (image.path) {
+          setProductPicture(image);
+        }
+      })
+      .catch((err) => {
+        return;
+      });
   }, []);
 
   const getCategories = useCallback(() => {
@@ -140,7 +145,7 @@ const CreateProduct = () => {
             <DeliveryTimeInput
               keyboardType="numeric"
               defaultValue="0"
-              value={deliveryTime}
+              value={`${deliveryTime}`}
               onChangeText={(value) => setDeliveryTime(value * 1)}
               placeholder="Insira o tempo de Entrega..."
             />
@@ -170,6 +175,9 @@ const CreateProduct = () => {
                   estimated_delivery_time: deliveryTime,
                   unit_of_measure: unitOfMeasure,
                 });
+
+                dispatch(allActions.createProduct({product: data}));
+                navigation.goBack();
               }
             }}>
             Adicionar
