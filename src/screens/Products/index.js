@@ -10,7 +10,7 @@ import {
   Wrapper,
   FlatList,
   AddProductButton,
-  AddProductContent
+  AddProductContent,
 } from './styles';
 import Product from '../../components/Product';
 import {useSelector, useDispatch} from 'react-redux';
