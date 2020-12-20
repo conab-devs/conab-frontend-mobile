@@ -86,7 +86,7 @@ const Home = () => {
             <Icon
               name="chevron-left"
               color={darkblue}
-              size={30}
+              size={40}
               onPress={() => navigation.goBack()}
             />
           ),
@@ -114,7 +114,7 @@ const Home = () => {
           },
         })} />
         <Stack.Screen
-          name="CadastrarProduto"
+          name="RegisterProduct"
           component={CreateProduct}
           options={({navigation}) => ({
             title: 'Conarket',

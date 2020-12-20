@@ -2,7 +2,6 @@ import React from 'react';
 import {TouchableWithoutFeedback as Card, View} from 'react-native';
 import {
   Container,
-  ImageContainer,
   Content,
   Image,
   Emphatized,
@@ -12,13 +11,11 @@ import {
 const Product = (props) => (
   <Card>
     <Container>
-      <ImageContainer>
-        <Image
-          source={{
-            uri: props.imagePath,
-          }}
-        />
-      </ImageContainer>
+      <Image
+        source={{
+          uri: props.imagePath,
+        }}
+      />
       <Content>
         <View>
           <Emphatized>{props.name}</Emphatized>

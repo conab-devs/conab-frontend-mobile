@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import {Container as C} from './../../styles/utils';
 import {darkblue} from './../../styles/colors';
+import {inputCss} from '../../components/Input/styles';
 
 export const Container = styled(C)`
   flex: 1;
@@ -27,14 +28,7 @@ export const Label = styled.Text`
   margin-bottom: 7px;
 `;
 
-export const Input = styled.TextInput`
-  background-color: #f5f5f5;
-  width: 100%;
-  border-radius: 5px;
-  padding: 10px 15px;
-  color: #828282;
-  font-size: 16px;
-`;
+export const Input = styled(inputCss)``;
 
 export const DropdownHolder = styled.View`
   border-radius: 5px;

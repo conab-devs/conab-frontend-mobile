@@ -10,7 +10,7 @@ function* fetchCategories() {
     const {data} = yield call(api.get, '/categories');
     yield put(allActions.setCategories({categories: data}));
   } catch (err) {
-    Alert.alert(err);
+    Alert.alert('Falha ao listar categorias');
   }
 }
 
@@ -18,7 +18,17 @@ function* fetchProducts({payload}) {
   try {
     const {data} = yield call(
       api.get,
-      `/products?page=${payload.page}&category=${payload.categoryId}&min_price=${payload.lowestPrice}&max_price=${payload.greatestPrice}&order=${payload.order}&name=${payload.searchString}`,
+      '/products', 
+      {
+        params: {
+           page: payload.page,
+           category: payload.categoryId,
+           min_price: payload.lowestPrice,
+           max_price: payload.greatestPrice,
+           order: payload.order,
+           name: payload.searchString
+        },
+      }
     );
     yield put(
       allActions.setProducts({products: [...payload.previous, ...data.data]}),

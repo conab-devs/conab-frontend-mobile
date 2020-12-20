@@ -30,30 +30,26 @@ const Products = ({navigation, route}) => {
 
   const {products} = useSelector((state) => state.product);
 
-  const fetchProducts = useCallback(async () => {
-    try {
-      if (isLoading) {
-        return;
-      }
-
-      setIsLoading(true);
-
-      dispatch(
-        allActions.fetchProducts({
-          categoryId: category,
-          page,
-          greatestPrice,
-          lowestPrice,
-          order,
-          searchString,
-          previous: products,
-        }),
-      );
-
-      setIsLoading(false);
-    } catch (error) {
-      Alert.alert(error);
+  const fetchProducts = useCallback(() => {
+    if (isLoading) {
+      return;
     }
+
+    setIsLoading(true);
+
+    dispatch(
+      allActions.fetchProducts({
+        categoryId: category,
+        page,
+        greatestPrice,
+        lowestPrice,
+        order,
+        searchString,
+        previous: products,
+      }),
+    );
+
+    setIsLoading(false);
   }, [
     page,
     greatestPrice,
@@ -121,7 +117,7 @@ const Products = ({navigation, route}) => {
             ListHeaderComponent={
               <AddProductButton
                 activeOpacity={0.75}
-                onPress={() => navigation.navigate('CadastrarProduto')}>
+                onPress={() => navigation.navigate('RegisterProduct')}>
                 <AddProductContent>Adicionar Produto</AddProductContent>
               </AddProductButton>
             }
