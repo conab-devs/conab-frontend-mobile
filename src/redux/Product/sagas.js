@@ -1,16 +1,19 @@
-import {Alert} from 'react-native';
 import {all, call, put, takeLatest, select} from 'redux-saga/effects';
 
 import api from '../../services/api';
 
 import {allActions} from '.';
 
+import {logout} from '../Auth';
+
+import handleUnauthorizedError from '../errorHandler';
+
 function* fetchCategories() {
   try {
     const {data} = yield call(api.get, '/categories');
     yield put(allActions.setCategories({categories: data}));
   } catch (err) {
-    Alert.alert('Falha ao listar categorias');
+    yield handleUnauthorized(err, 'Falha ao listar categorias');
   }
 }
 
@@ -35,7 +38,7 @@ function* fetchProducts({payload}) {
     );
     yield put(allActions.setLastPage({lastPage: data.last_page}));
   } catch (err) {
-    Alert.alert('Falha na listagem de produtos');
+    yield handleUnauthorized(err, 'Falha na listagem de produtos');
   }
 }
 
@@ -51,7 +54,7 @@ function* createProduct({payload}) {
     const products = yield select(getProducts);
     yield put(allActions.setProducts({products: [...products, response.data]}));
   } catch (err) {
-    Alert.alert('Falha na adição do produto.');
+    yield handleUnauthorized(err, 'Falha na adição do produto.');
   }
 }
 

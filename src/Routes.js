@@ -22,6 +22,7 @@ import Products from './screens/Products';
 import Search from './components/Search';
 import Filter from './screens/Filter';
 import CreateProduct from './screens/CreateProduct';
+import ViewProduct from './screens/ViewProduct';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -82,6 +83,7 @@ const Home = () => {
         component={Products}
         options={({navigation}) => ({
           ...homeOptions,
+          title: "Produtos",
           headerLeft: (
             <Icon
               name="chevron-left"
@@ -117,7 +119,7 @@ const Home = () => {
           name="RegisterProduct"
           component={CreateProduct}
           options={({navigation}) => ({
-            title: 'Conarket',
+            title: 'Produto',
             headerTitleAlign: 'center',
             headerLeftContainerStyle: {paddingLeft: sidePadding},
             headerRightContainerStyle: {paddingRight: sidePadding},
@@ -132,6 +134,11 @@ const Home = () => {
               />
             ),
         })} />
+          <Stack.Screen
+            name="ViewProduct"
+            component={ViewProduct}
+
+          />
     </Stack.Navigator>
   );
 };
