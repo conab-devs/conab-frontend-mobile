@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
+import {TouchableOpacity, ActivityIndicator, Alert, RefreshControl} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   TextInput,
@@ -18,6 +18,9 @@ import {allActions} from '../../redux/Product';
 
 const Products = ({navigation, route}) => {
   const {category, searchString: ss} = route.params;
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [searchString, setSearchString] = useState(ss);
@@ -59,6 +62,15 @@ const Products = ({navigation, route}) => {
     isLoading,
     products,
   ]);
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+
+    dispatch(allActions.setProducts({products: []}));
+    fetchProducts();
+    
+    setIsRefreshing(false);
+  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -104,6 +116,8 @@ const Products = ({navigation, route}) => {
       <Wrapper>
         {
           <FlatList
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
             data={products}
             showsVerticalScrollIndicator={false}
             initialNumToRender={5}

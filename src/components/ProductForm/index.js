@@ -13,13 +13,11 @@ import {
   Input,
   Button,
   ButtonContent,
-  ImageHolder,
-  Image,
 } from './styles';
 import {TextInputMask} from 'react-native-masked-text';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import Dropdown from 'react-native-picker-select';
+import Photo from '../Photo';
 
 const Form = (props) => {
   const [name, setName] = useState('');
@@ -53,18 +51,10 @@ const Form = (props) => {
       <Container>
         <Title>{props.title}</Title>
 
-        <ImageHolder>
-          {productPicture ? (
-            <Image source={{uri: productPicture.path}} />
-          ) : null}
-          <Icon
-            name="image-edit"
-            size={20}
-            color="#000000"
-            style={styles.icon}
-            onPress={handleImagePicking}
-          />
-        </ImageHolder>
+        <Photo 
+          productPicture={productPicture} 
+          handleImagePicking={handleImagePicking} 
+        />
 
         <Group>
           <Label>Nome</Label>
