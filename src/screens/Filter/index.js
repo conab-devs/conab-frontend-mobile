@@ -12,7 +12,6 @@ import {
   ButtonContent,
 } from './styles';
 import {TextInputMask} from 'react-native-masked-text';
-import {getPrice} from '../../helpers';
 import {allActions} from '../../redux/Product';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -22,8 +21,11 @@ const Filter = ({navigation}) => {
     (state) => state.product.filters,
   );
   const [lowestPrice, setLowestPrice] = useState(lp);
-  const [greatestPrice, setGreatesPrice] = useState(gp);
+  const [greatestPrice, setGreatestPrice] = useState(gp);
   const [order, setOrder] = useState(ord);
+  
+  let lowestPriceRef;
+  let greatestPriceRef;
 
   return (
     <Container>
@@ -55,25 +57,31 @@ const Filter = ({navigation}) => {
           <TextInputMask
             type={'money'}
             value={lowestPrice}
-            onChangeText={(value) => {
-              setLowestPrice(getPrice(value));
-            }}
+            onChangeText={setLowestPrice}
+            ref={(ref) => (lowestPriceRef = ref)}
           />
           <Text>-</Text>
           <TextInputMask
             type={'money'}
             value={greatestPrice}
-            onChangeText={(value) => {
-              setGreatesPrice(getPrice(value));
-            }}
+            onChangeText={setGreatestPrice}
+            ref={(ref) => (greatestPriceRef = ref)}
           />
         </PriceGroup>
       </View>
 
       <Button
+
         onPress={() => {
+          let lower = typeof lowestPrice === 'string' ? lowestPriceRef.getRawValue() : lowestPrice;
+          let greater = typeof greatestPrice === 'string' ? greatestPriceRef.getRawValue() : greatestPrice;
+
           dispatch(allActions.setProducts({products: []}));
-          dispatch(allActions.setFilters({greatestPrice, lowestPrice, order}));
+          dispatch(allActions.setFilters({
+            greatestPrice: greater, 
+            lowestPrice: lower, 
+            order
+          }));
           navigation.goBack();
         }}>
         <ButtonContent>FILTRAR</ButtonContent>

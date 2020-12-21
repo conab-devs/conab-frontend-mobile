@@ -6,7 +6,7 @@ import {allActions} from '.';
 
 import {logout} from '../Auth';
 
-import handleUnauthorizedError from '../errorHandler';
+import handleUnauthorized from '../errorHandler';
 
 function* fetchCategories() {
   try {
