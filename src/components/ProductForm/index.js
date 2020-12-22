@@ -131,14 +131,11 @@ const Form = (props) => {
         </Group>
 
         <Button onPress={() => {
-            console.log(isMakingRequest);
             if (isMakingRequest) {
-              console.log('inside if', isMakingRequest);
               return;
             }
             
             setIsMakingRequest(true);
-
 
             props.handleSubmit({
               name,
