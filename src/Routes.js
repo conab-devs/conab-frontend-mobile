@@ -133,11 +133,37 @@ const Home = () => {
                 onPress={() => navigation.goBack()}
               />
             ),
-        })} />
+          })} />
           <Stack.Screen
             name="ViewProduct"
             component={ViewProduct}
+            options={({navigation}) => ({
+              ...homeOptions,
+              title: 'Produto',
+              headerLeft: <Icon name="menu" color={darkblue} size={40} onPress={() => ''} />,
+              headerRight: <Icon name="cart" color={darkblue} size={40} onPress={() => ''} />,
+              header: ({scene}) => {
+                const {options} = scene.descriptor;
+                const title =
+                  options.headerTitle !== undefined
+                    ? options.headerTitle
+                    : options.title !== undefined
+                    ? options.title
+                    : scene.route.name;
 
+                return (
+                  <Header
+                    title={title}
+                    headerTitleStyle={options.headerTitleStyle}
+                    headerLeftContainerStyle={options.headerLeftContainerStyle}
+                    headerRightContainerStyle={options.headerRightContainerStyle}
+                    headerStyle={options.headerStyle}
+                    headerLeft={options.headerLeft}
+                    headerRight={options.headerRight}
+                  />
+                );
+              },
+        })}
           />
     </Stack.Navigator>
   );

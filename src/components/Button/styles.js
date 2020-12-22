@@ -9,20 +9,20 @@ export const Btn = styled.TouchableOpacity`
   justify-content: center;
   height: 46px;
 
-  ${({type}) => {
+  ${({type, borderWidth}) => {
     return type === 'primary'
       ? css`
           background-color: ${darkblue};
         `
       : css`
           background-color: ${green};
-          border-width: 2px;
+          border-width: ${borderWidth}px;
         `;
   }}
 `;
 
 export const BtnText = styled.Text`
-  color: white;
+  font-weight: bold;
   font-size: 24px;
   color: ${({type}) => (type === 'primary' ? 'white' : darkblue)};
 `;

@@ -9,7 +9,7 @@ import {
 } from './styles';
 
 const Product = (props) => (
-  <Card>
+  <Card onPress={props.handlePress}>
     <Container>
       <Image
         source={{
@@ -22,7 +22,7 @@ const Product = (props) => (
           <CooperativeName>{props.cooperativeName}</CooperativeName>
         </View>
         <Emphatized>
-          R$ {props.price} / {props.unitMeasure}
+          R$ {props.price} / {props.unitMeasure === 'unit' ? 'Unidade' : 'Kg'}
         </Emphatized>
       </Content>
     </Container>

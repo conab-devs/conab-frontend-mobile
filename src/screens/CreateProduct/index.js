@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createFormData} from '../../helpers';
 import {allActions} from '../../redux/Product';
@@ -28,6 +28,7 @@ const CreateProduct = ({navigation}) => {
         });
 
         dispatch(allActions.createProduct({product: data}));
+
         navigation.goBack();
       }
     },

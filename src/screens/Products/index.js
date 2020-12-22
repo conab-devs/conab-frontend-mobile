@@ -68,7 +68,7 @@ const Products = ({navigation, route}) => {
 
     dispatch(allActions.setProducts({products: []}));
     fetchProducts();
-    
+
     setIsRefreshing(false);
   }, []);
 
@@ -107,6 +107,7 @@ const Products = ({navigation, route}) => {
             color="#828282"
             size={20}
             onPress={() => {
+              dispatch(allActions.setProducts({products: []}));
               setPage(1);
               navigation.navigate('Filter', {categoryId: category});
             }}
@@ -142,6 +143,9 @@ const Products = ({navigation, route}) => {
                 price={item.price}
                 unitMeasure={item.unit_of_measure}
                 imagePath={item.photo_path}
+                handlePress={() => {
+                  navigation.navigate('ViewProduct', {product: item});
+                }}
               />
             )}
             keyExtractor={(item) => `${item.id}`}

@@ -26,6 +26,7 @@ const Form = (props) => {
   const [price, setPrice] = useState('0');
   const [deliveryTime, setDeliveryTime] = useState('');
   const [productPicture, setProductPicture] = useState('');
+  const [isMakingRequest, setIsMakingRequest] = useState(false);
 
   let money = null;
 
@@ -129,18 +130,30 @@ const Form = (props) => {
           </DeliveryTime>
         </Group>
 
-        <Button>
-          <ButtonContent
-            onPress={() =>
-              props.handleSubmit({
-                name,
-                category,
-                unitOfMeasure,
-                price: money.getRawValue(),
-                deliveryTime,
-                productPicture,
-              })
-            }>
+        <Button onPress={() => {
+            console.log(isMakingRequest);
+            if (isMakingRequest) {
+              console.log('inside if', isMakingRequest);
+              return;
+            }
+            
+            setIsMakingRequest(true);
+
+
+            props.handleSubmit({
+              name,
+              category,
+              unitOfMeasure,
+              price: money.getRawValue(),
+              deliveryTime,
+              productPicture,
+            });
+          }
+        }
+
+        disabled={isMakingRequest}
+        >
+          <ButtonContent>
             {props.buttonDescriptor}
           </ButtonContent>
         </Button>

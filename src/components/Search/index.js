@@ -12,12 +12,13 @@ const Search = ({bottom = 0}) => {
 
   const debouncedSearchString = useDebounce(
     product.replace(' ', '%20'),
-    500,
+    1300,
   );
 
   useEffect(() => {
     if (debouncedSearchString) {
       dispatch(allActions.setProducts({products: [], lastPage: 1}));
+      console.log(product);
       navigation.navigate('Products', {
         category: '', searchString: product
       });
