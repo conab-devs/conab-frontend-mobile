@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Alert} from 'react-native';
 import {StyleSheet, ScrollView} from 'react-native';
+import {useDispatch} from 'react-redux';
 
 import Photo from '../../components/Photo';
 import {
@@ -13,11 +15,12 @@ import {
 } from './styles';
 import TextInput from '../../components/Input';
 import Button from '../../components/Button';
-
+import {allActions} from '../../redux/Product';
 
 const ViewProduct = ({route}) => {
 	const {product} = route.params;
-	console.log(product.photo_path);
+	const [amount, setAmount] = useState(1);
+	const dispatch = useDispatch();
 
 	function getPrice(price) {
 		return price.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
@@ -36,11 +39,30 @@ const ViewProduct = ({route}) => {
 				
 					<Delimiter />
 
-					<TextInput label="Quantidade" placeholder="Insira a quantidade..." keyboardType="number-pad" />
+					<TextInput 
+						label="Quantidade" 
+						placeholder="Insira a quantidade..." 
+						keyboardType="number-pad"
+						defaultValue={`${amount}`}
+						onChangeText={setAmount} 
+					/>
 				
 					<Space />
 
-					<Button type="secondary" title="Comprar" borderWidth={0} />
+					<Button 
+						type="secondary" 
+						title="Comprar" 
+						borderWidth={0}
+						onPress={() => {
+							if (!Number.isNaN(amount)) {
+								const cartProduct = Object.assign({}, product);
+								cartProduct.amount = amount;
+								dispatch(allActions.pushToCart({product: cartProduct}));
+							} else {
+								Alert.alert('Escolha uma quantia válida.');
+							}
+						}}
+					/>
 				</InfoContainer>
 			</ScrollView>
 		</Container>
