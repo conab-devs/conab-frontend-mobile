@@ -12,8 +12,6 @@ const {reducer, actions} = createSlice({
       order: 'asc',
     },
     categories: [],
-    token: '',
-    user: {},
     cart: [],
   },
   reducers: {
