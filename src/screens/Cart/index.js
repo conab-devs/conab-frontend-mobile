@@ -3,7 +3,7 @@ import {Text, FlatList, ActivityIndicator} from 'react-native';
 import {Container, Wrapper} from './styles'
 import {useSelector} from 'react-redux';
 import Product from '../../components/Product'; 
-import Button from '../../components/Button';
+import Button from '../../components/button';
 
 const Cart = ({navigation}) => {
 	const cart = useSelector(state => state.product.cart);

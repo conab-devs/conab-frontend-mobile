@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 
 import api from '../../../services/api';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import Input from '../../../components/input';
+import Button from '../../../components/button';
 
 import {Container, Form} from '../styles';
 

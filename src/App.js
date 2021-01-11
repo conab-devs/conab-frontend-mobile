@@ -5,6 +5,7 @@ import Routes from './Routes';
 import {StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import './reactotron';
 
@@ -27,5 +28,13 @@ const App = () => {
     </Provider>
   );
 };
+
+
+EStyleSheet.build({
+  $darkBlue: '#363D46',
+  $green: '#59D094',
+  $lightGray: '#F5F5F5',
+  $mediumGray: '#828282',
+});
 
 export default App;

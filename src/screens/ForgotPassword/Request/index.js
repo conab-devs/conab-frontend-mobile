@@ -3,8 +3,8 @@ import {Alert} from 'react-native';
 
 import api from '../../../services/api';
 import {Container, Form} from '../styles';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import Input from '../../../components/input';
+import Button from '../../../components/button';
 
 const Request = ({navigation}) => {
   const [email, setEmail] = useState('');

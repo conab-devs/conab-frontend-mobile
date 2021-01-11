@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 
-import {login} from '../../redux/Auth/actions';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
+import {Text, View} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import {Container} from '../../styles/utils';
-import {Title, Bold, Form, Inputs, ForgotPassword} from './styles';
+import {login} from '../../redux/Auth/actions';
+import Button from '../../components/button';
+import Input from '../../components/input';
+
+import Container from '../../components/container';
 
 const SignIn = ({navigation}) => {
   const dispatch = useDispatch();
@@ -18,12 +20,12 @@ const SignIn = ({navigation}) => {
   };
 
   return (
-    <Container>
-      <Title>
-        Bem-vindo(a) ao aplicativo <Bold>Conarket</Bold>
-      </Title>
-      <Form>
-        <Inputs>
+    <Container style={styles.container}>
+      <Text style={styles.title}>
+        Bem-vindo(a) ao aplicativo <Text style={styles.bold}>Conarket</Text>
+      </Text>
+      <View style={styles.form}>
+        <View style={styles.inputs}>
           <Input
             label="E-mail"
             value={email}
@@ -32,6 +34,11 @@ const SignIn = ({navigation}) => {
             keyboardType="email-address"
             autoCompleteType="email"
             autoCapitalize="none"
+            style={{
+              rem: {
+                $rem: 14,
+              },
+            }}
           />
 
           <Input
@@ -42,23 +49,68 @@ const SignIn = ({navigation}) => {
             autoCapitalize="none"
             minLength={6}
             secureTextEntry
+            style={{
+              rem: {
+                $rem: 14,
+              },
+            }}
           />
 
-          <ForgotPassword
+          <Text
+            style={styles.forgotPassword}
             onPress={() => navigation.navigate('forgotpassword-request')}>
             Esqueci a senha
-          </ForgotPassword>
-        </Inputs>
+          </Text>
+        </View>
 
-        <Button title="Entrar" type="primary" onPress={submitHandler} />
+        <Button 
+          title="Entrar" 
+          type="primary" 
+          onPress={submitHandler} 
+          style={{
+            rem: {
+              $rem: 14,
+            },
+          }}
+        />
         <Button
           title="Criar conta"
           type="outline"
           onPress={() => navigation.navigate('signup')}
         />
-      </Form>
+      </View>
     </Container>
   );
 };
+
+const styles = EStyleSheet.create({
+  $rem: 14,
+  title: {
+    width: '100%',
+    fontSize: '2.37rem',
+    color: '$darkBlue',
+    marginBottom: '.5rem',
+  },
+  form: {
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  inputs: {
+    marginBottom: '2.5rem'
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    fontSize: '1rem',
+    textDecorationLine: 'underline',
+    color: '$darkBlue',
+  },
+  container: {
+    paddingTop: '2rem',
+    justifyContent: 'flex-end',
+  }
+});
 
 export default SignIn;

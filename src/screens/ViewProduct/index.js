@@ -13,8 +13,8 @@ import {
 	Delimiter,
 	Space,
 } from './styles';
-import TextInput from '../../components/Input';
-import Button from '../../components/Button';
+import TextInput from '../../components/input';
+import Button from '../../components/button';
 import {allActions} from '../../redux/Product';
 
 const ViewProduct = ({route}) => {

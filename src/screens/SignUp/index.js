@@ -3,8 +3,8 @@ import {Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-picker';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../components/input';
+import Button from '../../components/button';
 
 import {Container, Form, Upload, UploadImage} from './styles';
 import {darkblue} from '../../styles/colors';
