@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {
+  Alert, 
+  View, 
+  ScrollView, 
+  TouchableOpacity, 
+  Image,
+  PermissionsAndroid, 
+  Platform,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-picker';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Input from '../../components/input';
-import Button from '../../components/button';
-
-import {Container, Form, Upload, UploadImage} from './styles';
-import {darkblue} from '../../styles/colors';
-import {PermissionsAndroid, Platform} from 'react-native';
+import Input from '../components/input';
+import Button from '../components/button';
 
 const launchImageLibraryAsync = (options = {}) => {
   return new Promise((resolve) =>
@@ -71,15 +76,19 @@ const SignUp = () => {
   };
 
   return (
-    <Container>
-      <Form>
-        <Upload onPress={uplaodImage}>
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.form}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.formContent}
+      >
+        <TouchableOpacity style={styles.upload} onPress={uplaodImage}>
           {avatar.uri ? (
-            <UploadImage source={{uri: avatar.uri}} />
+            <Image style={styles.uploadImage} source={{uri: avatar.uri}} />
           ) : (
-            <Icon name="camera" size={40} color={darkblue} />
+            <Icon name="camera" size={40} color={styles.darkBlue.color} />
           )}
-        </Upload>
+        </TouchableOpacity>
 
         <Input
           label="Nome Completo"
@@ -139,10 +148,57 @@ const SignUp = () => {
           secureTextEntry
         />
 
-        <Button title="Criar" type="primary" onPress={submitHandler} />
-      </Form>
-    </Container>
+        <Button 
+          title="Criar" 
+          type="primary" 
+          onPress={submitHandler}
+          style={{ btn: styles.btn }}
+        />
+      </ScrollView>
+    </View>
   );
 };
+
+const styles = EStyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: '1.7rem',
+    paddingBottom: '.5rem',
+    paddingRight: '1.25rem',
+    paddingLeft: '1.25rem',
+  },
+  btn: {
+    marginTop: '3rem',
+  },
+  form: {
+    marginTop: '1.25rem',
+    width: '100%',
+  },
+  formContent: {
+    paddingTop: 20, 
+    paddingBottom: 20,
+  },
+  upload: {
+    alignSelf: 'center',
+    height: '6.25rem',
+    width: '6.25rem',
+    borderRadius: '.35rem',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$lightGray',
+    marginBottom: '1,25rem',
+    overflow: 'hidden',
+  },
+  uploadImages: {
+    width: '100%',
+    height: '100%', 
+  },
+  darkBlue: {
+    color: '$darkBlue',
+  },
+});
 
 export default SignUp;

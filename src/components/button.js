@@ -41,6 +41,7 @@ const getStyles = (styles = {}, type) => {
 			height: '2.87rem',
 			borderColor: '$darkBlue',
 			...specificStyles,
+			...styles.btn,
 		}
 	});
 };

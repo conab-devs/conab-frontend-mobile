@@ -7,8 +7,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {darkblue, green} from './styles/colors';
 
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
+import SignIn from './screens/sign-in';
+import SignUp from './screens/sign-up';
 import Categories from './screens/Categories';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';

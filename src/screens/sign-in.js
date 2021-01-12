@@ -4,11 +4,11 @@ import {useDispatch} from 'react-redux';
 import {Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import {login} from '../../redux/Auth/actions';
-import Button from '../../components/button';
-import Input from '../../components/input';
+import {login} from '../redux/Auth/actions';
+import Button from '../components/button';
+import Input from '../components/input';
 
-import Container from '../../components/container';
+import Container from '../components/container';
 
 const SignIn = ({navigation}) => {
   const dispatch = useDispatch();
