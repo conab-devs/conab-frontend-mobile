@@ -9,7 +9,7 @@ import {darkblue, green} from './styles/colors';
 
 import SignIn from './screens/sign-in';
 import SignUp from './screens/sign-up';
-import Categories from './screens/Categories';
+import Categories from './screens/categories';
 import Profile from './screens/Profile';
 import Chat from './screens/Chat';
 import Notification from './screens/Notification';
