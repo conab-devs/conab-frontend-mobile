@@ -1,6 +1,6 @@
 import React from 'react';
-
-import {TBContainer, TBButton, TBButtonText} from './styles';
+import {View,Text, TouchableOpacity} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const TabBar = ({
   state,
@@ -8,6 +8,7 @@ const TabBar = ({
   navigation,
   activeTintColor,
   inactiveTintColor,
+  showLabel
 }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
@@ -16,15 +17,14 @@ const TabBar = ({
   }
 
   return (
-    <TBContainer>
+    <View style={styles.container}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
 
         const TabBarIcon =
           options.tabBarIcon !== undefined ? options.tabBarIcon : null;
-
         const tabBarLabel =
-          options.tabBarLabel !== undefined
+          options.tabBarLabel !== undefined && showLabel
             ? options.tabBarLabel
             : options.title !== undefined
             ? options.title
@@ -52,8 +52,11 @@ const TabBar = ({
           });
         };
 
+        const tabBarIconSize = showLabel ? 28 : 32;
+
         return (
-          <TBButton
+          <TouchableOpacity
+            style={styles.button}
             key={route.key}
             accessibilityRole="button"
             accessibilityState={isFocused ? {selected: true} : {}}
@@ -61,19 +64,38 @@ const TabBar = ({
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}>
-            <TabBarIcon color={selectedColor} size={28} />
-            <TBButtonText color={selectedColor}>{tabBarLabel}</TBButtonText>
-          </TBButton>
+            <TabBarIcon color={selectedColor} size={tabBarIconSize} />
+            {showLabel ? <Text style={(getTextStyles(selectedColor)).text}>{tabBarLabel}</Text> : null}
+          </TouchableOpacity>
         );
       })}
-    </TBContainer>
+    </View>
   );
 };
 
-// // ...
+const styles = EStyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: '$darkBlue',
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: '0.62rem',
+    paddingBottom: '0.62rem',
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
+});
 
-// <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-//   {...}
-// </Tab.Navigator>
+const getTextStyles = (color) => (
+  EStyleSheet.create({
+    text: {
+      color,
+      fontWeight: 'bold',
+    },
+  })
+);
 
 export default TabBar;

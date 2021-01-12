@@ -16,7 +16,7 @@ import Notification from './screens/Notification';
 import ForgotPasswordRequest from './screens/ForgotPassword/Request';
 import ForgotPasswordCode from './screens/ForgotPassword/Code';
 import ForgotPasswordResetPassword from './screens/ForgotPassword/ResetPassword';
-import TabBar from './components/TabBar';
+import TabBar from './components/tab-bar';
 import Header from './components/header';
 import Products from './screens/Products';
 import Search from './components/search';
@@ -60,6 +60,9 @@ const homeOptions = {
   },
 };
 
+const headerIconsSize = 30;
+const arrowIconSize = 38;
+
 const Home = () => {
   return (
     <Stack.Navigator initialRouteName="Categories">
@@ -75,7 +78,7 @@ const Home = () => {
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={40} onPress={() => {
+          headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
             return navigation.navigate('Cart');
           }}/>,
           ...homeOptions,
@@ -91,11 +94,11 @@ const Home = () => {
             <Icon
               name="chevron-left"
               color={darkblue}
-              size={40}
+              size={arrowIconSize}
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={40} onPress={() => {
+          headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
             return navigation.navigate('Cart');
           }}/>,
           header: ({scene}) => {
@@ -134,7 +137,7 @@ const Home = () => {
               <Icon
                 name="chevron-left"
                 color={darkblue}
-                size={40}
+                size={arrowIconSize}
                 onPress={() => navigation.goBack()}
               />
             ),
@@ -145,8 +148,8 @@ const Home = () => {
             options={({navigation}) => ({
               ...homeOptions,
               title: 'Produto',
-              headerLeft: <Icon name="menu" color={darkblue} size={40} onPress={() => ''} />,
-              headerRight: <Icon name="cart" color={darkblue} size={40} onPress={() => {
+              headerLeft: <Icon name="menu" color={darkblue} size={headerIconsSize} onPress={() => ''} />,
+              headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
                 return navigation.navigate('Cart');
               }} />,
               header: ({scene}) => {
@@ -186,7 +189,7 @@ const Home = () => {
                 <Icon
                   name="chevron-left"
                   color={darkblue}
-                  size={40}
+                  size={arrowIconSize}
                   onPress={() => navigation.goBack()}
                 />
               ),
@@ -202,6 +205,7 @@ const TabNavigation = () => (
       keyboardHidesTabBar: true,
       activeTintColor: green,
       inactiveTintColor: '#fff',
+      showLabel: false,
       style: {
         backgroundColor: darkblue,
       },
@@ -212,7 +216,7 @@ const TabNavigation = () => (
       options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({color, size}) => (
-          <Icon name="home-circle" color={color} size={size} />
+          <Icon name="home-circle" color={color} size={headerIconsSize} />
         ),
       }}
     />
@@ -222,7 +226,7 @@ const TabNavigation = () => (
       options={{
         tabBarLabel: 'Perfil',
         tabBarIcon: ({color, size}) => (
-          <Icon name="account-circle" color={color} size={size} />
+          <Icon name="account-circle" color={color} size={headerIconsSize} />
         ),
       }}
     />
@@ -232,7 +236,7 @@ const TabNavigation = () => (
       options={{
         tabBarLabel: 'Chat',
         tabBarIcon: ({color, size}) => (
-          <Icon name="chat-processing" color={color} size={size} />
+          <Icon name="chat-processing" color={color} size={headerIconsSize} />
         ),
       }}
     />
@@ -242,7 +246,7 @@ const TabNavigation = () => (
       options={{
         tabBarLabel: 'Notificações',
         tabBarIcon: ({color, size}) => (
-          <Icon name="bell-circle" color={color} size={size} />
+          <Icon name="bell-circle" color={color} size={headerIconsSize} />
         ),
       }}
     />
@@ -280,7 +284,7 @@ const Routes = () => {
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -296,7 +300,7 @@ const Routes = () => {
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -310,7 +314,7 @@ const Routes = () => {
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -324,7 +328,7 @@ const Routes = () => {
           headerTitleStyle: {fontSize: 24},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
