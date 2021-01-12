@@ -1,15 +1,17 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {SearchContainer, Search as S} from './styles';
+import {View, TextInput} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {useDebounce} from '../../hooks';
+import {useDebounce} from '../hooks';
 import {useNavigation} from '@react-navigation/native';
-import {allActions} from '../../redux/Product';
+import {allActions} from '../redux/Product';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Search = ({bottom = 0}) => {
   const navigation = useNavigation();
   const [product, setProduct] = useState('');
   const dispatch = useDispatch();
 
+  const styles = getStyles(bottom);
   const debouncedSearchString = useDebounce(
     product.replace(' ', '%20'),
     1300,
@@ -26,14 +28,39 @@ const Search = ({bottom = 0}) => {
   }, [debouncedSearchString]);
 
   return (
-    <SearchContainer bottom={bottom}>
-      <S
+    <View bottom={bottom} style={styles.container}>
+      <TextInput
+        style={styles.search}
         value={product}
         placeholder="O que procura? Leite, biscoito, mel..."
         onChangeText={setProduct}
       />
-    </SearchContainer>
+    </View>
   );
 };
+
+const getStyles = (bottom) => {  
+  return EStyleSheet.create({
+    container: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    search: {
+      backgroundColor: 'white',
+      width: '18.75rem',
+      borderRadius: 6,
+      paddingLeft: '.95rem',
+      paddingRight: '.95rem',
+      paddingTop: 0,
+      paddingBottom: 0,
+      height: '2.18rem',
+    }
+  });
+}
 
 export default Search;
