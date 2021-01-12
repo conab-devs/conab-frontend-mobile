@@ -31,6 +31,7 @@ const App = () => {
 
 
 EStyleSheet.build({
+  $rem: 14,
   $darkBlue: '#363D46',
   $green: '#59D094',
   $lightGray: '#F5F5F5',

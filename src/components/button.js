@@ -24,7 +24,6 @@ const getStyles = (styles = {}, type) => {
 	}
 
 	return EStyleSheet.create({
-		...styles.rem,
 		text: {
 			fontWeight: 'bold',
 			fontSize: '1.5rem',

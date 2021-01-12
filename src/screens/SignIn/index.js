@@ -34,11 +34,6 @@ const SignIn = ({navigation}) => {
             keyboardType="email-address"
             autoCompleteType="email"
             autoCapitalize="none"
-            style={{
-              rem: {
-                $rem: 14,
-              },
-            }}
           />
 
           <Input
@@ -49,11 +44,6 @@ const SignIn = ({navigation}) => {
             autoCapitalize="none"
             minLength={6}
             secureTextEntry
-            style={{
-              rem: {
-                $rem: 14,
-              },
-            }}
           />
 
           <Text
@@ -67,11 +57,6 @@ const SignIn = ({navigation}) => {
           title="Entrar" 
           type="primary" 
           onPress={submitHandler} 
-          style={{
-            rem: {
-              $rem: 14,
-            },
-          }}
         />
         <Button
           title="Criar conta"
@@ -84,7 +69,6 @@ const SignIn = ({navigation}) => {
 };
 
 const styles = EStyleSheet.create({
-  $rem: 14,
   title: {
     width: '100%',
     fontSize: '2.37rem',

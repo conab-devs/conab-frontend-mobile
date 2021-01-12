@@ -22,9 +22,8 @@ const getStyles = (styles = {}) => {
 	const {text} = styles;
 	
 	return EStyleSheet.create({
-	  ...styles.rem,
 	  text: {
-	  	color: '$darkBlue',
+	  	  color: '$darkBlue',
 		  fontSize: '1.12rem',
 		  marginBottom: '0.31rem',
 		  ...text
