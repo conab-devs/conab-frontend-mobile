@@ -3,7 +3,7 @@ import {Alert} from 'react-native';
 import {StyleSheet, ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 
-import Photo from '../../components/Photo';
+import Photo from '../../components/photo';
 import {
 	Container, 
 	ProductName, 

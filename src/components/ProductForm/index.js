@@ -17,7 +17,7 @@ import {
 import {TextInputMask} from 'react-native-masked-text';
 import ImagePicker from 'react-native-image-crop-picker';
 import Dropdown from 'react-native-picker-select';
-import Photo from '../Photo';
+import Photo from '../photo';
 
 const Form = (props) => {
   const [name, setName] = useState('');
