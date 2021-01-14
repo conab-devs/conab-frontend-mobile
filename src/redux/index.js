@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import rootSaga from './rootSaga';
 import auth from './Auth';
-import product from './Product'
+import product from './Product';
 
 const persistedReducers = persistReducer(
   {key: 'conarket', storage: AsyncStorage, whitelist: ['auth']},

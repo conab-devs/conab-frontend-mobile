@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {
-  Alert, 
-  View, 
-  ScrollView, 
-  TouchableOpacity, 
+  Alert,
+  View,
+  ScrollView,
+  TouchableOpacity,
   Image,
-  PermissionsAndroid, 
+  PermissionsAndroid,
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -80,8 +80,7 @@ const SignUp = () => {
       <ScrollView
         style={styles.form}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.formContent}
-      >
+        contentContainerStyle={styles.formContent}>
         <TouchableOpacity style={styles.upload} onPress={uplaodImage}>
           {avatar.uri ? (
             <Image style={styles.uploadImage} source={{uri: avatar.uri}} />
@@ -148,11 +147,11 @@ const SignUp = () => {
           secureTextEntry
         />
 
-        <Button 
-          title="Criar" 
-          type="primary" 
+        <Button
+          title="Criar"
+          type="primary"
           onPress={submitHandler}
-          style={{ btn: styles.btn }}
+          style={{btn: styles.btn}}
         />
       </ScrollView>
     </View>
@@ -178,7 +177,7 @@ const styles = EStyleSheet.create({
     width: '100%',
   },
   formContent: {
-    paddingTop: 20, 
+    paddingTop: 20,
     paddingBottom: 20,
   },
   upload: {
@@ -194,7 +193,7 @@ const styles = EStyleSheet.create({
   },
   uploadImages: {
     width: '100%',
-    height: '100%', 
+    height: '100%',
   },
   darkBlue: {
     color: '$darkBlue',

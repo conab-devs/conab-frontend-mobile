@@ -1,13 +1,11 @@
 import React, {useState, useCallback} from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import {TextInputMask} from 'react-native-masked-text';
 import ImagePicker from 'react-native-image-crop-picker';
 import Photo from './photo';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Container from './container';
 import Input from './input';
 import DropdownInput from './dropdown-input';
-import Dropdown from 'react-native-picker-select';
 import Button from './button';
 
 const Form = (props) => {
@@ -40,12 +38,12 @@ const Form = (props) => {
 
   return (
     <ScrollView>
-      <Container style={{ backgroundColor: 'white' }}>
+      <Container style={{backgroundColor: 'white'}}>
         <Text style={styles.title}>{props.title}</Text>
 
-        <Photo 
-          productPicture={productPicture} 
-          handleImagePicking={handleImagePicking} 
+        <Photo
+          productPicture={productPicture}
+          handleImagePicking={handleImagePicking}
         />
 
         <View style={styles.group}>
@@ -94,12 +92,12 @@ const Form = (props) => {
 
           <View style={styles.deliveryTime}>
             <Input
-              style={{ 
+              style={{
                 mask: {
                   borderBottomRightRadius: 0,
                   borderTopRightRadius: 0,
-                  width: '80%'
-                }
+                  width: '80%',
+                },
               }}
               keyboardType="numeric"
               defaultValue="0"
@@ -113,11 +111,12 @@ const Form = (props) => {
           </View>
         </View>
 
-        <Button onPress={() => {
+        <Button
+          onPress={() => {
             if (isMakingRequest) {
               return;
             }
-            
+
             setIsMakingRequest(true);
 
             props.handleSubmit({
@@ -128,24 +127,20 @@ const Form = (props) => {
               deliveryTime,
               productPicture,
             });
-          }
-        }
-
-        disabled={isMakingRequest}
-        type="submit"
-        title={props.buttonDescriptor}
-        style={{
-          btn: {
-            marginTop: '2rem',
-          }
-        }}
+          }}
+          disabled={isMakingRequest}
+          type="submit"
+          title={props.buttonDescriptor}
+          style={{
+            btn: {
+              marginTop: '2rem',
+            },
+          }}
         />
       </Container>
     </ScrollView>
   );
 };
-
-
 
 const styles = EStyleSheet.create({
   masked: {
@@ -159,7 +154,7 @@ const styles = EStyleSheet.create({
   },
   deliveryTime: {
     flexDirection: 'row',
-    height: '2.87rem'
+    height: '2.87rem',
   },
   measureContainer: {
     backgroundColor: '#e0e0e0',
@@ -179,8 +174,8 @@ const styles = EStyleSheet.create({
   },
   group: {
     marginTop: '1rem',
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 const stylesDropdown = EStyleSheet.create({

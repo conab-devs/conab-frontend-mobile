@@ -1,6 +1,6 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, TextInput} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useDebounce} from '../hooks';
 import {useNavigation} from '@react-navigation/native';
 import {allActions} from '../redux/Product';
@@ -12,17 +12,15 @@ const Search = ({bottom = 0}) => {
   const dispatch = useDispatch();
 
   const styles = getStyles(bottom);
-  const debouncedSearchString = useDebounce(
-    product.replace(' ', '%20'),
-    1300,
-  );
+  const debouncedSearchString = useDebounce(product.replace(' ', '%20'), 1300);
 
   useEffect(() => {
     if (debouncedSearchString) {
       dispatch(allActions.setProducts({products: [], lastPage: 1}));
       console.log(product);
       navigation.navigate('Products', {
-        category: '', searchString: product
+        category: '',
+        searchString: product,
       });
     }
   }, [debouncedSearchString]);
@@ -39,7 +37,7 @@ const Search = ({bottom = 0}) => {
   );
 };
 
-const getStyles = (bottom) => {  
+const getStyles = (bottom) => {
   return EStyleSheet.create({
     container: {
       position: 'absolute',
@@ -59,8 +57,8 @@ const getStyles = (bottom) => {
       paddingTop: 0,
       paddingBottom: 0,
       height: '2.18rem',
-    }
+    },
   });
-}
+};
 
 export default Search;

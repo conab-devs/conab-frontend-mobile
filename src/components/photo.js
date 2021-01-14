@@ -1,28 +1,34 @@
 import React from 'react';
-import {View, Image} from 'react-native'
+import {View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const Photo = ({productPicture, handleImagePicking, style, editable = true}) => {
-	const styles = getStyles(style);
+const Photo = ({
+  productPicture,
+  handleImagePicking,
+  style,
+  editable = true,
+}) => {
+  const styles = getStyles(style);
   return (
     <View style={styles.imageHolder}>
       {productPicture ? (
         <Image style={styles.image} source={{uri: productPicture.path}} />
       ) : null}
-      {editable ? <Icon
-        name="image-edit"
-        size={20}
-        color="#000000"
-        style={styles.icon}
-        onPress={handleImagePicking}
-      /> : null}
+      {editable ? (
+        <Icon
+          name="image-edit"
+          size={20}
+          color="#000000"
+          style={styles.icon}
+          onPress={handleImagePicking}
+        />
+      ) : null}
     </View>
   );
-}
+};
 
-
-const getStyles = (styles = {}) => (
+const getStyles = (styles = {}) =>
   EStyleSheet.create({
     icon: {
       position: 'absolute',
@@ -44,8 +50,7 @@ const getStyles = (styles = {}) => (
       width: '100%',
       height: '100%',
       borderRadius: 5,
-    } 
-  })
-);
+    },
+  });
 
 export default Photo;

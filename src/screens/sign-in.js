@@ -53,11 +53,7 @@ const SignIn = ({navigation}) => {
           </Text>
         </View>
 
-        <Button 
-          title="Entrar" 
-          type="primary" 
-          onPress={submitHandler} 
-        />
+        <Button title="Entrar" type="primary" onPress={submitHandler} />
         <Button
           title="Criar conta"
           type="outline"
@@ -83,7 +79,7 @@ const styles = EStyleSheet.create({
     fontWeight: 'bold',
   },
   inputs: {
-    marginBottom: '2.5rem'
+    marginBottom: '2.5rem',
   },
   forgotPassword: {
     alignSelf: 'flex-end',
@@ -94,7 +90,7 @@ const styles = EStyleSheet.create({
   container: {
     paddingTop: '2rem',
     justifyContent: 'flex-end',
-  }
+  },
 });
 
 export default SignIn;

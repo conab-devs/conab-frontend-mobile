@@ -4,8 +4,6 @@ import api from '../../services/api';
 
 import {allActions} from '.';
 
-import {logout} from '../Auth';
-
 import handleUnauthorized from '../errorHandler';
 
 function* fetchCategories() {
@@ -19,20 +17,16 @@ function* fetchCategories() {
 
 function* fetchProducts({payload}) {
   try {
-    const {data} = yield call(
-      api.get,
-      '/products', 
-      {
-        params: {
-           page: payload.page,
-           category: payload.categoryId,
-           min_price: payload.lowestPrice,
-           max_price: payload.greatestPrice,
-           order: payload.order,
-           name: payload.searchString
-        },
-      }
-    );
+    const {data} = yield call(api.get, '/products', {
+      params: {
+        page: payload.page,
+        category: payload.categoryId,
+        min_price: payload.lowestPrice,
+        max_price: payload.greatestPrice,
+        order: payload.order,
+        name: payload.searchString,
+      },
+    });
     yield put(
       allActions.setProducts({products: [...payload.previous, ...data.data]}),
     );

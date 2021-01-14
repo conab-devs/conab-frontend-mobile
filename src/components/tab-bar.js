@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const TabBar = ({
@@ -8,7 +8,7 @@ const TabBar = ({
   navigation,
   activeTintColor,
   inactiveTintColor,
-  showLabel
+  showLabel,
 }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
@@ -65,7 +65,11 @@ const TabBar = ({
             onPress={onPress}
             onLongPress={onLongPress}>
             <TabBarIcon color={selectedColor} size={tabBarIconSize} />
-            {showLabel ? <Text style={(getTextStyles(selectedColor)).text}>{tabBarLabel}</Text> : null}
+            {showLabel ? (
+              <Text style={getTextStyles(selectedColor).text}>
+                {tabBarLabel}
+              </Text>
+            ) : null}
           </TouchableOpacity>
         );
       })}
@@ -89,13 +93,12 @@ const styles = EStyleSheet.create({
   },
 });
 
-const getTextStyles = (color) => (
+const getTextStyles = (color) =>
   EStyleSheet.create({
     text: {
       color,
       fontWeight: 'bold',
     },
-  })
-);
+  });
 
 export default TabBar;

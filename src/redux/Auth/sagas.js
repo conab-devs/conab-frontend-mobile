@@ -14,7 +14,6 @@ function* loginUser({payload}) {
     yield put(loginSuccess({token, user}));
   } catch (error) {
     Alert.alert('Falha na autenticação', 'E-mail ou senha inválidos');
-    console.tron.log(error);
   }
 }
 

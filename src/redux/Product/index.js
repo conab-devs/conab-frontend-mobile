@@ -1,5 +1,4 @@
 import {createSlice, createAction} from '@reduxjs/toolkit';
-import {maxPrice} from '../../variables';
 
 const {reducer, actions} = createSlice({
   name: 'products',
@@ -34,7 +33,7 @@ const {reducer, actions} = createSlice({
       state.lastPage = payload.lastPage;
     },
     pushToCart: (state, {payload}) => {
-      const founded = state.cart.find(el => el.id === payload.product.id);
+      const founded = state.cart.find((el) => el.id === payload.product.id);
 
       if (!founded) {
         state.cart.push(payload.product);
@@ -47,11 +46,11 @@ const {reducer, actions} = createSlice({
 });
 
 export const allActions = {
-	...actions,
-	searchProduct: createAction('products/search'),
-	createProduct: createAction('products/create'),
-	fetchProducts: createAction('products/fetch'),
-	fetchCategories: createAction('categories/fetch'),
+  ...actions,
+  searchProduct: createAction('products/search'),
+  createProduct: createAction('products/create'),
+  fetchProducts: createAction('products/fetch'),
+  fetchCategories: createAction('categories/fetch'),
 };
 
 export default reducer;

@@ -78,9 +78,16 @@ const Home = () => {
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
-            return navigation.navigate('Cart');
-          }}/>,
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
           ...homeOptions,
         })}
       />
@@ -89,7 +96,7 @@ const Home = () => {
         component={Products}
         options={({navigation}) => ({
           ...homeOptions,
-          title: "Produtos",
+          title: 'Produtos',
           headerLeft: (
             <Icon
               name="chevron-left"
@@ -98,9 +105,16 @@ const Home = () => {
               onPress={() => navigation.goBack()}
             />
           ),
-          headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
-            return navigation.navigate('Cart');
-          }}/>,
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
           header: ({scene}) => {
             const {options} = scene.descriptor;
             const title =
@@ -122,78 +136,95 @@ const Home = () => {
               />
             );
           },
-        })} />
-        <Stack.Screen
-          name="RegisterProduct"
-          component={CreateProduct}
-          options={({navigation}) => ({
-            title: 'Produto',
-            headerTitleAlign: 'center',
-            headerLeftContainerStyle: {paddingLeft: sidePadding},
-            headerRightContainerStyle: {paddingRight: sidePadding},
-            headerStyle: {backgroundColor: green, height: 70},
-            headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
-            headerLeft: (props) => (
-              <Icon
-                name="chevron-left"
-                color={darkblue}
-                size={arrowIconSize}
-                onPress={() => navigation.goBack()}
-              />
-            ),
-          })} />
-          <Stack.Screen
-            name="ViewProduct"
-            component={ViewProduct}
-            options={({navigation}) => ({
-              ...homeOptions,
-              title: 'Produto',
-              headerLeft: <Icon name="menu" color={darkblue} size={headerIconsSize} onPress={() => ''} />,
-              headerRight: <Icon name="cart" color={darkblue} size={headerIconsSize} onPress={() => {
-                return navigation.navigate('Cart');
-              }} />,
-              header: ({scene}) => {
-                const {options} = scene.descriptor;
-                const title =
-                  options.headerTitle !== undefined
-                    ? options.headerTitle
-                    : options.title !== undefined
-                    ? options.title
-                    : scene.route.name;
-
-                return (
-                  <Header
-                    title={title}
-                    headerTitleStyle={options.headerTitleStyle}
-                    headerLeftContainerStyle={options.headerLeftContainerStyle}
-                    headerRightContainerStyle={options.headerRightContainerStyle}
-                    headerStyle={options.headerStyle}
-                    headerLeft={options.headerLeft}
-                    headerRight={options.headerRight}
-                  />
-                );
-              },
         })}
-          />
-          <Stack.Screen
-            name="Cart"
-            component={Cart}
-            options={({navigation}) => ({
-              title: 'Minha Cesta',
-              headerTitleAlign: 'center',
-              headerLeftContainerStyle: {paddingLeft: sidePadding},
-              headerRightContainerStyle: {paddingRight: sidePadding},
-              headerStyle: {backgroundColor: green, height: 70},
-              headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
-              headerLeft: (props) => (
-                <Icon
-                  name="chevron-left"
-                  color={darkblue}
-                  size={arrowIconSize}
-                  onPress={() => navigation.goBack()}
-                />
-              ),
-            })} />
+      />
+      <Stack.Screen
+        name="RegisterProduct"
+        component={CreateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 70},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="ViewProduct"
+        component={ViewProduct}
+        options={({navigation}) => ({
+          ...homeOptions,
+          title: 'Produto',
+          headerLeft: (
+            <Icon
+              name="menu"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => ''}
+            />
+          ),
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
+          header: ({scene}) => {
+            const {options} = scene.descriptor;
+            const title =
+              options.headerTitle !== undefined
+                ? options.headerTitle
+                : options.title !== undefined
+                ? options.title
+                : scene.route.name;
+
+            return (
+              <Header
+                title={title}
+                headerTitleStyle={options.headerTitleStyle}
+                headerLeftContainerStyle={options.headerLeftContainerStyle}
+                headerRightContainerStyle={options.headerRightContainerStyle}
+                headerStyle={options.headerStyle}
+                headerLeft={options.headerLeft}
+                headerRight={options.headerRight}
+              />
+            );
+          },
+        })}
+      />
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={({navigation}) => ({
+          title: 'Minha Cesta',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 70},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 };

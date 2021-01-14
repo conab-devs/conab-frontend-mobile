@@ -54,7 +54,7 @@ const styles = EStyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     paddingTop: '2.18rem',
-    backgroundColor: '$lightGray'
+    backgroundColor: '$lightGray',
   },
   category: {
     height: '10rem',
@@ -70,7 +70,7 @@ const styles = EStyleSheet.create({
     marginBottom: '0.62rem',
     fontSize: '1.2rem',
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default Categories;
