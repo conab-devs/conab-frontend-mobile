@@ -22,7 +22,7 @@ import Products from './screens/Products';
 import Search from './components/search';
 import Filter from './screens/Filter';
 import CreateProduct from './screens/CreateProduct';
-import ViewProduct from './screens/ViewProduct';
+import ViewProduct from './screens/view-product';
 import Cart from './screens/Cart';
 
 const Stack = createStackNavigator();
