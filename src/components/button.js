@@ -19,7 +19,7 @@ const getStyles = (styles = {}, type) => {
 	} else {
 		specificStyles = {
 			backgroundColor: '$green',
-			borderWidth: styles.borderWidth ? styles.borderWidth : 2,
+			borderWidth: styles.borderWidth ? styles.borderWidth : 0,
 		};
 	}
 

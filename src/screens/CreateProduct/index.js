@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createFormData} from '../../helpers';
 import {allActions} from '../../redux/Product';
-import Form from '../../components/ProductForm';
+import Form from '../../components/product-form';
 
 const CreateProduct = ({navigation}) => {
   const {categories} = useSelector((state) => state.product);

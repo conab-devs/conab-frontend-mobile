@@ -29,14 +29,14 @@ const getStyles = (styles = {}) => {
 		  ...text
 	  },
 	  mask: {
-	  	  fontSize: '1rem',
+	  	  fontSize: '1.12rem',
 		  backgroundColor: '$lightGray',
 		  borderRadius: 6,
 		  height: '2.87rem',
 		  paddingLeft: '.95rem',
 		  paddingRight: '.95rem',
-		  color: '$darkBlue',
 		  marginBottom: '.62rem',
+		  ...styles.mask
 	  }
 	});
 }
