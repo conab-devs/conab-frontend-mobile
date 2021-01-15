@@ -12,7 +12,7 @@ import {
   AddProductButton,
   AddProductContent,
 } from './styles';
-import Product from '../../components/Product';
+import Product from '../../components/product';
 import {useSelector, useDispatch} from 'react-redux';
 import {allActions} from '../../redux/Product';
 
