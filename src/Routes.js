@@ -21,7 +21,7 @@ import Header from './components/header';
 import Products from './screens/products';
 import Search from './components/search';
 import Filter from './screens/Filter';
-import CreateProduct from './screens/CreateProduct';
+import CreateProduct from './screens/create-product';
 import ViewProduct from './screens/view-product';
 import Cart from './screens/Cart';
 
