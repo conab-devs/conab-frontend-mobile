@@ -1,16 +1,21 @@
 import React from 'react';
 import {Text, FlatList, ActivityIndicator} from 'react-native';
-import {Container, Wrapper} from './styles'
 import {useSelector} from 'react-redux';
-import Product from '../../components/product'; 
-import Button from '../../components/button';
+import Product from '../components/product'; 
+import Button from '../components/button';
+import Container from '../components/container';
 
 const Cart = ({navigation}) => {
 	const cart = useSelector(state => state.product.cart);
 
 	return (
-		<Container>
-			<Wrapper>
+		<Container style={{
+		    flex: 1,
+		    backgroundColor: 'white',
+		    paddingTop: '1.5rem',
+		    paddingBottom: '.62rem',
+		    alignItems: 'flex-start',
+		}}>
 				<FlatList
 		            data={cart}
 		            showsVerticalScrollIndicator={false}
@@ -32,11 +37,10 @@ const Cart = ({navigation}) => {
 		            keyExtractor={(item) => `${item.id}`}
 	          />
 	          <Button 
-							type="secondary" 
-							title="Finalizar Compra" 
-							borderWidth={0}
-						/>
-			</Wrapper>
+					type="secondary" 
+					title="Finalizar Compra" 
+					borderWidth={0}
+				/>
 		</Container>
 	);
 };

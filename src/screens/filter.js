@@ -1,19 +1,11 @@
 import React, {useState} from 'react';
 import {RadioButton} from 'react-native-paper';
-import {View, Text} from 'react-native';
-import {
-  Container,
-  Title,
-  Label,
-  RadioGroup,
-  PriceGroup,
-  OrderingContent,
-  Button,
-  ButtonContent,
-} from './styles';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {TextInputMask} from 'react-native-masked-text';
-import {allActions} from '../../redux/Product';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import {allActions} from '../redux/Product';
 import {useSelector, useDispatch} from 'react-redux';
+import Container from '../components/container';
 
 const Filter = ({navigation}) => {
   const dispatch = useDispatch();
@@ -28,32 +20,32 @@ const Filter = ({navigation}) => {
   let greatestPriceRef;
 
   return (
-    <Container>
+    <Container style={styles.container}>
       <View>
-        <OrderingContent>
-          <Title>Ordenar</Title>
-          <RadioGroup>
+        <View style={styles.orderingContent}>
+          <Text style={styles.title}>Ordenar</Text>
+          <View style={styles.radioGroup}>
             <RadioButton
               value={order === 'desc'}
               status={order === 'desc' ? 'checked' : 'unchecked'}
               onPress={() => setOrder('desc')}
               color="black"
             />
-            <Label>Maior Preço</Label>
-          </RadioGroup>
-          <RadioGroup>
+            <Text style={styles.label}>Maior Preço</Text>
+          </View>
+          <View style={styles.radioGroup}>
             <RadioButton
               value={order === 'asc'}
               status={order === 'asc' ? 'checked' : 'unchecked'}
               onPress={() => setOrder('asc')}
               color="black"
             />
-            <Label>Menor Preço</Label>
-          </RadioGroup>
-        </OrderingContent>
+            <Text style={styles.label}>Menor Preço</Text>
+          </View>
+        </View>
 
-        <Title>Preço</Title>
-        <PriceGroup>
+        <Text style={styles.title}>Preço</Text>
+        <View style={styles.priceGroup}>
           <TextInputMask
             type={'money'}
             value={lowestPrice}
@@ -67,11 +59,11 @@ const Filter = ({navigation}) => {
             onChangeText={setGreatestPrice}
             ref={(ref) => (greatestPriceRef = ref)}
           />
-        </PriceGroup>
+        </View>
       </View>
 
-      <Button
-
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => {
           let lower = typeof lowestPrice === 'string' ? lowestPriceRef.getRawValue() : lowestPrice;
           let greater = typeof greatestPrice === 'string' ? greatestPriceRef.getRawValue() : greatestPrice;
@@ -84,10 +76,55 @@ const Filter = ({navigation}) => {
           }));
           navigation.goBack();
         }}>
-        <ButtonContent>FILTRAR</ButtonContent>
-      </Button>
+        <Text style={styles.buttonContent}>FILTRAR</Text>
+      </TouchableOpacity>
     </Container>
   );
 };
+
+const styles = EStyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  orderingContent: {
+    marginBottom: '1.2rem',
+  },
+  title: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    marginBottom: '1rem',
+  },
+  label: {
+    fontSize: '1.2rem',
+    marginLeft: '.32rem',
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  priceGroup: {
+     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '80%',
+  },
+  buttonContent: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '1rem',
+  },
+  button: {
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: 'black',
+    width: '15.6rem',
+    height: '2.5rem',
+    borderRadius: '1.5rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
 
 export default Filter;
