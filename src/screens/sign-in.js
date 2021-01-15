@@ -58,6 +58,11 @@ const SignIn = ({navigation}) => {
           title="Criar conta"
           type="outline"
           onPress={() => navigation.navigate('signup')}
+          style={{
+            btn: {
+              borderWidth: 2,
+            }
+          }}
         />
       </View>
     </Container>
