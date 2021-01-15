@@ -18,7 +18,7 @@ import ForgotPasswordCode from './screens/ForgotPassword/Code';
 import ForgotPasswordResetPassword from './screens/ForgotPassword/ResetPassword';
 import TabBar from './components/tab-bar';
 import Header from './components/header';
-import Products from './screens/Products';
+import Products from './screens/products';
 import Search from './components/search';
 import Filter from './screens/Filter';
 import CreateProduct from './screens/CreateProduct';
@@ -34,8 +34,8 @@ const homeOptions = {
   headerTitleAlign: 'center',
   headerLeftContainerStyle: {paddingLeft: sidePadding},
   headerRightContainerStyle: {paddingRight: sidePadding},
-  headerStyle: {backgroundColor: green, height: 70},
-  headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+  headerStyle: {backgroundColor: green, height: 55},
+  headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
   header: ({scene, previous, navigation}) => {
     const {options} = scene.descriptor;
     const title =
@@ -60,8 +60,8 @@ const homeOptions = {
   },
 };
 
-const headerIconsSize = 30;
-const arrowIconSize = 38;
+const headerIconsSize = 25;
+const arrowIconSize = 33;
 
 const Home = () => {
   return (
@@ -146,8 +146,8 @@ const Home = () => {
           headerTitleAlign: 'center',
           headerLeftContainerStyle: {paddingLeft: sidePadding},
           headerRightContainerStyle: {paddingRight: sidePadding},
-          headerStyle: {backgroundColor: green, height: 70},
-          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
             <Icon
               name="chevron-left"
@@ -213,8 +213,8 @@ const Home = () => {
           headerTitleAlign: 'center',
           headerLeftContainerStyle: {paddingLeft: sidePadding},
           headerRightContainerStyle: {paddingRight: sidePadding},
-          headerStyle: {backgroundColor: green, height: 70},
-          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 24},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
             <Icon
               name="chevron-left"
@@ -312,7 +312,7 @@ const Routes = () => {
         component={SignUp}
         options={{
           title: 'Criar conta',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <Icon name="chevron-left" size={arrowIconSize} color={color} />
@@ -328,7 +328,7 @@ const Routes = () => {
         component={ForgotPasswordRequest}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <Icon name="chevron-left" size={arrowIconSize} color={color} />
@@ -342,7 +342,7 @@ const Routes = () => {
         component={ForgotPasswordCode}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <Icon name="chevron-left" size={arrowIconSize} color={color} />
@@ -356,7 +356,7 @@ const Routes = () => {
         component={ForgotPasswordResetPassword}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 18},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <Icon name="chevron-left" size={arrowIconSize} color={color} />
