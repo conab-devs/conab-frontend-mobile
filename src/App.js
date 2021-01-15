@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import Routes from './Routes';
-import {StatusBar} from 'react-native';
+import {StatusBar, Dimensions} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -31,7 +31,12 @@ const App = () => {
 
 
 EStyleSheet.build({
-  $rem: 14,
+  '@media (min-width: 361)': {
+    $rem: 16,
+  },
+  '@media (max-width: 360)': {
+    $rem: 14,
+  },
   $darkBlue: '#363D46',
   $green: '#59D094',
   $lightGray: '#F5F5F5',
