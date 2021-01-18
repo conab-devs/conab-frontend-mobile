@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {useSelector} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,9 +25,11 @@ import Filter from './screens/filter';
 import CreateProduct from './screens/create-product';
 import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
+import Logout from './screens/logout';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const sidePadding = 15;
 const homeOptions = {
@@ -63,6 +66,15 @@ const homeOptions = {
 const headerIconsSize = 25;
 const arrowIconSize = 33;
 
+const SideBar = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={Home} />
+      {<Drawer.Screen name="Logout" component={Logout} />}
+    </Drawer.Navigator>
+  );
+}
+
 const Home = () => {
   return (
     <Stack.Navigator initialRouteName="Categories">
@@ -75,7 +87,7 @@ const Home = () => {
               name="menu"
               color={darkblue}
               size={30}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.toggleDrawer()}
             />
           ),
           headerRight: (
@@ -242,8 +254,8 @@ const TabNavigation = () => (
       },
     }}>
     <BottomTab.Screen
-      name="home"
-      component={Home}
+      name="SideBar"
+      component={SideBar}
       options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({color, size}) => (
