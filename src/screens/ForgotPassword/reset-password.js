@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 
-import api from '../../../services/api';
-import Input from '../../../components/input';
-import Button from '../../../components/button';
-
-import {Container, Form} from '../styles';
+import api from '../../services/api';
+import Input from '../../components/input';
+import Button from '../../components/button';
+import Container from '../../components/container';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const ResetPassword = ({route, navigation}) => {
   const {email, code} = route.params;
@@ -35,8 +35,8 @@ const ResetPassword = ({route, navigation}) => {
   };
 
   return (
-    <Container>
-      <Form>
+    <Container style={{ justifyContent: 'flex-start', backgroundColor: 'white' }}>
+      <View style={styles.form}>
         <Input
           label="Nova senha"
           value={password}
@@ -58,9 +58,16 @@ const ResetPassword = ({route, navigation}) => {
         />
 
         <Button title="Redefinir" type="primary" onPress={resetPassword} />
-      </Form>
+      </View>
     </Container>
   );
 };
+
+const styles = EStyleSheet.create({
+  form: {
+    marginTop: '3.12rem',
+    width: '100%',
+  }
+});
 
 export default ResetPassword;
