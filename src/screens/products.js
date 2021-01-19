@@ -109,7 +109,7 @@ const Products = ({navigation, route}) => {
             color="#828282"
             size={20}
             onPress={() => {
-              dispatch(allActions.setProducts({products: []}));
+              // dispatch(allActions.setProducts({products: []}));
               setPage(1);
               navigation.navigate('Filter', {categoryId: category});
             }}
