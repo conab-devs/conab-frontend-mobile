@@ -65,6 +65,10 @@ const styles = EStyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
     marginBottom: '0.95rem',
+    paddingLeft: '.8rem',
+    paddingRight: '.8rem',
+    // paddingTop: '.2rem',
+    // paddingBottom: '.2rem',
   },
   text: {
     marginBottom: '0.62rem',

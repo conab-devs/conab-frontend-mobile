@@ -50,13 +50,13 @@ const getStyles = (bottom) => {
     },
     search: {
       backgroundColor: 'white',
-      width: '18.75rem',
+      width: 262,
       borderRadius: 6,
-      paddingLeft: '.95rem',
-      paddingRight: '.95rem',
+      paddingLeft: 13,
+      paddingRight: 13,
       paddingTop: 0,
       paddingBottom: 0,
-      height: '2.18rem',
+      height: 30,
     },
   });
 };
