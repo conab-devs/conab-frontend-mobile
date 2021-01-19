@@ -181,7 +181,7 @@ const Home = () => {
               name="menu"
               color={darkblue}
               size={headerIconsSize}
-              onPress={() => ''}
+              onPress={() => navigation.toggleDrawer()}
             />
           ),
           headerRight: (
