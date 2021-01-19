@@ -32,6 +32,7 @@ const Products = ({navigation, route}) => {
   const lastPage = useSelector((state) => state.product.lastPage);
 
   const {products} = useSelector((state) => state.product);
+  const {isProvider} = useSelector((state) => state.auth.user);
 
   const fetchProducts = useCallback(() => {
     if (isLoading) {
@@ -132,12 +133,12 @@ const Products = ({navigation, route}) => {
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
             ListHeaderComponent={
-              <TouchableOpacity
+              isProvider ? <TouchableOpacity
                 style={styles.addProductButton}
                 activeOpacity={0.75}
                 onPress={() => navigation.navigate('RegisterProduct')}>
                 <Text style={styles.white}>Adicionar Produto</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> : null
             }
             renderItem={({item}) => (
               <Product
