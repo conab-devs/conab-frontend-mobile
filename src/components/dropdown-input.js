@@ -60,10 +60,11 @@ const stylesDropdown = EStyleSheet.create({
     paddingLeft: '.95rem',
     paddingRight: '.95rem',
     marginBottom: '.62rem',
-    fontSize: '1rem'
+    fontSize: '1rem',
   },
   placeholder: {
-    color: '$mediumGray'
-  }});
+    color: '$mediumGray',
+  },
+});
 
 export default Input;

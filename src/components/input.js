@@ -10,9 +10,19 @@ const Input = ({label, typeInput = 'normal', style, ...inputProps}, ref) => {
     <>
       <Text style={styles.text}>{label}</Text>
       {typeInput === 'mask' ? (
-        <TextInputMask placeholderTextColor={styles.mask.color} ref={ref} {...inputProps} style={styles.mask} />
+        <TextInputMask
+          placeholderTextColor={styles.mask.color}
+          ref={ref}
+          {...inputProps}
+          style={styles.mask}
+        />
       ) : (
-        <TextInput placeholderTextColor={styles.mask.color} ref={ref} {...inputProps} style={styles.mask} />
+        <TextInput
+          placeholderTextColor={styles.mask.color}
+          ref={ref}
+          {...inputProps}
+          style={styles.mask}
+        />
       )}
     </>
   );

@@ -1,8 +1,9 @@
 import React, {useState, useCallback} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-import Photo from './photo';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import Photo from './photo';
 import Container from './container';
 import Input from './input';
 import DropdownInput from './dropdown-input';

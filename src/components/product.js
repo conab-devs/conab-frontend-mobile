@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  TouchableWithoutFeedback as Card, 
-  View, 
-  Image, 
+  TouchableWithoutFeedback as Card,
+  View,
+  Image,
   Text,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -53,7 +53,7 @@ const styles = EStyleSheet.create({
   cooperativeName: {
     fontSize: '.7rem',
     color: '#363d46',
-  }
+  },
 });
 
 export default Product;

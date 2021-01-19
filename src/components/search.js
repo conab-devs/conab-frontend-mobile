@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {View, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {useDebounce} from '../hooks';
 import {useNavigation} from '@react-navigation/native';
-import {allActions} from '../redux/Product';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {useDebounce} from '../hooks';
+import {allActions} from '../redux/Product';
 
 const Search = ({bottom = 0}) => {
   const navigation = useNavigation();

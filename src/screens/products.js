@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {
-  TouchableOpacity, 
-  ActivityIndicator, 
-  Alert, 
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
   RefreshControl,
   FlatList,
   TextInput,
@@ -10,10 +10,11 @@ import {
   Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Product from '../components/product';
 import {useSelector, useDispatch} from 'react-redux';
-import {allActions} from '../redux/Product';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import Product from '../components/product';
+import {allActions} from '../redux/Product';
 import Container from '../components/container';
 
 const Products = ({navigation, route}) => {
@@ -133,12 +134,14 @@ const Products = ({navigation, route}) => {
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
             ListHeaderComponent={
-              isProvider ? <TouchableOpacity
-                style={styles.addProductButton}
-                activeOpacity={0.75}
-                onPress={() => navigation.navigate('RegisterProduct')}>
-                <Text style={styles.white}>Adicionar Produto</Text>
-              </TouchableOpacity> : null
+              isProvider ? (
+                <TouchableOpacity
+                  style={styles.addProductButton}
+                  activeOpacity={0.75}
+                  onPress={() => navigation.navigate('RegisterProduct')}>
+                  <Text style={styles.white}>Adicionar Produto</Text>
+                </TouchableOpacity>
+              ) : null
             }
             renderItem={({item}) => (
               <Product
@@ -226,7 +229,7 @@ const styles = EStyleSheet.create({
   white: {
     color: 'white',
     fontSize: '.85rem',
-  }
+  },
 });
 
 export default Products;

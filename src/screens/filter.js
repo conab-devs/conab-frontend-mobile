@@ -3,8 +3,9 @@ import {RadioButton} from 'react-native-paper';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {TextInputMask} from 'react-native-masked-text';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {allActions} from '../redux/Product';
 import {useSelector, useDispatch} from 'react-redux';
+
+import {allActions} from '../redux/Product';
 import Container from '../components/container';
 
 const Filter = ({navigation}) => {
@@ -15,7 +16,7 @@ const Filter = ({navigation}) => {
   const [lowestPrice, setLowestPrice] = useState(lp);
   const [greatestPrice, setGreatestPrice] = useState(gp);
   const [order, setOrder] = useState(ord);
-  
+
   let lowestPriceRef;
   let greatestPriceRef;
 
@@ -67,15 +68,23 @@ const Filter = ({navigation}) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          let lower = typeof lowestPrice === 'string' ? lowestPriceRef.getRawValue() : lowestPrice;
-          let greater = typeof greatestPrice === 'string' ? greatestPriceRef.getRawValue() : greatestPrice;
+          let lower =
+            typeof lowestPrice === 'string'
+              ? lowestPriceRef.getRawValue()
+              : lowestPrice;
+          let greater =
+            typeof greatestPrice === 'string'
+              ? greatestPriceRef.getRawValue()
+              : greatestPrice;
 
           dispatch(allActions.setProducts({products: []}));
-          dispatch(allActions.setFilters({
-            greatestPrice: greater, 
-            lowestPrice: lower, 
-            order
-          }));
+          dispatch(
+            allActions.setFilters({
+              greatestPrice: greater,
+              lowestPrice: lower,
+              order,
+            }),
+          );
           navigation.goBack();
         }}>
         <Text style={styles.buttonContent}>FILTRAR</Text>
@@ -107,7 +116,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   priceGroup: {
-     flexDirection: 'row',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '80%',
@@ -128,8 +137,8 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   mask: {
-    fontSize: '1rem'
-  }
+    fontSize: '1rem',
+  },
 });
 
 export default Filter;

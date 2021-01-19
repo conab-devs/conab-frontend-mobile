@@ -2,8 +2,9 @@ import React, {useEffect} from 'react';
 import {FlatList, View, TouchableOpacity, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {allActions} from '../redux/Product';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import {allActions} from '../redux/Product';
 import {getContainer} from '../styles/utils';
 
 const Categories = () => {

@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 import Routes from './Routes';
-import {StatusBar, Dimensions} from 'react-native';
+import {StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -12,7 +12,6 @@ import './reactotron';
 import {darkblue} from './styles/colors';
 import {store, persistor} from './redux';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {maxPrice} from './variables';
 
 const App = () => {
   return (
@@ -28,7 +27,6 @@ const App = () => {
     </Provider>
   );
 };
-
 
 EStyleSheet.build({
   '@media (min-width: 361)': {
