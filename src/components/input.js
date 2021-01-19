@@ -10,9 +10,9 @@ const Input = ({label, typeInput = 'normal', style, ...inputProps}, ref) => {
     <>
       <Text style={styles.text}>{label}</Text>
       {typeInput === 'mask' ? (
-        <TextInputMask ref={ref} {...inputProps} style={styles.mask} />
+        <TextInputMask placeholderTextColor={styles.mask.color} ref={ref} {...inputProps} style={styles.mask} />
       ) : (
-        <TextInput ref={ref} {...inputProps} style={styles.mask} />
+        <TextInput placeholderTextColor={styles.mask.color} ref={ref} {...inputProps} style={styles.mask} />
       )}
     </>
   );
@@ -24,12 +24,13 @@ const getStyles = (styles = {}) => {
   return EStyleSheet.create({
     text: {
       color: '$darkBlue',
-      fontSize: '1.12rem',
+      fontSize: '1rem',
       marginBottom: '0.31rem',
       ...text,
     },
     mask: {
-      fontSize: '1.12rem',
+      fontSize: '1rem',
+      color: '$mediumGray',
       backgroundColor: '$lightGray',
       borderRadius: 6,
       height: '2.87rem',

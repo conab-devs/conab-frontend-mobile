@@ -71,7 +71,7 @@ const styles = EStyleSheet.create({
 		backgroundColor: 'white',
 	},
 	productName: {
-		fontSize: '1.2rem',
+		fontSize: '1.4rem',
 		color: '#363D46',
 		marginTop: 0,
 		marginBottom: 0,
@@ -90,7 +90,7 @@ const styles = EStyleSheet.create({
 		width: '100%',
 	},
 	price: {
-		fontSize: '1.2rem',
+		fontSize: '1.1rem',
 		fontWeight: 'bold',
 		color: '#363D46',
 		marginBottom: '1rem',

@@ -65,7 +65,7 @@ const Form = (props) => {
 
         <View style={styles.group}>
           <DropdownInput
-            label="Unidedade de Medida"
+            label="Unidade de Medida"
             placeholder="Escolha uma unidade de medida"
             onValueChange={setUnitOfMeasure}
             items={[
@@ -148,7 +148,7 @@ const styles = EStyleSheet.create({
     borderRadius: 5,
   },
   title: {
-    fontSize: '1.2rem',
+    fontSize: '1.3rem',
     fontWeight: 'bold',
     marginBottom: '0.63rem',
   },
@@ -165,11 +165,12 @@ const styles = EStyleSheet.create({
     borderTopRightRadius: 5,
   },
   label: {
-    fontSize: '1.12rem',
+    fontSize: '1rem',
     color: '$darkBlue',
     marginBottom: '.32rem',
   },
   measure: {
+    fontSize: '1rem',
     color: '#828282',
   },
   group: {

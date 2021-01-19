@@ -51,6 +51,7 @@ const Filter = ({navigation}) => {
             value={lowestPrice}
             onChangeText={setLowestPrice}
             ref={(ref) => (lowestPriceRef = ref)}
+            style={styles.mask}
           />
           <Text>-</Text>
           <TextInputMask
@@ -58,6 +59,7 @@ const Filter = ({navigation}) => {
             value={greatestPrice}
             onChangeText={setGreatestPrice}
             ref={(ref) => (greatestPriceRef = ref)}
+            style={styles.mask}
           />
         </View>
       </View>
@@ -92,12 +94,12 @@ const styles = EStyleSheet.create({
     marginBottom: '1.2rem',
   },
   title: {
-    fontSize: '1.5rem',
+    fontSize: '1.3rem',
     fontWeight: 'bold',
     marginBottom: '1rem',
   },
   label: {
-    fontSize: '1.2rem',
+    fontSize: '1rem',
     marginLeft: '.32rem',
   },
   radioGroup: {
@@ -119,11 +121,14 @@ const styles = EStyleSheet.create({
     alignSelf: 'center',
     borderWidth: 2,
     borderColor: 'black',
-    width: '15.6rem',
+    width: '16.6rem',
     height: '2.5rem',
     borderRadius: '1.5rem',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mask: {
+    fontSize: '1rem'
   }
 });
 

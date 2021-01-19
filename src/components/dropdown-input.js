@@ -16,6 +16,7 @@ const Input = ({label, onValueChange, items, style, placeholder}) => {
             label: placeholder,
             value: null,
           }}
+          useNativeAndroidPickerStyle={false}
           onValueChange={onValueChange}
           style={stylesDropdown}
           items={items}
@@ -33,7 +34,7 @@ const getStyles = (styles = {}) =>
     },
     label: {
       color: '$darkBlue',
-      fontSize: '1.12rem',
+      fontSize: '1rem',
       marginBottom: '0.31rem',
     },
     container: {
@@ -50,6 +51,7 @@ const stylesDropdown = EStyleSheet.create({
     paddingRight: '.95rem',
     color: '$darkBlue',
     marginBottom: '.62rem',
+    fontSize: '1rem',
   },
   inputIOS: {
     backgroundColor: '$lightGray',
@@ -57,9 +59,11 @@ const stylesDropdown = EStyleSheet.create({
     height: '2.87rem',
     paddingLeft: '.95rem',
     paddingRight: '.95rem',
-    color: '$darkBlue',
     marginBottom: '.62rem',
+    fontSize: '1rem'
   },
-});
+  placeholder: {
+    color: '$mediumGray'
+  }});
 
 export default Input;

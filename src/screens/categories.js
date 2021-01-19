@@ -67,13 +67,12 @@ const styles = EStyleSheet.create({
     marginBottom: '0.95rem',
     paddingLeft: '.8rem',
     paddingRight: '.8rem',
-    // paddingTop: '.2rem',
-    // paddingBottom: '.2rem',
   },
   text: {
     marginBottom: '0.62rem',
-    fontSize: '1.2rem',
+    fontSize: '1.050rem',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

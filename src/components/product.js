@@ -32,12 +32,12 @@ const Product = (props) => (
 const styles = EStyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    height: '5rem',
+    height: '4.5rem',
     marginBottom: '.62rem',
   },
   image: {
-    height: '5rem',
-    width: '5rem',
+    height: '4.5rem',
+    width: '4.5rem',
     borderRadius: 6,
   },
   content: {
@@ -46,12 +46,12 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-around',
   },
   emphatized: {
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
     fontWeight: 'bold',
     color: '#363d46',
   },
   cooperativeName: {
-    fontSize: '.75rem',
+    fontSize: '.7rem',
     color: '#363d46',
   }
 });
