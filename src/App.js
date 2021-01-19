@@ -7,8 +7,6 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import './reactotron';
-
 import {darkblue} from './styles/colors';
 import {store, persistor} from './redux';
 import {Provider as PaperProvider} from 'react-native-paper';
