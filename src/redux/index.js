@@ -12,15 +12,11 @@ const persistedReducers = persistReducer(
   combineReducers({auth, product}),
 );
 
-const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null;
-const sagaMiddleware = createSagaMiddleware({sagaMonitor});
-
-const reactotronEnhancer = __DEV__ ? console.tron.createEnhancer() : null;
+const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: persistedReducers,
   middleware: [sagaMiddleware],
-  enhancers: [reactotronEnhancer],
 });
 
 const persistor = persistStore(store);
