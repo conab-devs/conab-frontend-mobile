@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View, Alert} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -31,9 +31,8 @@ const Form = (props) => {
           setProductPicture(image);
         }
       })
-      .catch((err) => {
-        // TODO: Check how to handle that kind of error
-        return;
+      .catch((_) => {
+        Alert.alert('o upload da imagem falhou, tente novament.');
       });
   }, []);
 
