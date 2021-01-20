@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 
-import api from '../../../services/api';
-import {Container, Form} from '../styles';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import api from '../../services/api';
+import Input from '../../components/input';
+import Button from '../../components/button';
+import Container from '../../components/container';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Request = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -30,8 +31,8 @@ const Request = ({navigation}) => {
   };
 
   return (
-    <Container>
-      <Form>
+    <Container style={{ justifyContent: 'flex-start', backgroundColor: 'white' }}>
+      <View style={styles.form}>
         <Input
           label="E-mail"
           value={email}
@@ -43,9 +44,16 @@ const Request = ({navigation}) => {
         />
 
         <Button title="Enviar código" type="primary" onPress={sendCode} />
-      </Form>
+      </View>
     </Container>
   );
 };
+
+const styles = EStyleSheet.create({
+  form: {
+    marginTop: '3.12rem',
+    width: '100%',
+  }
+});
 
 export default Request;

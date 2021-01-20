@@ -1,81 +1,309 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {useSelector} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {darkblue, green} from './styles/colors';
 
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
-import Home from './screens/Home';
-import Profile from './screens/Profile';
-import Chat from './screens/Chat';
-import Notification from './screens/Notification';
-import ForgotPasswordRequest from './screens/ForgotPassword/Request';
-import ForgotPasswordCode from './screens/ForgotPassword/Code';
-import ForgotPasswordResetPassword from './screens/ForgotPassword/ResetPassword';
-import TabBar from './components/TabBar';
+import SignIn from './screens/sign-in';
+import SignUp from './screens/sign-up';
+import Categories from './screens/categories';
+import Profile from './screens/profile';
+import Chat from './screens/chat';
+import Notification from './screens/notification';
+import ForgotPasswordRequest from './screens/ForgotPassword/request';
+import ForgotPasswordCode from './screens/ForgotPassword/code';
+import ForgotPasswordResetPassword from './screens/ForgotPassword/reset-password';
+import TabBar from './components/tab-bar';
+import Header from './components/header';
+import Products from './screens/products';
+import Search from './components/search';
+import Filter from './screens/filter';
+import CreateProduct from './screens/create-product';
+import ViewProduct from './screens/view-product';
+import Cart from './screens/cart';
+import Logout from './screens/logout';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+const sidePadding = 15;
+const homeOptions = {
+  title: 'Conarket',
+  headerTitleAlign: 'center',
+  headerLeftContainerStyle: {paddingLeft: sidePadding},
+  headerRightContainerStyle: {paddingRight: sidePadding},
+  headerStyle: {backgroundColor: green, height: 55},
+  headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+  header: ({scene, previous, navigation}) => {
+    const {options} = scene.descriptor;
+    const title =
+      options.headerTitle !== undefined
+        ? options.headerTitle
+        : options.title !== undefined
+        ? options.title
+        : scene.route.name;
+
+    return (
+      <Header
+        title={title}
+        headerTitleStyle={options.headerTitleStyle}
+        headerLeftContainerStyle={options.headerLeftContainerStyle}
+        headerRightContainerStyle={options.headerRightContainerStyle}
+        headerStyle={options.headerStyle}
+        headerLeft={options.headerLeft}
+        headerRight={options.headerRight}>
+        <Search bottom={(35 / 2) * -1} />
+      </Header>
+    );
+  },
+};
+
+const headerIconsSize = 25;
+const arrowIconSize = 33;
+
+const SideBar = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={Home} />
+      {<Drawer.Screen name="Logout" component={Logout} />}
+    </Drawer.Navigator>
+  );
+}
+
+const Home = () => {
+  return (
+    <Stack.Navigator initialRouteName="Categories">
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={({navigation}) => ({
+          headerLeft: (
+            <Icon
+              name="menu"
+              color={darkblue}
+              size={30}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
+          ...homeOptions,
+        })}
+      />
+      <Stack.Screen
+        name="Products"
+        component={Products}
+        options={({navigation}) => ({
+          ...homeOptions,
+          title: 'Produtos',
+          headerLeft: (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
+          header: ({scene}) => {
+            const {options} = scene.descriptor;
+            const title =
+              options.headerTitle !== undefined
+                ? options.headerTitle
+                : options.title !== undefined
+                ? options.title
+                : scene.route.name;
+
+            return (
+              <Header
+                title={title}
+                headerTitleStyle={options.headerTitleStyle}
+                headerLeftContainerStyle={options.headerLeftContainerStyle}
+                headerRightContainerStyle={options.headerRightContainerStyle}
+                headerStyle={options.headerStyle}
+                headerLeft={options.headerLeft}
+                headerRight={options.headerRight}
+              />
+            );
+          },
+        })}
+      />
+      <Stack.Screen
+        name="RegisterProduct"
+        component={CreateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="ViewProduct"
+        component={ViewProduct}
+        options={({navigation}) => ({
+          ...homeOptions,
+          title: 'Produto',
+          headerLeft: (
+            <Icon
+              name="menu"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+          headerRight: (
+            <Icon
+              name="cart"
+              color={darkblue}
+              size={headerIconsSize}
+              onPress={() => {
+                return navigation.navigate('Cart');
+              }}
+            />
+          ),
+          header: ({scene}) => {
+            const {options} = scene.descriptor;
+            const title =
+              options.headerTitle !== undefined
+                ? options.headerTitle
+                : options.title !== undefined
+                ? options.title
+                : scene.route.name;
+
+            return (
+              <Header
+                title={title}
+                headerTitleStyle={options.headerTitleStyle}
+                headerLeftContainerStyle={options.headerLeftContainerStyle}
+                headerRightContainerStyle={options.headerRightContainerStyle}
+                headerStyle={options.headerStyle}
+                headerLeft={options.headerLeft}
+                headerRight={options.headerRight}
+              />
+            );
+          },
+        })}
+      />
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={({navigation}) => ({
+          title: 'Minha Cesta',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const TabNavigation = () => (
+  <BottomTab.Navigator
+    tabBar={(props) => <TabBar {...props} />}
+    tabBarOptions={{
+      keyboardHidesTabBar: true,
+      activeTintColor: green,
+      inactiveTintColor: '#fff',
+      showLabel: false,
+      style: {
+        backgroundColor: darkblue,
+      },
+    }}>
+    <BottomTab.Screen
+      name="SideBar"
+      component={SideBar}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="home-circle" color={color} size={headerIconsSize} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="profile"
+      component={Profile}
+      options={{
+        tabBarLabel: 'Perfil',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="account-circle" color={color} size={headerIconsSize} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="chat"
+      component={Chat}
+      options={{
+        tabBarLabel: 'Chat',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="chat-processing" color={color} size={headerIconsSize} />
+        ),
+      }}
+    />
+    <BottomTab.Screen
+      name="notification"
+      component={Notification}
+      options={{
+        tabBarLabel: 'Notificações',
+        tabBarIcon: ({color, size}) => (
+          <Icon name="bell-circle" color={color} size={headerIconsSize} />
+        ),
+      }}
+    />
+  </BottomTab.Navigator>
+);
 
 const Routes = () => {
   const signed = useSelector((state) => state.auth.signed);
 
   return signed ? (
-    <BottomTab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
-      tabBarOptions={{
-        keyboardHidesTabBar: true,
-        activeTintColor: green,
-        inactiveTintColor: '#fff',
-        style: {
-          backgroundColor: darkblue,
-        },
-      }}>
-      <BottomTab.Screen
-        name="home"
-        component={Home}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="home-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Perfil',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="account-circle" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="chat"
-        component={Chat}
-        options={{
-          tabBarLabel: 'Chat',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="chat-processing" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="notification"
-        component={Notification}
-        options={{
-          tabBarLabel: 'Notificações',
-          tabBarIcon: ({color, size}) => (
-            <Icon name="bell-circle" color={color} size={size} />
-          ),
-        }}
-      />
-    </BottomTab.Navigator>
+    <Stack.Navigator headerMode="none" mode="modal">
+      <Stack.Screen name="Main" component={TabNavigation} />
+      <Stack.Screen name="Filter" component={Filter} />
+    </Stack.Navigator>
   ) : (
     <Stack.Navigator
       screenOptions={{
@@ -96,26 +324,26 @@ const Routes = () => {
         component={SignUp}
         options={{
           title: 'Criar conta',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
       />
 
-      {/* ForgotPassowrd */}
+      {/* ForgotPassword */}
 
       <Stack.Screen
         name="forgotpassword-request"
         component={ForgotPasswordRequest}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -126,10 +354,10 @@ const Routes = () => {
         component={ForgotPasswordCode}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 20},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -140,10 +368,10 @@ const Routes = () => {
         component={ForgotPasswordResetPassword}
         options={{
           title: 'Redefinir senha',
-          headerTitleStyle: {fontSize: 24},
+          headerTitleStyle: {fontSize: 18},
           headerLeft: ({color, onPress}) => (
             <TouchableOpacity onPress={onPress}>
-              <Icon name="chevron-left" size={40} color={color} />
+              <Icon name="chevron-left" size={arrowIconSize} color={color} />
             </TouchableOpacity>
           ),
         }}
