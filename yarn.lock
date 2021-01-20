@@ -5841,10 +5841,10 @@ react-native-masked-text@^1.13.0:
     date-and-time "0.9.0"
     tinymask "1.0.2"
 
-react-native-paper@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.6.0.tgz#3ac6abb0dbca6a1c93e4b2eb8f128836e0f19a5a"
-  integrity sha512-ETrMOgL8Ch/DmDl8dsGf2a9j5TBpcsrQadzHQJBx2MYBtmxCwAhZx7JOYCnq0euQKRa0PVzzZ41anSDohiQmGw==
+react-native-paper@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.7.0.tgz#0721033b11545bb312b7ae7b5af960bdfa7b7e93"
+  integrity sha512-RZwYZFFKry8LHHBYf5NENVaU2HaApERNcBLVzt4IE9AS0I+NkkLUyjKQYuLrgTF2EaZVEdeyUJwO7uQH/iNrnQ==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"
