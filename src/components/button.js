@@ -2,8 +2,8 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-const Button = ({type, title, style, ...buttonProps}) => {
-  const styles = getStyles(style, type);
+const Button = ({type, title, size = 'big', style, ...buttonProps}) => {
+  const styles = getStyles(style, type, size);
   return (
     <TouchableOpacity style={styles.btn} {...buttonProps}>
       <Text style={styles.text} type={type}>
@@ -13,11 +13,15 @@ const Button = ({type, title, style, ...buttonProps}) => {
   );
 };
 
-const getStyles = (styles = {}, type) => {
+const getStyles = (styles = {}, type, size) => {
   let specificStyles = null;
 
   if (type === 'primary') {
     specificStyles = {backgroundColor: '$darkBlue'};
+  } else if (type === 'danger') {
+    specificStyles = {
+      backgroundColor: '$red',
+    };
   } else {
     specificStyles = {
       backgroundColor: '$green',
@@ -28,8 +32,8 @@ const getStyles = (styles = {}, type) => {
   return EStyleSheet.create({
     text: {
       fontWeight: 'bold',
-      fontSize: '1.5rem',
-      color: type === 'primary' ? 'white' : '$darkBlue',
+      fontSize: size === 'big' ? '1.5rem' : '.9rem',
+      color: type === 'primary' || type === 'danger' ? 'white' : '$darkBlue',
     },
     btn: {
       borderRadius: 6,
@@ -37,10 +41,12 @@ const getStyles = (styles = {}, type) => {
       marginBottom: '0.31rem',
       marginLeft: 'auto',
       marginRight: 'auto',
-      width: '100%',
+      minWidth: size === 'big' ? '100%' : '30%',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '2.87rem',
+      height: size === 'big' ? '2.87rem' : '1.7rem',
+      paddingRight: '.8rem',
+      paddingLeft: '.8rem',
       borderColor: '$darkBlue',
       ...specificStyles,
       ...styles.btn,

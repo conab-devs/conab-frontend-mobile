@@ -36,6 +36,23 @@ function* fetchProducts({payload}) {
   }
 }
 
+function* fetchProductsByCooperative({payload}) {
+  try {
+    const {data} = yield call(api.get, '/products', {
+      params: {
+        cooperative: payload.cooperative,
+      },
+    });
+    yield put(
+      allActions.setProducts({products: data.data}),
+    );
+  } catch (err) {
+  console.log(err);
+
+    yield handleUnauthorized(err, 'Falha na listagem de produtos');
+  }
+}
+
 const getProducts = (state) => state.product.products;
 
 function* createProduct({payload}) {
@@ -56,4 +73,5 @@ export default all([
   takeLatest(allActions.fetchCategories.toString(), fetchCategories),
   takeLatest(allActions.fetchProducts.toString(), fetchProducts),
   takeLatest(allActions.createProduct.toString(), createProduct),
+  takeLatest(allActions.fetchProductsByCooperative.toString(), fetchProductsByCooperative),
 ]);

@@ -16,6 +16,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Product from '../components/product';
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
+import Button from '../components/button';
+
 
 const Products = ({navigation, route}) => {
   const {category, searchString: ss} = route.params;
@@ -135,12 +137,17 @@ const Products = ({navigation, route}) => {
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
             ListHeaderComponent={
               isProvider ? (
-                <TouchableOpacity
-                  style={styles.addProductButton}
+                <Button
+                  title="Adicionar Produto"
+                  type="primary"
+                  size="small"
                   activeOpacity={0.75}
-                  onPress={() => navigation.navigate('RegisterProduct')}>
-                  <Text style={styles.white}>Adicionar Produto</Text>
-                </TouchableOpacity>
+                  style={{
+                    btn: {
+                      marginLeft: 0,
+                    }
+                  }}
+                  onPress={() => navigation.navigate('RegisterProduct')} />
               ) : null
             }
             renderItem={({item}) => (

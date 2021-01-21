@@ -26,6 +26,7 @@ import CreateProduct from './screens/create-product';
 import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
 import Logout from './screens/logout';
+import CooperativeProducts from './screens/cooperative-products';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -35,8 +36,8 @@ const sidePadding = 15;
 const homeOptions = {
   title: 'Conarket',
   headerTitleAlign: 'center',
-  headerLeftContainerStyle: {paddingLeft: sidePadding},
-  headerRightContainerStyle: {paddingRight: sidePadding},
+  headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+  headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
   headerStyle: {backgroundColor: green, height: 55},
   headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
   header: ({scene, previous, navigation}) => {
@@ -66,16 +67,45 @@ const homeOptions = {
 const headerIconsSize = 25;
 const arrowIconSize = 33;
 
+const CooperativeAdministration = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CooperativeProducts"
+        component={CooperativeProducts}
+        options={({navigation}) => ({
+          title: 'Meus Produtos',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding},
+          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="menu"
+              color={darkblue}
+              size={30}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const SideBar = () => {
+  const { isProvider } = useSelector((state) => state.auth.user);
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={Home} />
-      {<Drawer.Screen name="Logout" component={Logout} />}
+      <Drawer.Screen name="Principal" component={Home} /> 
+      <Drawer.Screen name="Meus Produtos" component={CooperativeAdministration} />
     </Drawer.Navigator>
   );
 }
 
 const Home = () => {
+  const { isProvider } = useSelector(state => state.auth.user);
   return (
     <Stack.Navigator initialRouteName="Categories">
       <Stack.Screen
@@ -83,12 +113,12 @@ const Home = () => {
         component={Categories}
         options={({navigation}) => ({
           headerLeft: (
-            <Icon
+            isProvider ? (<Icon
               name="menu"
               color={darkblue}
               size={30}
               onPress={() => navigation.toggleDrawer()}
-            />
+            />) : null
           ),
           headerRight: (
             <Icon
@@ -177,12 +207,12 @@ const Home = () => {
           ...homeOptions,
           title: 'Produto',
           headerLeft: (
-            <Icon
+            isProvider ? (<Icon
               name="menu"
               color={darkblue}
-              size={headerIconsSize}
+              size={30}
               onPress={() => navigation.toggleDrawer()}
-            />
+            />) : null
           ),
           headerRight: (
             <Icon
@@ -241,60 +271,63 @@ const Home = () => {
   );
 };
 
-const TabNavigation = () => (
-  <BottomTab.Navigator
-    tabBar={(props) => <TabBar {...props} />}
-    tabBarOptions={{
-      keyboardHidesTabBar: true,
-      activeTintColor: green,
-      inactiveTintColor: '#fff',
-      showLabel: false,
-      style: {
-        backgroundColor: darkblue,
-      },
-    }}>
-    <BottomTab.Screen
-      name="SideBar"
-      component={SideBar}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="home-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="profile"
-      component={Profile}
-      options={{
-        tabBarLabel: 'Perfil',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="account-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="chat"
-      component={Chat}
-      options={{
-        tabBarLabel: 'Chat',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="chat-processing" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="notification"
-      component={Notification}
-      options={{
-        tabBarLabel: 'Notificações',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="bell-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-  </BottomTab.Navigator>
-);
+const TabNavigation = () => {
+  const { isProvider } = useSelector(state => state.auth.user);
+  return (
+    <BottomTab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      tabBarOptions={{
+        keyboardHidesTabBar: true,
+        activeTintColor: green,
+        inactiveTintColor: '#fff',
+        showLabel: false,
+        style: {
+          backgroundColor: darkblue,
+        },
+      }}>
+      <BottomTab.Screen
+        name="Home"
+        component={isProvider ? SideBar : Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="home-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="profile"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="account-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="chat"
+        component={Chat}
+        options={{
+          tabBarLabel: 'Chat',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="chat-processing" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="notification"
+        component={Notification}
+        options={{
+          tabBarLabel: 'Notificações',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="bell-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+};
 
 const Routes = () => {
   const signed = useSelector((state) => state.auth.signed);

@@ -50,6 +50,7 @@ export const allActions = {
   searchProduct: createAction('products/search'),
   createProduct: createAction('products/create'),
   fetchProducts: createAction('products/fetch'),
+  fetchProductsByCooperative: createAction('products/fetch/cooperative'),
   fetchCategories: createAction('categories/fetch'),
 };
 
