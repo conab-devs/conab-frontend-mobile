@@ -76,8 +76,8 @@ const CooperativeAdministration = () => {
         options={({navigation}) => ({
           title: 'Meus Produtos',
           headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding},
-          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
           headerStyle: {backgroundColor: green, height: 55},
           headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
@@ -186,8 +186,8 @@ const Home = () => {
         options={({navigation}) => ({
           title: 'Produto',
           headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding},
-          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
           headerStyle: {backgroundColor: green, height: 55},
           headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
@@ -253,8 +253,8 @@ const Home = () => {
         options={({navigation}) => ({
           title: 'Minha Cesta',
           headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding},
-          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
           headerStyle: {backgroundColor: green, height: 55},
           headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
