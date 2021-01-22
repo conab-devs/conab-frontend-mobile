@@ -2,19 +2,21 @@ import React from 'react';
 import {
   TouchableWithoutFeedback as Card,
   View,
-  Image,
   Text,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Product = (props) => (
   <Card onPress={props.handlePress}>
     <View style={styles.wrapper}>
-      <Image
+      <FastImage
         style={styles.image}
         source={{
           uri: props.imagePath,
+          priority: FastImage.priority.normal,
         }}
+        resizeMode={FastImage.resizeMode.normal}
       />
       <View style={styles.content}>
         <View>
