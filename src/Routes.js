@@ -27,6 +27,7 @@ import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
 import Logout from './screens/logout';
 import CooperativeProducts from './screens/cooperative-products';
+import ShowProduct from './screens/show-product';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -86,6 +87,26 @@ const CooperativeAdministration = () => {
               color={darkblue}
               size={30}
               onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="ShowProduct"
+        component={ShowProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={30}
+              onPress={() => navigation.goBack()}
             />
           ),
         })}

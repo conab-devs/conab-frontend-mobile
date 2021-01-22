@@ -17,7 +17,7 @@ const Photo = ({
       ) : null}
       {editable ? (
         <Icon
-          name="image-edit"
+          name="square-edit-outline"
           size={20}
           color="#000000"
           style={styles.icon}

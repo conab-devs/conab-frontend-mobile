@@ -31,8 +31,11 @@ const Form = (props) => {
           setProductPicture(image);
         }
       })
-      .catch((_) => {
-        Alert.alert('o upload da imagem falhou, tente novament.');
+      .catch((err) => {
+        if (err.message.includes('User cancelled image selection')) {
+          return;
+        }
+        Alert.alert('Ops, um erro ocorreu durante a seleção da image, tente novamente.');
       });
   }, []);
 

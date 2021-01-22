@@ -41,14 +41,15 @@ function* fetchProductsByCooperative({payload}) {
     const {data} = yield call(api.get, '/products', {
       params: {
         cooperative: payload.cooperative,
+        page: payload.page,
       },
     });
     yield put(
-      allActions.setProducts({products: data.data}),
+      allActions.setProducts({products: [...payload.previous, ...data.data]}),
     );
+    console.log('entrou');
+    yield put(allActions.setLastPage({lastPage: data.last_page}));
   } catch (err) {
-  console.log(err);
-
     yield handleUnauthorized(err, 'Falha na listagem de produtos');
   }
 }
@@ -69,9 +70,23 @@ function* createProduct({payload}) {
   }
 }
 
+function* updateProductPicture({ payload }) {
+  try {
+    const response = yield call(api.put, `/products/${payload.id}`, payload.product, {
+      headers: {
+        'Content-Type': `multipart/form-data`,
+      },
+    });
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na adição do produto.');
+  }
+}
+
 export default all([
   takeLatest(allActions.fetchCategories.toString(), fetchCategories),
   takeLatest(allActions.fetchProducts.toString(), fetchProducts),
   takeLatest(allActions.createProduct.toString(), createProduct),
   takeLatest(allActions.fetchProductsByCooperative.toString(), fetchProductsByCooperative),
+  takeLatest(allActions.updateProductPicture.toString(), updateProductPicture),
+
 ]);

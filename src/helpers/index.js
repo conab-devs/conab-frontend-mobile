@@ -1,4 +1,4 @@
-export const createFormData = (photo, body) => {
+export const createFormData = (photo, body = {}) => {
   const data = new FormData();
 
   data.append('photo_path', {
@@ -7,9 +7,11 @@ export const createFormData = (photo, body) => {
     name: `${new Date().getTime()}`,
   });
 
-  Object.keys(body).forEach((key) => {
-    data.append(key, body[key]);
-  });
+  if (Object.keys(body).length > 0) {
+    Object.keys(body).forEach((key) => {
+      data.append(key, body[key]);
+    });
+  }
 
   return data;
 };

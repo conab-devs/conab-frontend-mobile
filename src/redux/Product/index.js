@@ -52,6 +52,7 @@ export const allActions = {
   fetchProducts: createAction('products/fetch'),
   fetchProductsByCooperative: createAction('products/fetch/cooperative'),
   fetchCategories: createAction('categories/fetch'),
+  updateProductPicture: createAction('products/update/picture')
 };
 
 export default reducer;
