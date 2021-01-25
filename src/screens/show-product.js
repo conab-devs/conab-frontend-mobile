@@ -32,7 +32,7 @@ const ShowProduct = ({route}) => {
         if (image.path) {
           setProductPicture(image.path);
         }
-        const form = createFormData(image);
+        const form = createFormData(image, {'_method': 'PUT'});
         dispatch(allActions.updateProductPicture({ product: form, id: product.id }));
       })
       .catch((err) => {

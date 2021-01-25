@@ -13,6 +13,7 @@ const Categories = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(allActions.setProducts({products: []}));
     dispatch(allActions.fetchCategories());
   }, []);
 

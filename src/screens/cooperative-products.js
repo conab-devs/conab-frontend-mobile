@@ -10,32 +10,26 @@ import {allActions} from '../redux/Product';
 
 const CooperativeProducts = ({navigation}) => {
   const dispatch = useDispatch();
-  const {products} = useSelector(state => state.product);
-  const {cooperative_id} = useSelector(state => state.auth.user);
+  const {products} = useSelector((state) => state.product);
+  const {cooperative_id} = useSelector((state) => state.auth.user);
   const [page, setPage] = useState(1);
   const lastPage = useSelector((state) => state.product.lastPage);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchProducts = useCallback(() => {
-    if (isLoading) {
-      return;
-    }
-
-    setIsLoading(true);
-
-    dispatch(allActions.fetchProductsByCooperative({ 
-      cooperative: cooperative_id, 
-      page: page,
-      previous: products,
-    }));
-
-    setIsLoading(false);
+    dispatch(
+      allActions.fetchProductsByCooperative({
+        cooperative: cooperative_id,
+        page: page,
+        previous: products,
+      }),
+    );
   }, [cooperative_id, page, products]);
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
 
+    setPage(1);
     dispatch(allActions.setProducts({products: []}));
     fetchProducts();
 
@@ -44,13 +38,9 @@ const CooperativeProducts = ({navigation}) => {
 
   useEffect(() => {
     if (page === 1) {
-      dispatch(allActions.setProducts({ products: [] }));
+      dispatch(allActions.setProducts({products: []}));
     }
     fetchProducts();
-
-    return () => {
-      setIsLoading(false);
-    };
   }, [page]);
 
   return (
@@ -75,7 +65,6 @@ const CooperativeProducts = ({navigation}) => {
             setPage((current) => current + 1);
           }
         }}
-        ListFooterComponent={() => <ActivityIndicator size="small" color="#00ff00" />}
         renderItem={({item}) => (
           <Product
             name={item.name}
