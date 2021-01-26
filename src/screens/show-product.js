@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import Photo from '../components/photo';
 import Button from '../components/button';
+import InfoDisplayer from '../components/info-displayer';
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
 import {createFormData} from '../helpers';
@@ -75,12 +76,14 @@ const ShowProduct = ({route}) => {
               <InfoDisplayer
                 label="Categoria"
                 content={product.category.name}
+                style={{ marginTop: '.9rem' }}
               />
 
               {product.estimated_delivery_time > 0 ? (
                 <InfoDisplayer
                   label="Tempo de Entrega"
                   content={`${product.estimated_delivery_time} Dias`}
+                  style={{ marginTop: '.9rem' }}
                 />
               ) : null}
 
@@ -89,6 +92,7 @@ const ShowProduct = ({route}) => {
                 content={`R$ ${getPrice(product.price)} - ${
                   product.unit_of_measure === 'kg' ? 'Kg' : 'Unidade'
                 }`}
+                style={{ marginTop: '.9rem' }}
               />
             </View>
             <View style={styles.buttons}>
@@ -108,15 +112,6 @@ const ShowProduct = ({route}) => {
   }
 };
 
-function InfoDisplayer({label, content}) {
-  return (
-    <View style={styles.infoGroup}>
-      <Text style={styles.infoLabel}>{label}</Text>
-      <Text style={styles.info}>{content}</Text>
-    </View>
-  );
-}
-
 const styles = EStyleSheet.create({
   container: {
     backgroundColor: 'white',
@@ -134,12 +129,6 @@ const styles = EStyleSheet.create({
   },
   infoGroup: {
     marginTop: '.9rem',
-  },
-  infoLabel: {
-    fontSize: '1rem',
-  },
-  info: {
-    fontSize: '1.25rem',
   },
   buttons: {
     flexDirection: 'row',
