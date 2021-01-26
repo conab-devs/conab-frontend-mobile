@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {FlatList, ActivityIndicator} from 'react-native';
+import {FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Container from '../components/container';
-import Button from '../components/button';
 import Product from '../components/product';
 import {allActions} from '../redux/Product';
 
@@ -15,6 +14,17 @@ const CooperativeProducts = ({navigation}) => {
   const [page, setPage] = useState(1);
   const lastPage = useSelector((state) => state.product.lastPage);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const dispatchGetProduct = (item) => {
+    return new Promise((resolve, reject) => {
+      try {
+        dispatch(allActions.getProduct({id: item.id}));
+        resolve();
+      } catch (err) {
+        reject();
+      }
+    });
+  };
 
   const fetchProducts = useCallback(() => {
     dispatch(
@@ -73,7 +83,8 @@ const CooperativeProducts = ({navigation}) => {
             unitMeasure={item.unit_of_measure}
             imagePath={item.photo_path}
             handlePress={() => {
-              navigation.navigate('ShowProduct', {product: item});
+              dispatchGetProduct(item);
+              navigation.navigate('ShowProduct');
             }}
           />
         )}

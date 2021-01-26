@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -25,9 +25,10 @@ import Filter from './screens/filter';
 import CreateProduct from './screens/create-product';
 import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
-import Logout from './screens/logout';
 import CooperativeProducts from './screens/cooperative-products';
 import ShowProduct from './screens/show-product';
+
+import {allActions} from './redux/Product';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -69,6 +70,9 @@ const headerIconsSize = 25;
 const arrowIconSize = 33;
 
 const CooperativeAdministration = () => {
+  const {cooperative_id} = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -106,41 +110,53 @@ const CooperativeAdministration = () => {
               name="chevron-left"
               color={darkblue}
               size={30}
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                dispatch(
+                  allActions.fetchProductsByCooperative({
+                    cooperative: cooperative_id,
+                    page: 1,
+                    previous: [],
+                  }),
+                );
+                navigation.goBack();
+              }}
             />
           ),
         })}
       />
     </Stack.Navigator>
   );
-}
+};
 
 const SideBar = () => {
-  const { isProvider } = useSelector((state) => state.auth.user);
+  const {isProvider} = useSelector((state) => state.auth.user);
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Principal" component={Home} /> 
-      <Drawer.Screen name="Meus Produtos" component={CooperativeAdministration} />
+      <Drawer.Screen name="Principal" component={Home} />
+      <Drawer.Screen
+        name="Meus Produtos"
+        component={CooperativeAdministration}
+      />
     </Drawer.Navigator>
   );
-}
+};
 
 const Home = () => {
-  const { isProvider } = useSelector(state => state.auth.user);
+  const {isProvider} = useSelector((state) => state.auth.user);
   return (
     <Stack.Navigator initialRouteName="Categories">
       <Stack.Screen
         name="Categories"
         component={Categories}
         options={({navigation}) => ({
-          headerLeft: (
-            isProvider ? (<Icon
+          headerLeft: isProvider ? (
+            <Icon
               name="menu"
               color={darkblue}
               size={30}
               onPress={() => navigation.toggleDrawer()}
-            />) : null
-          ),
+            />
+          ) : null,
           headerRight: (
             <Icon
               name="cart"
@@ -227,14 +243,14 @@ const Home = () => {
         options={({navigation}) => ({
           ...homeOptions,
           title: 'Produto',
-          headerLeft: (
-            isProvider ? (<Icon
+          headerLeft: isProvider ? (
+            <Icon
               name="menu"
               color={darkblue}
               size={30}
               onPress={() => navigation.toggleDrawer()}
-            />) : null
-          ),
+            />
+          ) : null,
           headerRight: (
             <Icon
               name="cart"
@@ -293,7 +309,7 @@ const Home = () => {
 };
 
 const TabNavigation = () => {
-  const { isProvider } = useSelector(state => state.auth.user);
+  const {isProvider} = useSelector((state) => state.auth.user);
   return (
     <BottomTab.Navigator
       tabBar={(props) => <TabBar {...props} />}

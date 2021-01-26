@@ -1,26 +1,30 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Alert} from 'react-native';
-import {ScrollView, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {ScrollView, Text, View, ActivityIndicator} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import Photo from '../components/photo';
-import TextInput from '../components/input';
 import Button from '../components/button';
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
 import {createFormData} from '../helpers';
 
 const ShowProduct = ({route}) => {
-  const {product} = route.params;
-  const [amount, setAmount] = useState(1);
-  const [productPicture, setProductPicture] = useState(product.photo_path);
   const dispatch = useDispatch();
+  const {product} = useSelector((state) => state.product);
+  const [picture, setPicture] = useState(null);
 
   function getPrice(price) {
     return price.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(allActions.setProduct({product: null}));
+    };
+  }, []);
 
   const handleImagePicking = useCallback(() => {
     ImagePicker.openPicker({
@@ -29,79 +33,89 @@ const ShowProduct = ({route}) => {
       cropping: true,
     })
       .then((image) => {
-        if (image.path) {
-          setProductPicture(image.path);
-        }
-        const form = createFormData(image, {'_method': 'PUT'});
-        dispatch(allActions.updateProductPicture({ product: form, id: product.id }));
+        setPicture(image.path);
+        const form = createFormData(image, {_method: 'PUT'});
+        dispatch(
+          allActions.updateProductPicture({product: form, id: product.id}),
+        );
+        dispatch(allActions.getProduct({id: product.id}));
       })
       .catch((err) => {
         if (err.message.includes('User cancelled image selection')) {
           return;
         }
-        Alert.alert('Ops, um erro ocorreu durante a seleção da image, tente novamente.');
+        Alert.alert(
+          'Ops, um erro ocorreu durante a seleção da image, tente novamente.',
+        );
       });
-  }, []);
+  }, [product]);
+  if (product) {
+    return (
+      <Container style={{...styles.container}}>
+        <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
+          <View>
+            <Photo
+              productPicture={(() => {
+                if (!picture && product) {
+                  setPicture(product.photo_path);
+                }
+                return {path: picture};
+              })()}
+              height={200}
+              width={200}
+              handleImagePicking={handleImagePicking}
+            />
+            <Text style={styles.productName}>{product.name}</Text>
+          </View>
 
-  return (
-    <Container style={{...styles.container}}>
-      <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-        <Photo
-          productPicture={{path: productPicture}}
-          height={200}
-          width={200}
-          handleImagePicking={handleImagePicking}
-        />
-        <Text style={styles.productName}>{product.name}</Text>
-        <View style={styles.infoContainer}>
-          <Text style={styles.price}>
-            R$ {getPrice(product.price)} /{' '}
-            {product.unit_of_measure === 'unit' ? 'Unidade' : 'Kg'}
-          </Text>
+          <View style={styles.content}>
+            <View>
+              <InfoDisplayer label="Nome do Produto" content={product.name} />
 
-          <Text style={styles.text}>
-            Cooperative: {product.cooperative.name}
-          </Text>
-          <Text style={styles.text}>
-            {product.estimated_delivery_time === 0
-              ? 'Não realizamos entrega'
-              : `Tempo de entrega: ${product.estimated_delivery_time}`}
-          </Text>
+              <InfoDisplayer
+                label="Categoria"
+                content={product.category.name}
+              />
 
-          <View style={styles.delimiter} />
+              {product.estimated_delivery_time > 0 ? (
+                <InfoDisplayer
+                  label="Tempo de Entrega"
+                  content={`${product.estimated_delivery_time} Dias`}
+                />
+              ) : null}
 
-          <TextInput
-            label="Quantidade"
-            placeholder="Insira a quantidade..."
-            keyboardType="number-pad"
-            defaultValue={`${amount}`}
-            onChangeText={setAmount}
-          />
-
-          <Button
-            type="secondary"
-            title="Comprar"
-            borderWidth={0}
-            onPress={() => {
-              if (!Number.isNaN(amount)) {
-                const cartProduct = Object.assign({}, product);
-                cartProduct.amount = amount;
-                dispatch(allActions.pushToCart({product: cartProduct}));
-              } else {
-                Alert.alert('Escolha uma quantia válida.');
-              }
-            }}
-            style={{
-              btn: {
-                marginTop: '1.2rem',
-              },
-            }}
-          />
-        </View>
-      </ScrollView>
-    </Container>
-  );
+              <InfoDisplayer
+                label="Preço"
+                content={`R$ ${getPrice(product.price)} - ${
+                  product.unit_of_measure === 'kg' ? 'Kg' : 'Unidade'
+                }`}
+              />
+            </View>
+            <View style={styles.buttons}>
+              <Button type="primary" title="Atualizar" size="medium" />
+              <Button type="danger" title="Excluir" size="medium" />
+            </View>
+          </View>
+        </ScrollView>
+      </Container>
+    );
+  } else {
+    return (
+      <Container style={styles.container}>
+        <ActivityIndicator size="small" color={styles.green.color} />
+      </Container>
+    );
+  }
 };
+
+function InfoDisplayer({label, content}) {
+  return (
+    <View style={styles.infoGroup}>
+      <Text style={styles.infoLabel}>{label}</Text>
+      <Text style={styles.info}>{content}</Text>
+    </View>
+  );
+}
 
 const styles = EStyleSheet.create({
   container: {
@@ -115,31 +129,26 @@ const styles = EStyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  text: {
-    fontSize: '1rem',
-    color: '#363D46',
-  },
   wrapper: {
     width: '100%',
   },
-  infoContainer: {
-    marginTop: '1rem',
-    width: '100%',
+  infoGroup: {
+    marginTop: '.9rem',
   },
-  price: {
-    fontSize: '1.1rem',
-    fontWeight: 'bold',
-    color: '#363D46',
-    marginBottom: '1rem',
+  infoLabel: {
+    fontSize: '1rem',
   },
-  delimiter: {
-    height: 1,
+  info: {
+    fontSize: '1.25rem',
+  },
+  buttons: {
+    flexDirection: 'row',
     width: '100%',
-    backgroundColor: '#C4C4C4',
-    marginTop: '.63rem',
-    marginBottom: '.63rem',
-    marginLeft: 0,
-    marginRight: 0,
+    justifyContent: 'space-between',
+    marginTop: '3rem',
+  },
+  green: {
+    color: '$green',
   },
 });
 

@@ -41,10 +41,11 @@ const getStyles = (styles = {}, type, size) => {
       marginBottom: '0.31rem',
       marginLeft: 'auto',
       marginRight: 'auto',
-      minWidth: size === 'big' ? '100%' : '30%',
+      minWidth: size === 'big' ? '100%' : size === 'medium' ? '45%' : '30%',
       alignItems: 'center',
       justifyContent: 'center',
-      height: size === 'big' ? '2.87rem' : '1.7rem',
+      height:
+        size === 'big' ? '2.87rem' : size === 'medium' ? '2.3rem' : '1.7rem',
       paddingRight: '.8rem',
       paddingLeft: '.8rem',
       borderColor: '$darkBlue',

@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  TouchableWithoutFeedback as Card,
-  View,
-  Text,
-} from 'react-native';
+import {TouchableOpacity as Card, View, Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Product = (props) => (
-  <Card onPress={props.handlePress}>
+  <Card onPress={props.handlePress} activeOpacity={0.7}>
     <View style={styles.wrapper}>
       <FastImage
         style={styles.image}

@@ -77,7 +77,16 @@ function* updateProductPicture({payload}) {
       },
     });
   } catch (err) {
-    yield handleUnauthorized(err, 'Falha na adição do produto.');
+    yield handleUnauthorized(err, 'Falha na atualização do produto.');
+  }
+}
+
+function* getProduct({payload}) {
+  try {
+    const {data} = yield call(api.get, `/products/${payload.id}`);
+    yield put(allActions.setProduct({product: data}));
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na recuperação do produto.');
   }
 }
 
@@ -90,4 +99,5 @@ export default all([
     fetchProductsByCooperative,
   ),
   takeLatest(allActions.updateProductPicture.toString(), updateProductPicture),
+  takeLatest(allActions.getProduct.toString(), getProduct),
 ]);
