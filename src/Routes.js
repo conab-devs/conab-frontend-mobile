@@ -27,6 +27,7 @@ import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
 import CooperativeProducts from './screens/cooperative-products';
 import ShowProduct from './screens/show-product';
+import UpdateProduct from './screens/update-product';
 
 import {allActions} from './redux/Product';
 
@@ -118,6 +119,28 @@ const CooperativeAdministration = () => {
                     previous: [],
                   }),
                 );
+                navigation.goBack();
+              }}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="UpdateProduct"
+        component={UpdateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={30}
+              onPress={() => {
                 navigation.goBack();
               }}
             />

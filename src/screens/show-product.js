@@ -12,9 +12,10 @@ import {allActions} from '../redux/Product';
 import Container from '../components/container';
 import {createFormData} from '../helpers';
 
-const ShowProduct = ({route}) => {
+const ShowProduct = ({navigation}) => {
   const dispatch = useDispatch();
   const {product} = useSelector((state) => state.product);
+  const {cooperative_id} = useSelector((state) => state.auth.user);
   const [picture, setPicture] = useState(null);
 
   function getPrice(price) {
@@ -96,8 +97,24 @@ const ShowProduct = ({route}) => {
               />
             </View>
             <View style={styles.buttons}>
-              <Button type="primary" title="Atualizar" size="medium" />
-              <Button type="danger" title="Excluir" size="medium" />
+              <Button 
+                type="primary" 
+                title="Atualizar" 
+                size="medium"  
+                onPress={() => navigation.navigate('UpdateProduct', { id: product.id })}
+              />
+              <Button type="danger" title="Excluir" size="medium" onPress={() => {
+                dispatch(allActions.deleteProduct({ id: product.id }));
+                dispatch(
+                  allActions.fetchProductsByCooperative({
+                    cooperative: cooperative_id,
+                    page: 1,
+                    previous: [],
+                  }),
+                );
+
+                navigation.goBack();
+              }} />
             </View>
           </View>
         </ScrollView>

@@ -90,6 +90,23 @@ function* getProduct({payload}) {
   }
 }
 
+function* updateProduct({payload}) {
+  try {
+    const {data} = yield call(api.put, `/products/${payload.id}`, payload.product);
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na atualização do produto.');
+  }
+}
+
+function* deleteProduct({payload}) {
+  try {
+    const {data} = yield call(api.delete, `/products/${payload.id}`);
+  } catch (err) {
+    console.log(err);
+    yield handleUnauthorized(err, 'Falha na deleção do produto.');
+  }
+}
+
 export default all([
   takeLatest(allActions.fetchCategories.toString(), fetchCategories),
   takeLatest(allActions.fetchProducts.toString(), fetchProducts),
@@ -100,4 +117,6 @@ export default all([
   ),
   takeLatest(allActions.updateProductPicture.toString(), updateProductPicture),
   takeLatest(allActions.getProduct.toString(), getProduct),
+  takeLatest(allActions.updateProduct.toString(), updateProduct),
+  takeLatest(allActions.deleteProduct.toString(), deleteProduct)
 ]);

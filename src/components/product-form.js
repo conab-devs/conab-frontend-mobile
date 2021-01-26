@@ -17,6 +17,7 @@ const Form = (props) => {
   const [deliveryTime, setDeliveryTime] = useState('');
   const [productPicture, setProductPicture] = useState('');
   const [isMakingRequest, setIsMakingRequest] = useState(false);
+  const [availability, setAvailability] = useState(true);
 
   let money = null;
 
@@ -40,23 +41,31 @@ const Form = (props) => {
   }, []);
 
   return (
-    <ScrollView>
-      <Container style={{backgroundColor: 'white'}}>
-        <Text style={styles.title}>{props.title}</Text>
+    <ScrollView contentContainerStyle={{ 
+      flex: 1, 
+    }}>
+      <Container style={{
+        backgroundColor: 'white', 
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+      }}>
+        {props.titleShown ? <Text style={styles.title}>{props.title}</Text> : null}
 
-        <Photo
+        {props.photoShown ? <Photo
           productPicture={productPicture}
           handleImagePicking={handleImagePicking}
-        />
+        /> : null
+        }
 
-        <View style={styles.group}>
+        {props.nameShown ? <View style={styles.group}>
           <Input
             label="Nome"
             placeholder="Insira o nome do seu produto..."
             onChangeText={setName}
           />
-        </View>
+        </View> : null}
 
+        {props.categoryShown ?
         <View style={styles.group}>
           <DropdownInput
             label="Categoria"
@@ -64,8 +73,9 @@ const Form = (props) => {
             onValueChange={setCategory}
             items={props.categories}
           />
-        </View>
+        </View> : null}
 
+        {props.unitOfMeasure ?
         <View style={styles.group}>
           <DropdownInput
             label="Unidade de Medida"
@@ -76,9 +86,22 @@ const Form = (props) => {
               {label: 'Unidade', value: 'unit'},
             ]}
           />
-        </View>
+        </View> : null}
 
+        {props.availabilityShown ?
         <View style={styles.group}>
+          <DropdownInput
+            label="Disponibilidade"
+            placeholder="Disponibilidade do produto"
+            onValueChange={setAvailability}
+            items={[
+              {label: 'Disponível', value: true},
+              {label: 'Indisponível', value: false},
+            ]}
+          />
+        </View> : null}
+
+        {props.priceShown ? <View style={styles.group}>
           <Input
             label="Preço"
             typeInput="mask"
@@ -88,9 +111,9 @@ const Form = (props) => {
             onChangeText={setPrice}
             ref={(ref) => (money = ref)}
           />
-        </View>
+        </View> : null}
 
-        <View style={styles.group}>
+        {props.estimatedDeliveryTimeShown ? <View style={styles.group}>
           <Text style={styles.label}>Tempo de Entrega</Text>
 
           <View style={styles.deliveryTime}>
@@ -112,7 +135,7 @@ const Form = (props) => {
               <Text style={styles.measure}>Dias</Text>
             </View>
           </View>
-        </View>
+        </View> : null}
 
         <Button
           onPress={() => {
@@ -122,14 +145,16 @@ const Form = (props) => {
 
             setIsMakingRequest(true);
 
-            props.handleSubmit({
-              name,
-              category,
-              unitOfMeasure,
-              price: money.getRawValue(),
-              deliveryTime,
-              productPicture,
-            });
+            const body = {};
+            (name && props.nameShown) ? (body.name = name) : null;
+            (category && props.categoryShown) ? (body.category = category) : null;
+            (unitOfMeasure && props.unitOfMeasureShown) ? (body.unitOfMeasure = unitOfMeasure) : null;
+            (money.getRawValue() > 0 && props.priceShown) ? (body.price = money.getRawValue()) : null;
+            (deliveryTime && props.deliveryTimeShown) ? (body.deliveryTime = deliveryTime) : null;
+            (productPicture && props.productPictureShown) ? (body.productPicture = productPicture) : null;
+            (availability && props.availabilityShown) ? (body.availability = availability) : null;
+
+            props.handleSubmit(body);
           }}
           disabled={isMakingRequest}
           type="submit"
@@ -143,6 +168,17 @@ const Form = (props) => {
       </Container>
     </ScrollView>
   );
+};
+
+Form.defaultProps = {
+  titleShown: true,
+  photoShown: true,
+  nameShown: true,
+  categoryShown: true,
+  priceShown: true,
+  unitOfMeasureShown: true,
+  estimatedDeliveryTimeShown: true,
+  availabilityShown: false
 };
 
 const styles = EStyleSheet.create({
