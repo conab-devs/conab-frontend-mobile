@@ -41,14 +41,14 @@ const Form = (props) => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={{ 
-      flex: 1, 
-    }}>
+    
       <Container style={{
         backgroundColor: 'white', 
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingBottom: 0
       }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center' }}>
         {props.titleShown ? <Text style={styles.title}>{props.title}</Text> : null}
 
         {props.photoShown ? <Photo
@@ -165,8 +165,9 @@ const Form = (props) => {
             },
           }}
         />
+        </ScrollView>
       </Container>
-    </ScrollView>
+    
   );
 };
 
