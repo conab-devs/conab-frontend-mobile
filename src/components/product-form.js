@@ -153,7 +153,6 @@ const Form = (props) => {
             (props.estimatedDeliveryTimeShown) ? (body.estimated_delivery_time = estimatedDeliveryTime) :  0;
             (productPicture && props.photoShown) ? (body.productPicture = productPicture) : null;
             (availability && props.availabilityShown) ? (body.availability = availability) : null;
-            console.log(body);
 
             props.handleSubmit(body, setIsMakingRequest);
           }}
