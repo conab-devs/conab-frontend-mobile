@@ -83,7 +83,7 @@ const ShowProduct = ({navigation}) => {
               {product.estimated_delivery_time > 0 ? (
                 <InfoDisplayer
                   label="Tempo de Entrega"
-                  content={`${product.estimated_delivery_time} Dias`}
+                  content={`${product.estimated_delivery_time} ${product.estimated_delivery_time > 1 ? 'Dias' :  'Dia'}`}
                   style={{ marginTop: '.9rem' }}
                 />
               ) : null}

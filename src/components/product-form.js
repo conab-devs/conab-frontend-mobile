@@ -150,7 +150,7 @@ const Form = (props) => {
             (category && props.categoryShown) ? (body.category = category) : null;
             (unitOfMeasure && props.unitOfMeasureShown) ? (body.unitOfMeasure = unitOfMeasure) : null;
             (money.getRawValue() > 0 && props.priceShown) ? (body.price = money.getRawValue()) : null;
-            (deliveryTime && props.deliveryTimeShown) ? (body.deliveryTime = deliveryTime) : null;
+            (deliveryTime && props.estimatedDeliveryTimeShown) ? (body.estimated_delivery_time = deliveryTime) : null;
             (productPicture && props.productPictureShown) ? (body.productPicture = productPicture) : null;
             (availability && props.availabilityShown) ? (body.availability = availability) : null;
 
