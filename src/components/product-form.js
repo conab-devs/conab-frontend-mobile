@@ -144,16 +144,18 @@ const Form = (props) => {
             }
 
             setIsMakingRequest(true);
-            const estimatedDeliveryTime = deliveryTime && deliveryTime;
+            const estimatedDeliveryTime = deliveryTime ? deliveryTime : "";
+            console.log(estimatedDeliveryTime);
+
             const body = {};
             (name && props.nameShown) ? (body.name = name) : null;
             (category && props.categoryShown) ? (body.category = category) : null;
             (unitOfMeasure && props.unitOfMeasureShown) ? (body.unit_of_measure = unitOfMeasure) : null;
             (money.getRawValue() > 0 && props.priceShown) ? (body.price = money.getRawValue()) : null;
-            (props.estimatedDeliveryTimeShown) ? (body.estimated_delivery_time = estimatedDeliveryTime) :  0;
+            (props.estimatedDeliveryTimeShown && estimatedDeliveryTime !== "") && (body.estimated_delivery_time = estimatedDeliveryTime);
             (productPicture && props.photoShown) ? (body.productPicture = productPicture) : null;
             (availability && props.availabilityShown) ? (body.availability = availability) : null;
-
+            console.log(body);
             props.handleSubmit(body, setIsMakingRequest);
           }}
           disabled={isMakingRequest}

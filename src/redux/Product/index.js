@@ -4,6 +4,7 @@ const {reducer, actions} = createSlice({
   name: 'products',
   initialState: {
     products: [],
+    cooperativeProducts: [],
     lastPage: 0,
     filters: {
       lowestPrice: 0,
@@ -45,6 +46,9 @@ const {reducer, actions} = createSlice({
     },
     setProduct: (state, {payload}) => {
       state.product = payload.product;
+    },
+    setCooperativeProducts: (state, {payload}) => {
+      state.cooperativeProducts = payload.products;
     },
   },
 });

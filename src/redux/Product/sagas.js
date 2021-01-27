@@ -45,7 +45,7 @@ function* fetchProductsByCooperative({payload}) {
       },
     });
     yield put(
-      allActions.setProducts({products: [...payload.previous, ...data.data]}),
+      allActions.setCooperativeProducts({products: [...payload.previous, ...data.data]}),
     );
     yield put(allActions.setLastPage({lastPage: data.last_page}));
   } catch (err) {
@@ -94,6 +94,7 @@ function* updateProduct({payload}) {
   try {
     const {data} = yield call(api.put, `/products/${payload.id}`, payload.product);
   } catch (err) {
+    console.log(err);
     yield handleUnauthorized(err, 'Falha na atualização do produto.');
   }
 }

@@ -10,7 +10,7 @@ import Button from '../components/button';
 
 const CooperativeProducts = ({navigation}) => {
   const dispatch = useDispatch();
-  const {products} = useSelector((state) => state.product);
+  const {cooperativeProducts} = useSelector((state) => state.product);
   const {cooperative_id} = useSelector((state) => state.auth.user);
   const [page, setPage] = useState(1);
   const lastPage = useSelector((state) => state.product.lastPage);
@@ -32,16 +32,16 @@ const CooperativeProducts = ({navigation}) => {
       allActions.fetchProductsByCooperative({
         cooperative: cooperative_id,
         page: page,
-        previous: products,
+        previous: cooperativeProducts,
       }),
     );
-  }, [cooperative_id, page, products]);
+  }, [cooperative_id, page, cooperativeProducts]);
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
 
     setPage(1);
-    dispatch(allActions.setProducts({products: []}));
+    dispatch(allActions.setCooperativeProducts({products: []}));
     fetchProducts();
 
     setIsRefreshing(false);
@@ -49,7 +49,7 @@ const CooperativeProducts = ({navigation}) => {
 
   useEffect(() => {
     if (page === 1) {
-      dispatch(allActions.setProducts({products: []}));
+      dispatch(allActions.setCooperativeProducts({products: []}));
     }
     fetchProducts();
   }, [page]);
@@ -65,7 +65,7 @@ const CooperativeProducts = ({navigation}) => {
       }}>
       <FlatList
         style={styles.flatList}
-        data={products}
+        data={cooperativeProducts}
         showsVerticalScrollIndicator={false}
         initialNumToRender={5}
         onEndReachedThreshold={0.1}
