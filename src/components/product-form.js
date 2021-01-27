@@ -75,7 +75,7 @@ const Form = (props) => {
           />
         </View> : null}
 
-        {props.unitOfMeasure ?
+        {props.unitOfMeasureShown ?
         <View style={styles.group}>
           <DropdownInput
             label="Unidade de Medida"
@@ -144,17 +144,18 @@ const Form = (props) => {
             }
 
             setIsMakingRequest(true);
-
+            const estimatedDeliveryTime = deliveryTime && deliveryTime;
             const body = {};
             (name && props.nameShown) ? (body.name = name) : null;
             (category && props.categoryShown) ? (body.category = category) : null;
-            (unitOfMeasure && props.unitOfMeasureShown) ? (body.unitOfMeasure = unitOfMeasure) : null;
+            (unitOfMeasure && props.unitOfMeasureShown) ? (body.unit_of_measure = unitOfMeasure) : null;
             (money.getRawValue() > 0 && props.priceShown) ? (body.price = money.getRawValue()) : null;
-            (deliveryTime && props.estimatedDeliveryTimeShown) ? (body.estimated_delivery_time = deliveryTime) : null;
-            (productPicture && props.productPictureShown) ? (body.productPicture = productPicture) : null;
+            (props.estimatedDeliveryTimeShown) ? (body.estimated_delivery_time = estimatedDeliveryTime) :  0;
+            (productPicture && props.photoShown) ? (body.productPicture = productPicture) : null;
             (availability && props.availabilityShown) ? (body.availability = availability) : null;
+            console.log(body);
 
-            props.handleSubmit(body);
+            props.handleSubmit(body, setIsMakingRequest);
           }}
           disabled={isMakingRequest}
           type="submit"

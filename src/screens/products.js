@@ -35,8 +35,7 @@ const Products = ({navigation, route}) => {
   const lastPage = useSelector((state) => state.product.lastPage);
 
   const {products} = useSelector((state) => state.product);
-  const {isProvider} = useSelector((state) => state.auth.user);
-
+  
   const fetchProducts = useCallback(() => {
     if (isLoading) {
       return;
@@ -135,21 +134,6 @@ const Products = ({navigation, route}) => {
             }}
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-            ListHeaderComponent={
-              isProvider ? (
-                <Button
-                  title="Adicionar Produto"
-                  type="primary"
-                  size="small"
-                  activeOpacity={0.75}
-                  style={{
-                    btn: {
-                      marginLeft: 0,
-                    }
-                  }}
-                  onPress={() => navigation.navigate('RegisterProduct')} />
-              ) : null
-            }
             renderItem={({item}) => (
               <Product
                 name={item.name}

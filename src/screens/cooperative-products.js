@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Container from '../components/container';
 import Product from '../components/product';
 import {allActions} from '../redux/Product';
+import Button from '../components/button';
 
 const CooperativeProducts = ({navigation}) => {
   const dispatch = useDispatch();
@@ -75,6 +76,19 @@ const CooperativeProducts = ({navigation}) => {
             setPage((current) => current + 1);
           }
         }}
+        ListHeaderComponent={
+          <Button
+            title="Adicionar Produto"
+            type="primary"
+            size="small"
+            activeOpacity={0.75}
+            style={{
+              btn: {
+                marginLeft: 0,
+              }
+            }}
+            onPress={() => navigation.navigate('RegisterProduct')} />
+        }
         renderItem={({item}) => (
           <Product
             name={item.name}

@@ -30,6 +30,7 @@ const UpdateProduct = ({route, navigation}) => {
 			buttonDescriptor="Atualizar"
 			photoShown={false}
 			availabilityShown={true}
+			unitOfMeasureShown={false}
 			productId={id}
 		/>
 	);

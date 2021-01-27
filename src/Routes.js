@@ -97,6 +97,26 @@ const CooperativeAdministration = () => {
         })}
       />
       <Stack.Screen
+        name="RegisterProduct"
+        component={CreateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
         name="ShowProduct"
         component={ShowProduct}
         options={({navigation}) => ({
@@ -238,26 +258,6 @@ const Home = () => {
               />
             );
           },
-        })}
-      />
-      <Stack.Screen
-        name="RegisterProduct"
-        component={CreateProduct}
-        options={({navigation}) => ({
-          title: 'Produto',
-          headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
-          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
-          headerStyle: {backgroundColor: green, height: 55},
-          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
-          headerLeft: (props) => (
-            <Icon
-              name="chevron-left"
-              color={darkblue}
-              size={arrowIconSize}
-              onPress={() => navigation.goBack()}
-            />
-          ),
         })}
       />
       <Stack.Screen
