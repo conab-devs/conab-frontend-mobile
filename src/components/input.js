@@ -1,13 +1,16 @@
 import React, {forwardRef} from 'react';
-import {Text, TextInput} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {TextInputMask} from 'react-native-masked-text';
 
-const Input = ({label, typeInput = 'normal', style, ...inputProps}, ref) => {
-  const styles = getStyles(style);
+import Error from './error';
+
+const Input = (props, ref) => {
+  const styles = getStyles(props.style);
+  const {label, typeInput, style, touched, error, ...inputProps} = props;
 
   return (
-    <>
+    <View style={styles.container}>
       <Text style={styles.text}>{label}</Text>
       {typeInput === 'mask' ? (
         <TextInputMask
@@ -24,7 +27,8 @@ const Input = ({label, typeInput = 'normal', style, ...inputProps}, ref) => {
           style={styles.mask}
         />
       )}
-    </>
+      <Error error={error} touched={touched} />
+    </View>
   );
 };
 
@@ -46,8 +50,14 @@ const getStyles = (styles = {}) => {
       height: '2.87rem',
       paddingLeft: '.95rem',
       paddingRight: '.95rem',
-      marginBottom: '.62rem',
       ...styles.mask,
+      marginBottom: '.2rem',
+    },
+    container: {
+      marginBottom:
+        styles.mask && styles.mask.marginBottom
+          ? styles.mask.marginBottom
+          : '.62rem',
     },
   });
 };
