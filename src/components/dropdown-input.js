@@ -3,11 +3,22 @@ import {View, Text} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Dropdown from 'react-native-picker-select';
 
-const Input = ({label, onValueChange, items, style, placeholder}) => {
+import Error from './error';
+
+const Input = (props) => {
+  const {
+    label,
+    onValueChange,
+    items,
+    style,
+    placeholder,
+    error,
+    touched,
+  } = props;
   const styles = getStyles(style);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
 
       <View style={styles.dropdownHolder}>
@@ -22,6 +33,7 @@ const Input = ({label, onValueChange, items, style, placeholder}) => {
           items={items}
         />
       </View>
+      <Error error={error} touched={touched} />
     </View>
   );
 };
@@ -31,6 +43,7 @@ const getStyles = (styles = {}) =>
     dropdownHolder: {
       borderRadius: 5,
       overflow: 'hidden',
+      marginBottom: '.2rem',
     },
     label: {
       color: '$darkBlue',
@@ -50,7 +63,6 @@ const stylesDropdown = EStyleSheet.create({
     paddingLeft: '.95rem',
     paddingRight: '.95rem',
     color: '$darkBlue',
-    marginBottom: '.62rem',
     fontSize: '1rem',
   },
   inputIOS: {
@@ -59,7 +71,6 @@ const stylesDropdown = EStyleSheet.create({
     height: '2.87rem',
     paddingLeft: '.95rem',
     paddingRight: '.95rem',
-    marginBottom: '.62rem',
     fontSize: '1rem',
   },
   placeholder: {

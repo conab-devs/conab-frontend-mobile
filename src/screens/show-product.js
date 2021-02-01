@@ -77,14 +77,16 @@ const ShowProduct = ({navigation}) => {
               <InfoDisplayer
                 label="Categoria"
                 content={product.category.name}
-                style={{ marginTop: '.9rem' }}
+                style={{marginTop: '.9rem'}}
               />
 
               {product.estimated_delivery_time > 0 ? (
                 <InfoDisplayer
                   label="Tempo de Entrega"
-                  content={`${product.estimated_delivery_time} ${product.estimated_delivery_time > 1 ? 'Dias' :  'Dia'}`}
-                  style={{ marginTop: '.9rem' }}
+                  content={`${product.estimated_delivery_time} ${
+                    product.estimated_delivery_time > 1 ? 'Dias' : 'Dia'
+                  }`}
+                  style={{marginTop: '.9rem'}}
                 />
               ) : null}
 
@@ -93,28 +95,35 @@ const ShowProduct = ({navigation}) => {
                 content={`R$ ${getPrice(product.price)} - ${
                   product.unit_of_measure === 'kg' ? 'Kg' : 'Unidade'
                 }`}
-                style={{ marginTop: '.9rem' }}
+                style={{marginTop: '.9rem'}}
               />
             </View>
             <View style={styles.buttons}>
-              <Button 
-                type="primary" 
-                title="Atualizar" 
-                size="medium"  
-                onPress={() => navigation.navigate('UpdateProduct', { id: product.id })}
+              <Button
+                type="primary"
+                title="Atualizar"
+                size="medium"
+                onPress={() =>
+                  navigation.navigate('UpdateProduct', {id: product.id})
+                }
               />
-              <Button type="danger" title="Excluir" size="medium" onPress={() => {
-                dispatch(allActions.deleteProduct({ id: product.id }));
-                dispatch(
-                  allActions.fetchProductsByCooperative({
-                    cooperative: cooperative_id,
-                    page: 1,
-                    previous: [],
-                  }),
-                );
+              <Button
+                type="danger"
+                title="Excluir"
+                size="medium"
+                onPress={() => {
+                  dispatch(allActions.deleteProduct({id: product.id}));
+                  dispatch(
+                    allActions.fetchProductsByCooperative({
+                      cooperative: cooperative_id,
+                      page: 1,
+                      previous: [],
+                    }),
+                  );
 
-                navigation.goBack();
-              }} />
+                  navigation.goBack();
+                }}
+              />
             </View>
           </View>
         </ScrollView>

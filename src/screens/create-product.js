@@ -1,50 +1,86 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Alert} from 'react-native';
+import {Alert, ScrollView, Text, View} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
 
 import {createFormData} from '../helpers';
 import {allActions} from '../redux/Product';
-import Form from '../components/product-form';
+import Photo from '../components/photo';
+import Input from '../components/input';
+import DropdownInput from '../components/dropdown-input';
+import Button from '../components/button';
+import LabeledInput from '../components/labeled-input';
+
+const CreateProductSchema = Yup.object().shape({
+  name: Yup.string().required('O campo Nome é obrigatório'),
+  category_id: Yup.number()
+    .required('O campo Categoria é obrigatório')
+    .moreThan(0, 'O campo Categoria é obrigatório'),
+  unit_of_measure: Yup.string()
+    .matches(/(kg|unit)/, 'O campo Unidade de Medida é obrigatório')
+    .required('O campo Unidade de Medida é obrigatório'),
+  price: Yup.number()
+    .moreThan(0, 'Insira um preço válido')
+    .required('O campo Unidade de Medida é obrigatório')
+    .required('O campo Preço é obrigatório'),
+  estimated_delivery_time: Yup.number()
+    .positive('Insira um valor válido')
+    .required('O campo Tempo de Entrega é obrigatório')
+    .required('O campo Tempo de Entrega é obrigatório'),
+  availability: Yup.boolean().required('O campo Disponibilidade é obrigatório'),
+});
 
 const CreateProduct = ({navigation}) => {
   const {categories} = useSelector((state) => state.product);
   const {cooperative_id} = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(
-    (requestFields, callback) => {
-      if (
-        requestFields.price > 0 &&
-        requestFields.category > 0 &&
-        typeof requestFields.estimated_delivery_time === 'number' &&
-        requestFields.name !== '' &&
-        (requestFields.unit_of_measure === 'kg' ||
-          requestFields.unit_of_measure === 'unit') &&
-        requestFields.productPicture &&
-        requestFields.productPicture.path !== ''
-      ) {
-        const data = createFormData(requestFields.productPicture, {
-          name: requestFields.name,
-          price: requestFields.price,
-          category_id: requestFields.category,
-          estimated_delivery_time: requestFields.estimated_delivery_time,
-          unit_of_measure: requestFields.unit_of_measure,
-        });
+  const [productPicture, setProductPicture] = useState('');
+  const [isMakingRequest, setIsMakingRequest] = useState(false);
 
-        dispatch(allActions.createProduct({product: data}));
-        dispatch(
-          allActions.fetchProductsByCooperative({
-            cooperative: cooperative_id,
-            page: 1,
-            previous: [],
-          }),
+  const handleImagePicking = useCallback(() => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then((image) => {
+        if (image.path) {
+          setProductPicture(image);
+        }
+      })
+      .catch((err) => {
+        if (err.message.includes('User cancelled image selection')) {
+          return;
+        }
+        Alert.alert(
+          'Ops, um erro ocorreu durante a seleção da image, tente novamente.',
         );
+      });
+  }, []);
 
-        navigation.goBack();
-      } else {
-        callback(false);
-        Alert.alert('Ops, preencha os campos corretamente');
+  const submit = useCallback(
+    (form) => {
+      if (isMakingRequest) {
+        return;
       }
+
+      setIsMakingRequest(true);
+
+      dispatch(allActions.createProduct({product: form}));
+      dispatch(
+        allActions.fetchProductsByCooperative({
+          cooperative: cooperative_id,
+          page: 1,
+          previous: [],
+        }),
+      );
+
+      setIsMakingRequest(false);
+      navigation.goBack();
     },
     [navigation, dispatch, cooperative_id],
   );
@@ -52,18 +88,200 @@ const CreateProduct = ({navigation}) => {
   const getCategories = useCallback(() => {
     return categories.map((category) => ({
       label: category.name,
-      value: category.id,
+      value: `${category.id}`,
     }));
   }, [categories]);
 
   return (
-    <Form
-      title="Adicionar Produtos"
-      categories={getCategories()}
-      handleSubmit={handleSubmit}
-      buttonDescriptor="Adicionar"
-    />
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Criar Produto</Text>
+
+      <Formik
+        initialValues={{
+          name: '',
+          category_id: 0,
+          unit_of_measure: '',
+          price: 0,
+          estimated_delivery_time: '',
+          availability: '',
+        }}
+        validationSchema={CreateProductSchema}
+        onSubmit={(values) => {
+          if (!productPicture) {
+            Alert.alert('Escolha uma imagem para o produto.');
+          }
+          const form = createFormData(productPicture, values);
+          submit(form);
+        }}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <Photo
+              productPicture={productPicture}
+              handleImagePicking={handleImagePicking}
+            />
+
+            <View style={styles.group}>
+              <Input
+                label="Nome"
+                placeholder="Insira o nome do seu produto..."
+                onChangeText={handleChange('name')}
+                value={values.name}
+                error={errors.name}
+                touched={touched.name}
+              />
+            </View>
+
+            <View style={styles.group}>
+              <DropdownInput
+                label="Categoria"
+                placeholder="Escolha a categoria do produto"
+                onValueChange={handleChange('category_id')}
+                items={getCategories()}
+                error={errors.category_id}
+                touched={touched.category_id}
+              />
+            </View>
+
+            <View style={styles.group}>
+              <DropdownInput
+                label="Unidade de Medida"
+                placeholder="Escolha uma unidade de medida"
+                onValueChange={handleChange('unit_of_measure')}
+                items={[
+                  {label: 'Kg', value: 'kg'},
+                  {label: 'Unidade', value: 'unit'},
+                ]}
+                error={errors.unit_of_measure}
+                touched={touched.unit_of_measure}
+              />
+            </View>
+
+            <View style={styles.group}>
+              <DropdownInput
+                label="Disponibilidade"
+                placeholder="Disponibilidade do produto"
+                onValueChange={handleChange('availability')}
+                items={[
+                  {label: 'Disponível', value: 'true'},
+                  {label: 'Indisponível', value: 'false'},
+                ]}
+                error={errors.availability}
+                touched={touched.availability}
+              />
+            </View>
+
+            <View style={styles.group}>
+              <Input
+                label="Preço"
+                typeInput="mask"
+                style={styles.masked}
+                error={errors.price}
+                touched={touched.price}
+                value={values.price}
+                onChangeValue={(value) => handleChange('price')(`${value}`)}
+                unit="R$"
+                delimiter=","
+                separator="."
+                precision={2}
+              />
+            </View>
+
+            <View style={styles.group}>
+              <LabeledInput
+                label="Tempo de Entrega"
+                keyboardType="numeric"
+                value={values.estimated_delivery_time}
+                onChangeText={handleChange('estimated_delivery_time')}
+                placeholder="Insira o tempo de Entrega..."
+                inputLabel="Dias"
+                error={errors.estimated_delivery_time}
+                touched={touched.estimated_delivery_time}
+              />
+            </View>
+
+            <Button
+              onPress={handleSubmit}
+              disabled={isMakingRequest}
+              type="submit"
+              title="Adicionar"
+              style={{
+                btn: {
+                  marginTop: '2rem',
+                },
+              }}
+            />
+          </>
+        )}
+      </Formik>
+    </ScrollView>
   );
 };
+
+const styles = EStyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    paddingTop: '1.87rem',
+    paddingBottom: '1.87rem',
+    paddingLeft: '1.25rem',
+    paddingRight: '1.25rem',
+  },
+  masked: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 5,
+  },
+  title: {
+    fontSize: '1.3rem',
+    fontWeight: 'bold',
+    marginBottom: '0.63rem',
+    alignSelf: 'center',
+  },
+  deliveryTime: {
+    flexDirection: 'row',
+    height: '2.87rem',
+  },
+  measureContainer: {
+    backgroundColor: '#e0e0e0',
+    width: '20%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomRightRadius: 5,
+    borderTopRightRadius: 5,
+  },
+  label: {
+    fontSize: '1rem',
+    color: '$darkBlue',
+    marginBottom: '.32rem',
+  },
+  measure: {
+    fontSize: '1rem',
+    color: '#828282',
+  },
+  group: {
+    marginTop: '1rem',
+  },
+  marginBottom: {
+    marginBottom: '.2rem',
+  },
+});
+
+const stylesDropdown = EStyleSheet.create({
+  inputAndroid: {
+    backgroundColor: '#F5F5F5',
+    color: '#828282',
+  },
+  inputIOS: {
+    backgroundColor: '#F5F5F5',
+    color: '#828282',
+  },
+});
 
 export default CreateProduct;

@@ -1,7 +1,7 @@
 import React, {forwardRef} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {TextInputMask} from 'react-native-masked-text';
+import CurrencyInput from 'react-native-currency-input';
 
 import Error from './error';
 
@@ -13,12 +13,7 @@ const Input = (props, ref) => {
     <View style={styles.container}>
       <Text style={styles.text}>{label}</Text>
       {typeInput === 'mask' ? (
-        <TextInputMask
-          placeholderTextColor={styles.mask.color}
-          ref={ref}
-          {...inputProps}
-          style={styles.mask}
-        />
+        <CurrencyInput {...inputProps} style={styles.mask} />
       ) : (
         <TextInput
           placeholderTextColor={styles.mask.color}
@@ -58,6 +53,7 @@ const getStyles = (styles = {}) => {
         styles.mask && styles.mask.marginBottom
           ? styles.mask.marginBottom
           : '.62rem',
+      ...styles.container,
     },
   });
 };

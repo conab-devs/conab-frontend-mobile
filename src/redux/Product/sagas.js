@@ -45,7 +45,9 @@ function* fetchProductsByCooperative({payload}) {
       },
     });
     yield put(
-      allActions.setCooperativeProducts({products: [...payload.previous, ...data.data]}),
+      allActions.setCooperativeProducts({
+        products: [...payload.previous, ...data.data],
+      }),
     );
     yield put(allActions.setLastPage({lastPage: data.last_page}));
   } catch (err) {
@@ -92,9 +94,12 @@ function* getProduct({payload}) {
 
 function* updateProduct({payload}) {
   try {
-    const {data} = yield call(api.put, `/products/${payload.id}`, payload.product);
+    const {data} = yield call(
+      api.put,
+      `/products/${payload.id}`,
+      payload.product,
+    );
   } catch (err) {
-    console.log(err);
     yield handleUnauthorized(err, 'Falha na atualização do produto.');
   }
 }
@@ -103,7 +108,6 @@ function* deleteProduct({payload}) {
   try {
     const {data} = yield call(api.delete, `/products/${payload.id}`);
   } catch (err) {
-    console.log(err);
     yield handleUnauthorized(err, 'Falha na deleção do produto.');
   }
 }
@@ -119,5 +123,5 @@ export default all([
   takeLatest(allActions.updateProductPicture.toString(), updateProductPicture),
   takeLatest(allActions.getProduct.toString(), getProduct),
   takeLatest(allActions.updateProduct.toString(), updateProduct),
-  takeLatest(allActions.deleteProduct.toString(), deleteProduct)
+  takeLatest(allActions.deleteProduct.toString(), deleteProduct),
 ]);
