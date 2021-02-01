@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {RadioButton} from 'react-native-paper';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {TextInputMask} from 'react-native-masked-text';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
+import Input from '../components/input';
 
 const Filter = ({navigation}) => {
   const dispatch = useDispatch();
@@ -47,21 +47,36 @@ const Filter = ({navigation}) => {
 
         <Text style={styles.title}>Preço</Text>
         <View style={styles.priceGroup}>
-          <TextInputMask
-            type={'money'}
-            value={lowestPrice}
-            onChangeText={setLowestPrice}
-            ref={(ref) => (lowestPriceRef = ref)}
-            style={styles.mask}
+            <Input
+              label="Preço"
+              typeInput="mask"
+              style={styles.masked}
+              error={errors.price}
+              touched={touched.price}
+              value={lowestPrice}
+              onChangeValue={setLowestPrice}
+              unit="R$"
+              delimiter=","
+              separator="."
+              precision={2}
+              style={styles.mask}
+            />
           />
           <Text>-</Text>
-          <TextInputMask
-            type={'money'}
-            value={greatestPrice}
-            onChangeText={setGreatestPrice}
-            ref={(ref) => (greatestPriceRef = ref)}
-            style={styles.mask}
-          />
+          <Input
+              label="Preço"
+              typeInput="mask"
+              style={styles.masked}
+              error={errors.price}
+              touched={touched.price}
+              value={greatestPrice}
+              onChangeValue={setGreatestPrice}
+              unit="R$"
+              delimiter=","
+              separator="."
+              precision={2}
+              style={styles.mask}
+            />
         </View>
       </View>
 
