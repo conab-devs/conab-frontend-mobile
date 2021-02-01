@@ -4,7 +4,6 @@ import {Alert, ScrollView, Text, View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Formik} from 'formik';
-import * as Yup from 'yup';
 
 import {createFormData} from '../helpers';
 import {allActions} from '../redux/Product';
@@ -13,25 +12,7 @@ import Input from '../components/input';
 import DropdownInput from '../components/dropdown-input';
 import Button from '../components/button';
 import LabeledInput from '../components/labeled-input';
-
-const CreateProductSchema = Yup.object().shape({
-  name: Yup.string().required('O campo Nome é obrigatório'),
-  category_id: Yup.number()
-    .required('O campo Categoria é obrigatório')
-    .moreThan(0, 'O campo Categoria é obrigatório'),
-  unit_of_measure: Yup.string()
-    .matches(/(kg|unit)/, 'O campo Unidade de Medida é obrigatório')
-    .required('O campo Unidade de Medida é obrigatório'),
-  price: Yup.number()
-    .moreThan(0, 'Insira um preço válido')
-    .required('O campo Unidade de Medida é obrigatório')
-    .required('O campo Preço é obrigatório'),
-  estimated_delivery_time: Yup.number()
-    .positive('Insira um valor válido')
-    .required('O campo Tempo de Entrega é obrigatório')
-    .required('O campo Tempo de Entrega é obrigatório'),
-  availability: Yup.boolean().required('O campo Disponibilidade é obrigatório'),
-});
+import CreateProductSchema from '../schema/create-product';
 
 const CreateProduct = ({navigation}) => {
   const {categories} = useSelector((state) => state.product);
@@ -115,14 +96,7 @@ const CreateProduct = ({navigation}) => {
           const form = createFormData(productPicture, values);
           submit(form);
         }}>
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
+        {({handleChange, _, handleSubmit, values, errors, touched}) => (
           <>
             <Photo
               productPicture={productPicture}
