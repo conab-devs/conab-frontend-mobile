@@ -106,7 +106,7 @@ const CreateProduct = ({navigation}) => {
             <View style={styles.group}>
               <Input
                 label="Nome"
-                placeholder="Insira o nome do seu produto..."
+                placeholder="Insira o nome do seu produto"
                 onChangeText={handleChange('name')}
                 value={values.name}
                 error={errors.name}
@@ -207,6 +207,7 @@ const styles = EStyleSheet.create({
     paddingBottom: '1.87rem',
     paddingLeft: '1.25rem',
     paddingRight: '1.25rem',
+    flex: 1,
   },
   masked: {
     backgroundColor: '#F5F5F5',

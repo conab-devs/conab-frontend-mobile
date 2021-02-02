@@ -94,11 +94,7 @@ function* getProduct({payload}) {
 
 function* updateProduct({payload}) {
   try {
-    const {data} = yield call(
-      api.put,
-      `/products/${payload.id}`,
-      payload.product,
-    );
+    yield call(api.put, `/products/${payload.product.id}`, payload.product);
   } catch (err) {
     yield handleUnauthorized(err, 'Falha na atualização do produto.');
   }
@@ -106,7 +102,7 @@ function* updateProduct({payload}) {
 
 function* deleteProduct({payload}) {
   try {
-    const {data} = yield call(api.delete, `/products/${payload.id}`);
+    yield call(api.delete, `/products/${payload.id}`);
   } catch (err) {
     yield handleUnauthorized(err, 'Falha na deleção do produto.');
   }
