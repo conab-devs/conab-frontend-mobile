@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Image from 'react-native-fast-image';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Photo = ({
@@ -17,7 +18,7 @@ const Photo = ({
       ) : null}
       {editable ? (
         <Icon
-          name="image-edit"
+          name="square-edit-outline"
           size={20}
           color="#000000"
           style={styles.icon}

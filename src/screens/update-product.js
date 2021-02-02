@@ -1,57 +1,33 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Alert, ScrollView, Text, View} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import {ScrollView, Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {Formik} from 'formik';
 
-import {createFormData} from '../helpers';
 import {allActions} from '../redux/Product';
-import Photo from '../components/photo';
 import Input from '../components/input';
 import DropdownInput from '../components/dropdown-input';
 import Button from '../components/button';
 import LabeledInput from '../components/labeled-input';
-import CreateProductSchema from '../schema/create-product';
+import UpdateProductSchema from '../schema/update-product';
 
-const CreateProduct = ({navigation}) => {
+const CreateProduct = ({navigation, route}) => {
+  const {id} = route.params;
   const {categories} = useSelector((state) => state.product);
   const {cooperative_id} = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
-  const [productPicture, setProductPicture] = useState('');
   const [isMakingRequest, setIsMakingRequest] = useState(false);
 
-  const handleImagePicking = useCallback(() => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-    })
-      .then((image) => {
-        if (image.path) {
-          setProductPicture(image);
-        }
-      })
-      .catch((err) => {
-        if (err.message.includes('User cancelled image selection')) {
-          return;
-        }
-        Alert.alert(
-          'Ops, um erro ocorreu durante a seleção da image, tente novamente.',
-        );
-      });
-  }, []);
-
   const submit = useCallback(
-    (form) => {
+    (fields) => {
       if (isMakingRequest) {
         return;
       }
 
       setIsMakingRequest(true);
 
-      dispatch(allActions.createProduct({product: form}));
+      dispatch(allActions.updateProduct({product: fields}));
       dispatch(
         allActions.fetchProductsByCooperative({
           cooperative: cooperative_id,
@@ -77,32 +53,29 @@ const CreateProduct = ({navigation}) => {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Criar Produto</Text>
+      <Text style={styles.title}>Atualizar Produto</Text>
 
       <Formik
         initialValues={{
+          id,
           name: '',
-          category_id: 0,
+          category_id: '',
           unit_of_measure: '',
-          price: 0,
+          price: '',
           estimated_delivery_time: '',
           availability: '',
         }}
-        validationSchema={CreateProductSchema}
+        validationSchema={UpdateProductSchema}
         onSubmit={(values) => {
-          if (!productPicture) {
-            Alert.alert('Escolha uma imagem para o produto.');
-          }
-          const form = createFormData(productPicture, values);
-          submit(form);
+          Object.keys(values).forEach((key) => {
+            if (values[key] === '') {
+              delete values[key];
+            }
+          });
+          submit(values);
         }}>
         {({handleChange, _, handleSubmit, values, errors, touched}) => (
           <>
-            <Photo
-              productPicture={productPicture}
-              handleImagePicking={handleImagePicking}
-            />
-
             <View style={styles.group}>
               <Input
                 label="Nome"
@@ -122,20 +95,6 @@ const CreateProduct = ({navigation}) => {
                 items={getCategories()}
                 error={errors.category_id}
                 touched={touched.category_id}
-              />
-            </View>
-
-            <View style={styles.group}>
-              <DropdownInput
-                label="Unidade de Medida"
-                placeholder="Escolha uma unidade de medida"
-                onValueChange={handleChange('unit_of_measure')}
-                items={[
-                  {label: 'Kg', value: 'kg'},
-                  {label: 'Unidade', value: 'unit'},
-                ]}
-                error={errors.unit_of_measure}
-                touched={touched.unit_of_measure}
               />
             </View>
 
@@ -166,6 +125,7 @@ const CreateProduct = ({navigation}) => {
                 delimiter=","
                 separator="."
                 precision={2}
+                placeholder="Escolha o preço"
               />
             </View>
 
@@ -186,7 +146,7 @@ const CreateProduct = ({navigation}) => {
               onPress={handleSubmit}
               disabled={isMakingRequest}
               type="submit"
-              title="Adicionar"
+              title="Atualizar"
               style={{
                 btn: {
                   marginTop: '2rem',

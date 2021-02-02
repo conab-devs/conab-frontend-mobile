@@ -16,6 +16,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Product from '../components/product';
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
+import Button from '../components/button';
+
 
 const Products = ({navigation, route}) => {
   const {category, searchString: ss} = route.params;
@@ -33,8 +35,7 @@ const Products = ({navigation, route}) => {
   const lastPage = useSelector((state) => state.product.lastPage);
 
   const {products} = useSelector((state) => state.product);
-  const {isProvider} = useSelector((state) => state.auth.user);
-
+  
   const fetchProducts = useCallback(() => {
     if (isLoading) {
       return;
@@ -133,16 +134,6 @@ const Products = ({navigation, route}) => {
             }}
             onEndReachedThreshold={0.1}
             ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
-            ListHeaderComponent={
-              isProvider ? (
-                <TouchableOpacity
-                  style={styles.addProductButton}
-                  activeOpacity={0.75}
-                  onPress={() => navigation.navigate('RegisterProduct')}>
-                  <Text style={styles.white}>Adicionar Produto</Text>
-                </TouchableOpacity>
-              ) : null
-            }
             renderItem={({item}) => (
               <Product
                 name={item.name}

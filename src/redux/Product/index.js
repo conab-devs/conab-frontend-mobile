@@ -4,6 +4,7 @@ const {reducer, actions} = createSlice({
   name: 'products',
   initialState: {
     products: [],
+    cooperativeProducts: [],
     lastPage: 0,
     filters: {
       lowestPrice: 0,
@@ -12,6 +13,7 @@ const {reducer, actions} = createSlice({
     },
     categories: [],
     cart: [],
+    product: null,
   },
   reducers: {
     setFilters: (state, {payload}) => {
@@ -42,6 +44,12 @@ const {reducer, actions} = createSlice({
     resetCart: (state, {payload}) => {
       state.cart = [];
     },
+    setProduct: (state, {payload}) => {
+      state.product = payload.product;
+    },
+    setCooperativeProducts: (state, {payload}) => {
+      state.cooperativeProducts = payload.products;
+    },
   },
 });
 
@@ -50,7 +58,12 @@ export const allActions = {
   searchProduct: createAction('products/search'),
   createProduct: createAction('products/create'),
   fetchProducts: createAction('products/fetch'),
+  fetchProductsByCooperative: createAction('products/fetch/cooperative'),
   fetchCategories: createAction('categories/fetch'),
+  updateProductPicture: createAction('products/update/picture'),
+  getProduct: createAction('products/get'),
+  updateProduct: createAction('products/put'),
+  deleteProduct: createAction('products/delete'),
 };
 
 export default reducer;

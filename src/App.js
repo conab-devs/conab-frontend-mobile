@@ -37,6 +37,7 @@ EStyleSheet.build({
   $green: '#59D094',
   $lightGray: '#F5F5F5',
   $mediumGray: '#828282',
+  $red: '#FF4040',
 });
 
 export default App;

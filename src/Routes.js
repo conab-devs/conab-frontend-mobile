@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -25,7 +25,11 @@ import Filter from './screens/filter';
 import CreateProduct from './screens/create-product';
 import ViewProduct from './screens/view-product';
 import Cart from './screens/cart';
-import Logout from './screens/logout';
+import CooperativeProducts from './screens/cooperative-products';
+import ShowProduct from './screens/show-product';
+import UpdateProduct from './screens/update-product';
+
+import {allActions} from './redux/Product';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -35,8 +39,8 @@ const sidePadding = 15;
 const homeOptions = {
   title: 'Conarket',
   headerTitleAlign: 'center',
-  headerLeftContainerStyle: {paddingLeft: sidePadding},
-  headerRightContainerStyle: {paddingRight: sidePadding},
+  headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+  headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
   headerStyle: {backgroundColor: green, height: 55},
   headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
   header: ({scene, previous, navigation}) => {
@@ -66,23 +70,23 @@ const homeOptions = {
 const headerIconsSize = 25;
 const arrowIconSize = 33;
 
-const SideBar = () => {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={Home} />
-      {<Drawer.Screen name="Logout" component={Logout} />}
-    </Drawer.Navigator>
-  );
-}
+const CooperativeAdministration = () => {
+  const {cooperative_id} = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
-const Home = () => {
   return (
-    <Stack.Navigator initialRouteName="Categories">
+    <Stack.Navigator>
       <Stack.Screen
-        name="Categories"
-        component={Categories}
+        name="CooperativeProducts"
+        component={CooperativeProducts}
         options={({navigation}) => ({
-          headerLeft: (
+          title: 'Meus Produtos',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
             <Icon
               name="menu"
               color={darkblue}
@@ -90,6 +94,112 @@ const Home = () => {
               onPress={() => navigation.toggleDrawer()}
             />
           ),
+        })}
+      />
+      <Stack.Screen
+        name="RegisterProduct"
+        component={CreateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={arrowIconSize}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="ShowProduct"
+        component={ShowProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={30}
+              onPress={() => {
+                dispatch(
+                  allActions.fetchProductsByCooperative({
+                    cooperative: cooperative_id,
+                    page: 1,
+                    previous: [],
+                  }),
+                );
+                navigation.goBack();
+              }}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="UpdateProduct"
+        component={UpdateProduct}
+        options={({navigation}) => ({
+          title: 'Produto',
+          headerTitleAlign: 'center',
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
+          headerStyle: {backgroundColor: green, height: 55},
+          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
+          headerLeft: (props) => (
+            <Icon
+              name="chevron-left"
+              color={darkblue}
+              size={30}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const SideBar = () => {
+  const {isProvider} = useSelector((state) => state.auth.user);
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Principal" component={Home} />
+      <Drawer.Screen
+        name="Meus Produtos"
+        component={CooperativeAdministration}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+const Home = () => {
+  const {isProvider} = useSelector((state) => state.auth.user);
+  return (
+    <Stack.Navigator initialRouteName="Categories">
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={({navigation}) => ({
+          headerLeft: isProvider ? (
+            <Icon
+              name="menu"
+              color={darkblue}
+              size={30}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ) : null,
           headerRight: (
             <Icon
               name="cart"
@@ -151,39 +261,19 @@ const Home = () => {
         })}
       />
       <Stack.Screen
-        name="RegisterProduct"
-        component={CreateProduct}
-        options={({navigation}) => ({
-          title: 'Produto',
-          headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding},
-          headerRightContainerStyle: {paddingRight: sidePadding},
-          headerStyle: {backgroundColor: green, height: 55},
-          headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
-          headerLeft: (props) => (
-            <Icon
-              name="chevron-left"
-              color={darkblue}
-              size={arrowIconSize}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
-      />
-      <Stack.Screen
         name="ViewProduct"
         component={ViewProduct}
         options={({navigation}) => ({
           ...homeOptions,
           title: 'Produto',
-          headerLeft: (
+          headerLeft: isProvider ? (
             <Icon
               name="menu"
               color={darkblue}
-              size={headerIconsSize}
+              size={30}
               onPress={() => navigation.toggleDrawer()}
             />
-          ),
+          ) : null,
           headerRight: (
             <Icon
               name="cart"
@@ -223,8 +313,8 @@ const Home = () => {
         options={({navigation}) => ({
           title: 'Minha Cesta',
           headerTitleAlign: 'center',
-          headerLeftContainerStyle: {paddingLeft: sidePadding},
-          headerRightContainerStyle: {paddingRight: sidePadding},
+          headerLeftContainerStyle: {paddingLeft: sidePadding, width: 40},
+          headerRightContainerStyle: {paddingRight: sidePadding, width: 40},
           headerStyle: {backgroundColor: green, height: 55},
           headerTitleStyle: {color: darkblue, fontWeight: 'bold', fontSize: 20},
           headerLeft: (props) => (
@@ -241,60 +331,63 @@ const Home = () => {
   );
 };
 
-const TabNavigation = () => (
-  <BottomTab.Navigator
-    tabBar={(props) => <TabBar {...props} />}
-    tabBarOptions={{
-      keyboardHidesTabBar: true,
-      activeTintColor: green,
-      inactiveTintColor: '#fff',
-      showLabel: false,
-      style: {
-        backgroundColor: darkblue,
-      },
-    }}>
-    <BottomTab.Screen
-      name="SideBar"
-      component={SideBar}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="home-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="profile"
-      component={Profile}
-      options={{
-        tabBarLabel: 'Perfil',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="account-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="chat"
-      component={Chat}
-      options={{
-        tabBarLabel: 'Chat',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="chat-processing" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-    <BottomTab.Screen
-      name="notification"
-      component={Notification}
-      options={{
-        tabBarLabel: 'Notificações',
-        tabBarIcon: ({color, size}) => (
-          <Icon name="bell-circle" color={color} size={headerIconsSize} />
-        ),
-      }}
-    />
-  </BottomTab.Navigator>
-);
+const TabNavigation = () => {
+  const {isProvider} = useSelector((state) => state.auth.user);
+  return (
+    <BottomTab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      tabBarOptions={{
+        keyboardHidesTabBar: true,
+        activeTintColor: green,
+        inactiveTintColor: '#fff',
+        showLabel: false,
+        style: {
+          backgroundColor: darkblue,
+        },
+      }}>
+      <BottomTab.Screen
+        name="Home"
+        component={isProvider ? SideBar : Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="home-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="profile"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="account-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="chat"
+        component={Chat}
+        options={{
+          tabBarLabel: 'Chat',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="chat-processing" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="notification"
+        component={Notification}
+        options={{
+          tabBarLabel: 'Notificações',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="bell-circle" color={color} size={headerIconsSize} />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+};
 
 const Routes = () => {
   const signed = useSelector((state) => state.auth.signed);
