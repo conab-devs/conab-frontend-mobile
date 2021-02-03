@@ -1,9 +1,8 @@
 import {all, call, put, takeLatest, select} from 'redux-saga/effects';
 
 import api from '../../services/api';
-
 import {allActions} from '.';
-
+import {logout} from '../Auth';
 import handleUnauthorized from '../errorHandler';
 
 function* fetchCategories() {
@@ -100,6 +99,16 @@ function* updateProduct({payload}) {
   }
 }
 
+function* pushToCart({payload}) {
+  try {
+    yield call(api.post, `/product-carts/`, payload);
+  } catch (err) {
+    if (err.response.status === 401) {
+      yield put(logout());
+    }
+  }
+}
+
 function* deleteProduct({payload}) {
   try {
     yield call(api.delete, `/products/${payload.id}`);
@@ -120,4 +129,5 @@ export default all([
   takeLatest(allActions.getProduct.toString(), getProduct),
   takeLatest(allActions.updateProduct.toString(), updateProduct),
   takeLatest(allActions.deleteProduct.toString(), deleteProduct),
+  takeLatest(allActions.pushToCart.toString(), pushToCart),
 ]);

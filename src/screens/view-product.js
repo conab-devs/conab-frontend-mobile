@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import {ScrollView, Text, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Photo from '../components/photo';
@@ -60,9 +60,10 @@ const ViewProduct = ({route}) => {
             borderWidth={0}
             onPress={() => {
               if (!Number.isNaN(amount)) {
-                const cartProduct = Object.assign({}, product);
-                cartProduct.amount = amount;
-                dispatch(allActions.pushToCart({product: cartProduct}));
+                dispatch(allActions.pushToCart({
+                  product_id: product.id,
+                  amount
+                }));
               } else {
                 Alert.alert('Escolha uma quantia válida.');
               }

@@ -34,13 +34,6 @@ const {reducer, actions} = createSlice({
     setLastPage: (state, {payload}) => {
       state.lastPage = payload.lastPage;
     },
-    pushToCart: (state, {payload}) => {
-      const founded = state.cart.find((el) => el.id === payload.product.id);
-
-      if (!founded) {
-        state.cart.push(payload.product);
-      }
-    },
     resetCart: (state, {payload}) => {
       state.cart = [];
     },
@@ -64,6 +57,7 @@ export const allActions = {
   getProduct: createAction('products/get'),
   updateProduct: createAction('products/put'),
   deleteProduct: createAction('products/delete'),
+  pushToCart: createAction('products/push-to-cart'),
 };
 
 export default reducer;
