@@ -5764,7 +5764,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5903,6 +5903,11 @@ react-native-picker-select@^8.0.4:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
 
+react-native-pixel-perfect@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-pixel-perfect/-/react-native-pixel-perfect-1.0.2.tgz#8e6dc97e377caa4bd07f9e584ba438d53c0e25e8"
+  integrity sha512-0IvYCNkxuQbQC9q4tI+C3i6o38nbx916p7gBRBWuPxDhKBCuTkVV3VukcfW6vtjRlwQm6kwQcF9OtI+yUBt+YA==
+
 react-native-reanimated@^1.13.1:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.13.1.tgz#c370c32cc4d447ae896cb029bb9c6a2f7608c5b4"
@@ -5966,6 +5971,13 @@ react-native@0.63.4:
     stacktrace-parser "^0.1.3"
     use-subscription "^1.0.0"
     whatwg-fetch "^3.0.0"
+
+react-number-format@^4.4.4:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.4.4.tgz#2a7f50be404f990ec15855cc6babfeae1be16351"
+  integrity sha512-/MuF1GOs1Z0xBaQie8+TTqCxUTT8xxjc6RqIFVWcWB6FM8GNIenSh2ayzN6Y1J2WMcXUDVwMdDXjweHKVjXm/w==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-redux@^7.2.2:
   version "7.2.2"
@@ -6272,6 +6284,14 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-numeric-input@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/rn-numeric-input/-/rn-numeric-input-1.9.4.tgz#e3bf4a0b6aa136d33f4237a78a733a463cd287c2"
+  integrity sha512-WlMm4kAXbt5QM9Dm2rfAlap5S8XqfivdycxXVBq3DP+cJDVwwKDM6vM+bJUePmDel7JbJ275npOTN39iQ1scmg==
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-pixel-perfect "^1.0.2"
 
 rsvp@^4.8.4:
   version "4.8.5"
