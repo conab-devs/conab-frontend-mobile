@@ -99,9 +99,17 @@ function* updateProduct({payload}) {
   }
 }
 
+function* deleteProduct({payload}) {
+  try {
+    yield call(api.delete, `/products/${payload.id}`);
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na deleção do produto.');
+  }
+}
+
 function* pushToCart({payload}) {
   try {
-    yield call(api.post, `/product-carts/`, payload);
+    yield call(api.post, `/product-carts`, payload);
   } catch (err) {
     if (err.response.status === 401) {
       yield put(logout());
@@ -109,11 +117,12 @@ function* pushToCart({payload}) {
   }
 }
 
-function* deleteProduct({payload}) {
+function* fetchOrders({payload}) {
   try {
-    yield call(api.delete, `/products/${payload.id}`);
+    const {data} = yield call(api.get, `/orders`);
+    yield put(allActions.setOrder(data));
   } catch (err) {
-    yield handleUnauthorized(err, 'Falha na deleção do produto.');
+    yield handleUnauthorized(err, 'Falha na listagem do carrinho.');
   }
 }
 
@@ -130,4 +139,5 @@ export default all([
   takeLatest(allActions.updateProduct.toString(), updateProduct),
   takeLatest(allActions.deleteProduct.toString(), deleteProduct),
   takeLatest(allActions.pushToCart.toString(), pushToCart),
+  takeLatest(allActions.fetchOrders.toString(), fetchOrders),
 ]);

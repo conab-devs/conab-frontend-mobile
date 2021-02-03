@@ -12,7 +12,7 @@ const {reducer, actions} = createSlice({
       order: 'asc',
     },
     categories: [],
-    cart: [],
+    order: null,
     product: null,
   },
   reducers: {
@@ -34,8 +34,8 @@ const {reducer, actions} = createSlice({
     setLastPage: (state, {payload}) => {
       state.lastPage = payload.lastPage;
     },
-    resetCart: (state, {payload}) => {
-      state.cart = [];
+    setOrder: (state, {payload}) => {
+      state.order = payload[0];
     },
     setProduct: (state, {payload}) => {
       state.product = payload.product;
@@ -58,6 +58,7 @@ export const allActions = {
   updateProduct: createAction('products/put'),
   deleteProduct: createAction('products/delete'),
   pushToCart: createAction('products/push-to-cart'),
+  fetchOrders: createAction('orders/fetch'),
 };
 
 export default reducer;

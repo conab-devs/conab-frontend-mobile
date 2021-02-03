@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {Alert} from 'react-native';
-import {ScrollView, Text, View, ActivityIndicator} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -11,6 +11,7 @@ import InfoDisplayer from '../components/info-displayer';
 import {allActions} from '../redux/Product';
 import Container from '../components/container';
 import {createFormData} from '../helpers';
+import Loading from '../components/loading';
 
 const ShowProduct = ({navigation}) => {
   const dispatch = useDispatch();
@@ -130,11 +131,7 @@ const ShowProduct = ({navigation}) => {
       </Container>
     );
   } else {
-    return (
-      <Container style={styles.container}>
-        <ActivityIndicator size="small" color={styles.green.color} />
-      </Container>
-    );
+    return <Loading />;
   }
 };
 
