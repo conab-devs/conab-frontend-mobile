@@ -12,7 +12,7 @@ export default Yup.object().shape({
     .moreThan(0, 'Insira um preço válido')
     .required('O campo Unidade de Medida é obrigatório'),
   estimated_delivery_time: Yup.number()
-    .positive('Insira um valor válido')
+    .moreThan(-1, 'Insira um valor válido')
     .required('O campo Tempo de Entrega é obrigatório'),
   availability: Yup.boolean().required('O campo Disponibilidade é obrigatório'),
 });

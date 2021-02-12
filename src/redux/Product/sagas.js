@@ -111,6 +111,8 @@ function* pushToCart({payload}) {
   try {
     yield call(api.post, `/product-carts`, payload);
   } catch (err) {
+    console.log(err);
+
     if (err.response.status === 401) {
       yield put(logout());
     }
@@ -123,6 +125,22 @@ function* fetchOrders({payload}) {
     yield put(allActions.setOrder(data));
   } catch (err) {
     yield handleUnauthorized(err, 'Falha na listagem do carrinho.');
+  }
+}
+
+function* updateAmount({payload}) {
+  try {
+    yield call(api.patch, `/product-carts/${payload.id}`, { amount: payload.amount });
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na atualização da quantia.');
+  }
+}
+
+function* deleteProductCart({payload}) {
+  try {
+    yield call(api.delete, `/product-carts/${payload.id}`);
+  } catch (err) {
+    yield handleUnauthorized(err, 'Falha na remoção do produto do carrinho..');
   }
 }
 
@@ -140,4 +158,6 @@ export default all([
   takeLatest(allActions.deleteProduct.toString(), deleteProduct),
   takeLatest(allActions.pushToCart.toString(), pushToCart),
   takeLatest(allActions.fetchOrders.toString(), fetchOrders),
+  takeLatest(allActions.updateAmount.toString(), updateAmount),
+  takeLatest(allActions.deleteProductCart.toString(), deleteProductCart),
 ]);

@@ -11,6 +11,7 @@ function* loginUser({payload}) {
     const httpResponse = yield call(api.post, '/login', {...payload});
     const {token, user} = httpResponse.data;
     api.defaults.headers.Authorization = `Bearer ${token}`;
+
     yield put(loginSuccess({token, user}));
   } catch (error) {
     Alert.alert('Falha na autenticação', 'E-mail ou senha inválidos');

@@ -59,6 +59,8 @@ export const allActions = {
   deleteProduct: createAction('products/delete'),
   pushToCart: createAction('products/push-to-cart'),
   fetchOrders: createAction('orders/fetch'),
+  updateAmount: createAction('product-carts/update-amount'),
+  deleteProductCart: createAction('product-carts/delete')
 };
 
 export default reducer;

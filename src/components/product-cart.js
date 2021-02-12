@@ -22,13 +22,11 @@ const Product = (props) => {
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.productName}>{props.name}</Text>
-            <Icon name="close" color="#363D46" size={20} onPress={() => {}} />
+            <Icon name="close" color="#363D46" size={20} onPress={() => props.onClick(props.id)} />
           </View>
           <NumberFormat
             value={props.price}
             displayType={'text'}
-            thousandSeparator="."
-            decimalSeparator=","
             prefix={'R$'}
             renderText={(value) => (
               <Text style={styles.emphatized}>
@@ -37,7 +35,7 @@ const Product = (props) => {
             )}
           />
           <NumericInput
-            onChange={(value) => console.log(value)}
+            onChange={(value) => props.onChange(value, props.id)}
             step={props.unitMeasure === 'unit' ? 1 : 0.1}
             valueType={props.unitMeasure === 'unit' ? 'integer' : 'real'}
             totalHeight={styles.numericInput.height}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -13,9 +13,17 @@ const Cart = ({navigation}) => {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.product.order);
 
+  const updateAmount = useCallback((amount, id) => {
+    dispatch(allActions.updateAmount({ amount, id }));
+  }, []);
+
+  const deleteProductCart = useCallback((id) => {
+    dispatch(allActions.deleteProductCart({ id }));
+  }, []);
+
   useEffect(() => {
     dispatch(allActions.fetchOrders());
-  }, []);
+  }, [order]);
   const styles = getStyles(isBasket);
 
   if (!!order) {
@@ -55,6 +63,9 @@ const Cart = ({navigation}) => {
                 data={item.product_carts}
                 renderItem={({item}) => (
                   <Product
+                    id={item.id}
+                    onClick={deleteProductCart}
+                    onChange={updateAmount}
                     imagePath={item.product.photo_path}
                     name={item.product.name}
                     price={item.product.price}
@@ -63,10 +74,10 @@ const Cart = ({navigation}) => {
                     style={{marginBottom: '.7rem'}}
                   />
                 )}
-                keyExtractor={(productCart) => productCart.id}
+                keyExtractor={(productCart) => `${productCart.id}`}
               />
             )}
-            keyExtractor={(cart) => cart.id}
+            keyExtractor={(cart) => `${cart.id}`}
           />
         </Container>
       </View>
